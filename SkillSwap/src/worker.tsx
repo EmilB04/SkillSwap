@@ -6,7 +6,9 @@ import { setCommonHeaders } from "@/app/headers";
 import { userRoutes } from "@/app/pages/user/routes";
 import { sessions, setupSessionStore } from "./session/store";
 import { Session } from "./session/durableObject";
-import { type User, db, setupDb } from "@/db";
+import { type User, db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 export { SessionDurableObject } from "./session/durableObject";
 
@@ -15,6 +17,8 @@ export type AppContext = {
   user: User | null;
 };
 
+
+/* DENNE VIRKET IKKE
 export default defineApp([
   setCommonHeaders(),
   async ({ ctx, request, headers }) => {
@@ -43,6 +47,35 @@ export default defineApp([
           id: ctx.session.userId,
         },
       });
+    }
+  }, 
+*/
+
+
+export default defineApp([
+  setCommonHeaders(),
+  async ({ ctx, request, headers }) => {
+    setupSessionStore(env);
+
+    try {
+      ctx.session = await sessions.load(request);
+    } catch (error) {
+      if (error instanceof ErrorResponse && error.code === 401) {
+        await sessions.remove(request, headers);
+        headers.set("Location", "/user/login");
+
+        return new Response(null, {
+          status: 302,
+          headers,
+        });
+      }
+
+      throw error;
+    }
+
+    if (ctx.session?.userId) {
+      const userResult = await db.select().from(users).where(eq(users.id, parseInt(ctx.session.userId))).limit(1);
+      ctx.user = userResult[0] || null;
     }
   },
   render(Document, [
