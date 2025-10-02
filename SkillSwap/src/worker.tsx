@@ -79,7 +79,12 @@ export default defineApp([
     }
   },
   render(Document, [
-    route("/", () => new Response("Hello, World!")),
+    // Home route
+    route("/", Home),
+    // User routes
+    prefix("/user", userRoutes),
+
+    // Protected route example
     route("/protected", [
       ({ ctx }) => {
         if (!ctx.user) {
@@ -91,6 +96,5 @@ export default defineApp([
       },
       Home,
     ]),
-    prefix("/user", userRoutes),
   ]),
 ]);
