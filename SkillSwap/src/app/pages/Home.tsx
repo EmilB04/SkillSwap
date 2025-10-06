@@ -1,4 +1,5 @@
 import { RequestInfo } from "rwsdk/worker";
+import JobCard from "../components/JobCard";
 
 export function Home({ ctx }: RequestInfo) {
   return (
@@ -8,6 +9,12 @@ export function Home({ ctx }: RequestInfo) {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Welcome to SkillSwap</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">Connect, learn, and share skills with others in your community</p>
         </header>
+
+        <div className="flex gap-6 overflow-x-auto mb-12">
+          <JobCard />
+          <JobCard />
+          <JobCard />
+        </div>
 
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           {ctx.user?.name ? (
