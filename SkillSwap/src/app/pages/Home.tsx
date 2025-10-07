@@ -1,14 +1,12 @@
 import { RequestInfo } from "rwsdk/worker";
 import JobCard from "../components/JobCard";
+import Header from "../components/Header";
 
 export function Home({ ctx }: RequestInfo) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Welcome to SkillSwap</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Connect, learn, and share skills with others in your community</p>
-        </header>
+        <Header />
 
         <div className="flex gap-6 overflow-x-auto mb-12">
           <JobCard />
