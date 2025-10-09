@@ -1,72 +1,70 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import {
-  startAuthentication,
-  startRegistration,
-} from "@simplewebauthn/browser";
-import {
-  finishPasskeyLogin,
-  finishPasskeyRegistration,
-  startPasskeyLogin,
-  startPasskeyRegistration,
-} from "./functions";
 
 export function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [result, setResult] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  const passkeyLogin = async () => {
-    // 1. Get a challenge from the worker
-    const options = await startPasskeyLogin();
+  const handleLogin = async () => {
+    if (!email.trim()) {
+      setResult("Email is required");
+      return;
+    }
 
-    // 2. Ask the browser to sign the challenge
-    const login = await startAuthentication({ optionsJSON: options });
+    if (!password.trim()) {
+      setResult("Password is required");
+      return;
+    }
 
-    // 3. Give the signed challenge to the worker to finish the login process
-    const success = await finishPasskeyLogin(login);
+    try {
+      // TODO: Implement standard login API call
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: password,
+        }),
+      });
 
-    if (!success) {
-      setResult("Login failed");
-    } else {
+      if (!response.ok) {
+        const error = await response.json();
+        setResult((error as any).message || "Login failed");
+        return;
+      }
+
       setResult("Login successful!");
+      // Redirect to home or dashboard
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } catch (error) {
+      console.error("Login error:", error);
+      setResult(
+        "Login failed: " +
+        (error instanceof Error ? error.message : "Unknown error")
+      );
     }
   };
 
-  const passkeyRegister = async () => {
-    // 1. Get a challenge from the worker
-    const options = await startPasskeyRegistration(username);
-
-    // 2. Ask the browser to sign the challenge
-    const registration = await startRegistration({ optionsJSON: options });
-
-    // 3. Give the signed challenge to the worker to finish the registration process
-    const success = await finishPasskeyRegistration(username, registration);
-
-    if (!success) {
-      setResult("Registration failed");
-    } else {
-      setResult("Registration successful!");
-    }
-  };
-
-  const handlePerformPasskeyLogin = () => {
-    startTransition(() => void passkeyLogin());
-  };
-
-  const handlePerformPasskeyRegister = () => {
-    startTransition(() => void passkeyRegister());
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    startTransition(() => void handleLogin());
   };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Brand Header */}
-      <header className="absolute top-0 left-0 right-0 z-10 p-6">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+      <header className="fixed top-0 left-0 right-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-4 sm:px-6 py-3 sm:py-4">
+        <div className="max-w-7xl mx-auto flex items-center space-x-2">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
             <svg
-              className="w-5 h-5 text-white"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -79,94 +77,116 @@ export function Login() {
               />
             </svg>
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             SkillSwap
           </span>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center lg:items-stretch gap-8 lg:gap-12">
+      <div className="min-h-screen flex items-center justify-center pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start justify-center gap-6 sm:gap-8 lg:gap-12">
           <section
-            className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-white/20 flex-1 max-w-md"
+            className="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-xl border border-white/20 w-full lg:flex-1 lg:max-w-md"
             aria-labelledby="login-heading"
           >
-            <header className="text-center mb-8">
-              <div className="mb-4">
-                <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <header className="text-center mb-6 sm:mb-8">
+              <div className="mb-3 sm:mb-4">
+                <span className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wide">
                   Please enter your details
                 </span>
               </div>
               <h1
                 id="login-heading"
-                className="text-3xl font-bold text-gray-900 mb-2"
+                className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
               >
                 Welcome back
               </h1>
-              <p className="text-gray-600">Sign in to your SkillSwap account</p>
+              <p className="text-sm sm:text-base text-gray-600">Sign in to your SkillSwap account</p>
             </header>
 
             <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-6"
+              onSubmit={handleSubmit}
+              className="space-y-4 sm:space-y-5"
               role="form"
               aria-labelledby="login-heading"
             >
-              <fieldset className="space-y-6">
+              <fieldset className="space-y-4 sm:space-y-5">
                 <legend className="sr-only">Account credentials</legend>
                 <div>
                   <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 mb-2"
+                    htmlFor="email"
+                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
                   >
-                    Username
+                    Email *
                   </label>
                   <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
                     required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
-                    aria-describedby="username-help"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    aria-describedby="email-help"
                   />
-                  <div id="username-help" className="sr-only">
-                    Enter your username to sign in to your account
+                  <div id="email-help" className="sr-only">
+                    Enter your email to sign in to your account
+                  </div>
+                </div>
+                
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
+                  >
+                    Password *
+                  </label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    aria-describedby="password-help"
+                  />
+                  <div id="password-help" className="sr-only">
+                    Enter your password
                   </div>
                 </div>
               </fieldset>
 
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-3 sm:space-y-4">
                 <legend className="sr-only">Authentication methods</legend>
                 <button
-                  type="button"
-                  onClick={handlePerformPasskeyLogin}
-                  disabled={isPending || !username.trim()}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
-                  aria-label="Sign in using passkey authentication"
-                  aria-describedby="passkey-help"
+                  type="submit"
+                  disabled={isPending || !email.trim() || !password.trim()}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                  aria-label="Sign in with email and password"
+                  aria-describedby="login-help"
                 >
-                  {isPending ? "Signing In..." : "Sign up"}
+                  {isPending ? "Signing In..." : "Sign In"}
                 </button>
-                <div id="passkey-help" className="sr-only">
-                  Use your device's built-in authentication like fingerprint,
-                  face recognition, or security key
+                <div id="login-help" className="sr-only">
+                  Sign in with your email and password
                 </div>
 
                 <div
-                  className="relative my-6"
+                  className="relative my-4 sm:my-6"
                   role="separator"
                   aria-label="Alternative authentication methods"
                 >
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-200" />
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-gray-500 font-medium">
+                  <div className="relative flex justify-center text-xs sm:text-sm">
+                    <span className="px-3 sm:px-4 bg-white text-gray-500 font-medium">
                       or
                     </span>
                   </div>
@@ -181,13 +201,13 @@ export function Login() {
                     })
                   }
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-3 bg-white text-gray-700 border border-gray-200 py-3 px-6 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm font-medium"
+                  className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white text-gray-700 border border-gray-200 py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all duration-200 shadow-sm font-medium"
                   aria-label="Sign in with Google account"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 533.5 544.3"
-                    className="h-5 w-5"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     aria-hidden="true"
                     role="img"
                   >
@@ -216,7 +236,7 @@ export function Login() {
 
             {result && (
               <div
-                className={`mt-6 p-4 rounded-xl ${result.includes("successful")
+                className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl text-sm sm:text-base ${result.includes("successful")
                     ? "bg-green-50 text-green-800 border border-green-200"
                     : "bg-red-50 text-red-800 border border-red-200"
                   }`}
@@ -228,12 +248,12 @@ export function Login() {
               </div>
             )}
 
-            <nav className="mt-8 text-center" aria-label="Account registration">
-              <p className="text-gray-600">
+            <nav className="mt-6 sm:mt-8 text-center" aria-label="Account registration">
+              <p className="text-sm sm:text-base text-gray-600">
                 Don't have an account?{" "}
                 <a
                   href="/register"
-                  className="text-blue-600 hover:text-purple-600 font-medium transition-colors duration-200"
+                  className="text-blue-600 hover:text-purple-600 font-medium transition-colors duration-200 underline-offset-2 hover:underline"
                 >
                   Sign up
                 </a>
@@ -241,14 +261,14 @@ export function Login() {
             </nav>
           </section>
 
-          <section className="flex-1 flex items-center justify-center lg:max-w-md">
-            <div className="relative">
+          <section className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:max-w-md">
+            <div className="relative w-full">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
-              <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                <div className="text-center space-y-6">
-                  <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto flex items-center justify-center">
+              <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">
+                <div className="text-center space-y-4 lg:space-y-6">
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto flex items-center justify-center">
                     <svg
-                      className="w-12 h-12 text-white"
+                      className="w-10 h-10 lg:w-12 lg:h-12 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -261,21 +281,21 @@ export function Login() {
                       />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-xl lg:text-2xl font-bold text-gray-800">
                     Get back in the game!
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
                     Connect with learners and experts in your community. Share
                     knowledge, develop skills, and grow together.
                   </p>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div className="bg-blue-50 rounded-lg p-3">
+                  <div className="grid grid-cols-2 gap-3 lg:gap-4 text-xs lg:text-sm">
+                    <div className="bg-blue-50 rounded-lg p-2.5 lg:p-3">
                       <div className="font-semibold text-blue-800">
                         🎯 Learn
                       </div>
                       <div className="text-blue-600">New Skills</div>
                     </div>
-                    <div className="bg-purple-50 rounded-lg p-3">
+                    <div className="bg-purple-50 rounded-lg p-2.5 lg:p-3">
                       <div className="font-semibold text-purple-800">
                         🤝 Share
                       </div>
