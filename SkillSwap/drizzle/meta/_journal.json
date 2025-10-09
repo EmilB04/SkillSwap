@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1758620596839,
-      "tag": "0000_striped_wendell_rand",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1760034628594,
-      "tag": "0001_loud_ultragirl",
+      "when": 1760035252773,
+      "tag": "0000_chunky_marten_broadcloak",
       "breakpoints": true
     }
   ]
