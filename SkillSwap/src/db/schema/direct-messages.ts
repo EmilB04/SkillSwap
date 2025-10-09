@@ -8,7 +8,7 @@ import { createId } from "@/app/lib/utils/id";
 export const directMessages = sqliteTable("direct_messages", {
   id: text("id").primaryKey().$defaultFn(() => createId()),
   senderId: integer("sender_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  receiverId: integer("receiever_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  receiverId: integer("receiver_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   message: text("message").notNull(),
     ...timestamps,
 });

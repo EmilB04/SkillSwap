@@ -1,11 +1,10 @@
-import { text } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
-import { create } from "domain";
-
-// https://orm.drizzle.team/docs/sql-schema-declaration 
+import { integer } from "drizzle-orm/sqlite-core";
 
 export const timestamps = {
-    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: text("updated_at"),  
-    deletedAt: text("deleted_at"),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .$onUpdateFn(() => new Date()),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 };
