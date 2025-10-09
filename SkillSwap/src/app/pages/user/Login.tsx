@@ -232,7 +232,7 @@ export function Login() {
               <p className="text-gray-600">
                 Don't have an account?{" "}
                 <a
-                  href="/user/register"
+                  href="/register"
                   className="text-blue-600 hover:text-purple-600 font-medium transition-colors duration-200"
                 >
                   Sign up

@@ -240,7 +240,7 @@ export function Register() {
                             <p className="text-gray-600">
                                 Already have an account?{" "}
                                 <a
-                                    href="/user/login"
+                                    href="/login"
                                     className="text-purple-600 hover:text-blue-600 font-medium transition-colors duration-200"
                                 >
                                     Sign In
