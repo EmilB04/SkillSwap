@@ -1,12 +1,13 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { timestamps } from "./columns.helpers";
 import { users } from "./users";
+import { createId } from "@/app/lib/utils/id";
 
 // https://orm.drizzle.team/docs/sql-schema-declaration 
 
 export const notifications = sqliteTable("notifications", {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    userId: integer("user_id").notNull().references(() => users.id),
+    id: text("id").primaryKey().$defaultFn(() => createId()),
+    userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     notificationType: text("notification_type").notNull().$type<"message" | "review" | "request">(),
     title: text("title").notNull(),
     message: text("message").notNull(),
@@ -16,3 +17,4 @@ export const notifications = sqliteTable("notifications", {
 });
 
 export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
