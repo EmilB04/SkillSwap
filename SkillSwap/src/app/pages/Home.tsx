@@ -5,15 +5,8 @@ import Header from "../components/Header";
 export function Home({ ctx }: RequestInfo) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto p-0">
         <Header />
-
-        <div className="flex gap-6 overflow-x-auto mb-12">
-          <JobCard />
-          <JobCard />
-          <JobCard />
-        </div>
-
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           {ctx.user?.name ? (
             <div className="text-center">
@@ -42,6 +35,12 @@ export function Home({ ctx }: RequestInfo) {
           )}
         </div>
 
+        <div className="flex gap-6 overflow-x-auto mb-12">
+          <JobCard />
+          <JobCard />
+          <JobCard />
+        </div>
+
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <div className="text-4xl mb-4">🎯</div>
@@ -59,6 +58,10 @@ export function Home({ ctx }: RequestInfo) {
             <p className="text-gray-600">Message and coordinate with other learners and teachers</p>
           </div>
         </div>
+
+        <footer className="p-8">
+          <p className="text-center text-gray-600">© 2025 SkillSwap. All rights reserved.</p>
+        </footer>
       </div>
     </div>
   );
