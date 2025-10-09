@@ -17,8 +17,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "skillswap-db",
-      "database_id": "__change_me__",
+      "database_name": "SkillSwap",
+      "database_id": "239fcbc3-e6cf-403b-8340-af827552078a",
       "migrations_dir": "drizzle"
     }
   ],
