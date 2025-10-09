@@ -5,8 +5,8 @@ import Header from "../components/Header";
 export function Home({ ctx }: RequestInfo) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-4xl mx-auto p-0">
-        <Header />
+      <Header />
+      <div className="max-w-3/4 justify-center mx-auto px-6">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           {ctx.user?.name ? (
             <div className="text-center">
@@ -35,7 +35,10 @@ export function Home({ ctx }: RequestInfo) {
           )}
         </div>
 
-        <div className="flex gap-6 overflow-x-auto mb-12">
+        <div className="flex flex-wrap gap-6 mb-12 justify-center">
+          <JobCard />
+          <JobCard />
+          <JobCard />
           <JobCard />
           <JobCard />
           <JobCard />

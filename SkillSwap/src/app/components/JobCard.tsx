@@ -13,7 +13,7 @@ export default function JobCard(props: JobCardProps) {
     };
 
     return(
-        <div className="bg-white rounded-lg shadow-md p-4 max-w-sm">
+        <div className="bg-white rounded-lg shadow-md p-4 max-w-[280px] min-w-[200px]">
             <img src={imageUrl} alt={`${job?.title} job`} className="w-full h-48 object-cover rounded-md mb-4" />
             <h3 className="text-lg font-semibold mb-2">{job?.title}</h3>
             <p className="text-gray-600 mb-2">{category}</p>
