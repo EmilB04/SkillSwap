@@ -18,41 +18,6 @@ export type AppContext = {
   user: User | null;
 };
 
-
-/* DENNE VIRKET IKKE
-export default defineApp([
-  setCommonHeaders(),
-  async ({ ctx, request, headers }) => {
-    await setupDb(env);
-    setupSessionStore(env);
-
-    try {
-      ctx.session = await sessions.load(request);
-    } catch (error) {
-      if (error instanceof ErrorResponse && error.code === 401) {
-        await sessions.remove(request, headers);
-        headers.set("Location", "/user/login");
-
-        return new Response(null, {
-          status: 302,
-          headers,
-        });
-      }
-
-      throw error;
-    }
-
-    if (ctx.session?.userId) {
-      ctx.user = await db.user.findUnique({
-        where: {
-          id: ctx.session.userId,
-        },
-      });
-    }
-  }, 
-*/
-
-
 export default defineApp([
   setCommonHeaders(),
   async ({ ctx, request, headers }) => {
@@ -85,6 +50,10 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
+
+
+
+    // Logout route
     route("/logout", async function ({ request }) {
       const headers = new Headers();
       await sessions.remove(request, headers);
