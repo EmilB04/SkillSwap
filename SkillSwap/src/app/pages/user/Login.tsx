@@ -261,7 +261,7 @@ export function Login() {
             </nav>
           </section>
 
-          <section className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:max-w-md">
+          <section className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center self-center lg:max-w-md">
             <div className="relative w-full">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">

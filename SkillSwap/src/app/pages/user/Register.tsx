@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Link } from 'react-router-dom';
 
 export function Register() {
     const [firstName, setFirstName] = useState("");
@@ -331,8 +332,8 @@ export function Register() {
                         {result && (
                             <div
                                 className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl text-sm sm:text-base ${result.includes("successful")
-                                        ? "bg-green-50 text-green-800 border border-green-200"
-                                        : "bg-red-50 text-red-800 border border-red-200"
+                                    ? "bg-green-50 text-green-800 border border-green-200"
+                                    : "bg-red-50 text-red-800 border border-red-200"
                                     }`}
                                 role="status"
                                 aria-live="polite"
@@ -355,7 +356,7 @@ export function Register() {
                         </nav>
                     </section>
 
-                    <section className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:max-w-md">
+                    <section className="hidden lg:flex lg:flex-1 lg:items-center self-center lg:justify-center lg:max-w-md">
                         <div className="relative w-full">
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 blur-3xl"></div>
                             <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">
