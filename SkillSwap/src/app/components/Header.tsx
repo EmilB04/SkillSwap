@@ -1,3 +1,6 @@
+import ProfileMenuFlyout from "./ProfileMenuFlyout";
+import ProfileMenu from "./ProfileMenuFlyout";
+
 export default function Header() {
   return (
     <header className="flex items-center justify-between px-6 py-3 bg-white shadow mb-4">
@@ -23,9 +26,9 @@ export default function Header() {
         <a href="#" className="flex items-center">
           <img src="./src/app/assets/icons/email-icon.png" alt="Messages" className="h-6 w-6" />
         </a>
-        <a href="#" className="flex items-center">
-          <img src="./src/app/assets/icons/boy-icon.png" alt="Profile" className="h-6 w-6" />
-        </a>
+        
+        {/* Profile Menu or Sign Up */}
+        <ProfileMenuFlyout />
       </nav>
     </header>
   );
