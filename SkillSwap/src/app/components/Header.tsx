@@ -1,5 +1,4 @@
 import ProfileMenuFlyout from "./ProfileMenuFlyout";
-import ProfileMenu from "./ProfileMenuFlyout";
 
 export default function Header() {
   return (

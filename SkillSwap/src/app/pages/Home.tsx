@@ -1,12 +1,13 @@
 import { RequestInfo } from "rwsdk/worker";
 import JobCard from "../components/JobCard";
 import Header from "../components/Header";
+import Footer from '../components/Footer';
 
 export function Home({ ctx }: RequestInfo) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Header />
-      <div className="max-w-3/4 justify-center mx-auto px-6">
+      <main className="max-w-3/4 justify-center mx-auto px-6 py-3">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           {ctx.user?.name ? (
             <div className="text-center">
@@ -62,10 +63,8 @@ export function Home({ ctx }: RequestInfo) {
           </div>
         </div>
 
-        <footer className="p-8">
-          <p className="text-center text-gray-600">© 2025 SkillSwap. All rights reserved.</p>
-        </footer>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
