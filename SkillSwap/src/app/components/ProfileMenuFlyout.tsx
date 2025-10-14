@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 export default function ProfileMenuFlyout() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     // TODO: Replace with actual authentication check
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // Change to false to test "Sign Up" button
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Change to false to test "Sign Up" button
     const menuRef = useRef<HTMLDivElement>(null);
 
     // Close menu when clicking outside
@@ -111,9 +111,10 @@ export default function ProfileMenuFlyout() {
             ) : (
                 <a
                     href="/user/register"
-                    className="px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-full font-medium hover:from-green-600 hover:to-teal-700 transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer"
+                    className="text-center text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                    style={{ backgroundColor: '#438C86' }} // TODO: Replace with theme color when merged to main
                 >
-                    Sign Up
+                    Sign In
                 </a>
             )}
         </>
