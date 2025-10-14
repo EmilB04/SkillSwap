@@ -1,39 +1,56 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { startRegistration } from "@simplewebauthn/browser";
-import {
-    finishPasskeyRegistration,
-    startPasskeyRegistration,
-} from "./functions";
+import { colors } from "@/app/theme";
 
 export function Register() {
-    const [username, setUsername] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [result, setResult] = useState("");
     const [isPending, startTransition] = useTransition();
 
-    const passkeyRegister = async () => {
-        if (!username.trim()) {
-            setResult("Username is required");
+    const handleRegister = async () => {
+        for (const [field, message] of [
+            [firstName, "First name is required"],
+            [lastName, "Last name is required"],
+            [email, "Email is required"],
+            [password, "Password is required"],
+        ]) {
+            if (!field.trim()) {
+            setResult(message);
             return;
+            }
         }
 
         try {
-            // 1. Get a challenge from the worker
-            const options = await startPasskeyRegistration(username);
+            // TODO: Implement standard registration API call
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName: firstName.trim(),
+                    lastName: lastName.trim(),
+                    email: email.trim(),
+                    password: password,
+                }),
+            });
 
-            // 2. Ask the browser to sign the challenge
-            const registration = await startRegistration({ optionsJSON: options });
-
-            // 3. Give the signed challenge to the worker to finish the registration process
-            const success = await finishPasskeyRegistration(username, registration);
-
-            if (!success) {
-                setResult("Registration failed");
-            } else {
-                setResult("Registration successful! You can now log in.");
+            if (!response.ok) {
+                const error = await response.json();
+                setResult((error as any).message || "Registration failed");
+                return;
             }
+
+            setResult("Registration successful! You can now log in.");
+            // Optionally redirect to login page
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 2000);
         } catch (error) {
             console.error("Registration error:", error);
             setResult(
@@ -43,98 +60,149 @@ export function Register() {
         }
     };
 
-    const handlePerformPasskeyRegister = () => {
-        startTransition(() => void passkeyRegister());
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        startTransition(() => void handleRegister());
     };
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <main className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50">
             {/* Brand Header */}
-            <header className="absolute top-0 left-0 right-0 z-10 p-6">
-                <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                        <svg
-                            className="w-5 h-5 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+            <header className="fixed top-0 left-0 right-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-4 sm:px-6 py-3 sm:py-4">
+                <nav className="max-w-7xl mx-auto" aria-label="Site navigation">
+                    <a 
+                        href="/" 
+                        className="flex items-center space-x-2 hover:opacity-90 transition-opacity w-fit"
+                        aria-label="SkillSwap home"
+                    >
+                        <div 
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center" 
+                            style={{ backgroundColor: colors.primary.main }}
+                            aria-hidden="true"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                            />
-                        </svg>
-                    </div>
-                    <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                        SkillSwap
-                    </span>
-                </div>
+                            <svg
+                                className="w-4 h-4 sm:w-5 sm:h-5 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                                />
+                            </svg>
+                        </div>
+                        <span 
+                            className="text-lg sm:text-xl font-bold"
+                            style={{ color: colors.primary.main }}
+                        >
+                            SkillSwap
+                        </span>
+                    </a>
+                </nav>
             </header>
 
             {/* Main Content */}
-            <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-6xl w-full flex flex-col lg:flex-row items-center justify-center lg:items-stretch gap-8 lg:gap-12">
+            <div className="min-h-screen flex items-center justify-center pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl w-full flex flex-col lg:flex-row items-start justify-center gap-6 sm:gap-8 lg:gap-12">
                     <section
-                        className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-white/20 flex-1 max-w-md"
+                        className="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-xl border border-white/20 w-full lg:flex-1 lg:max-w-md"
                         aria-labelledby="register-heading"
                     >
-                        <header className="text-center mb-8">
-                            <div className="mb-4">
-                                <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                        <header className="text-center mb-6 sm:mb-8">
+                            <div className="mb-3 sm:mb-4">
+                                <span className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wide">
                                     Join our community
                                 </span>
                             </div>
                             <h1
                                 id="register-heading"
-                                className="text-3xl font-bold text-gray-900 mb-2"
+                                className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2"
                             >
                                 Create Account
                             </h1>
-                            <p className="text-gray-600">
+                            <p className="text-sm sm:text-base text-gray-600">
                                 Join SkillSwap to start sharing and learning new skills
                             </p>
                         </header>
 
                         <form
-                            onSubmit={(e) => e.preventDefault()}
-                            className="space-y-6"
+                            onSubmit={handleSubmit}
+                            className="space-y-4 sm:space-y-5"
                             role="form"
                             aria-labelledby="register-heading"
                         >
-                            <fieldset className="space-y-6">
+                            <fieldset className="space-y-4 sm:space-y-5">
                                 <legend className="sr-only">Account information</legend>
-                                <div>
-                                    <label
-                                        htmlFor="username"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Username *
-                                    </label>
-                                    <input
-                                        id="username"
-                                        name="username"
-                                        type="text"
-                                        autoComplete="username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Enter your username"
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
-                                        aria-describedby="username-help"
-                                    />
-                                    <div id="username-help" className="sr-only">
-                                        Choose a unique username for your SkillSwap account
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                    <div>
+                                        <label
+                                            htmlFor="firstName"
+                                            className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
+                                        >
+                                            First Name *
+                                        </label>
+                                        <input
+                                            id="firstName"
+                                            name="firstName"
+                                            type="text"
+                                            autoComplete="given-name"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            placeholder="Enter your first name"
+                                            required
+                                            className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                                            style={{
+                                                '--tw-ring-color': `${colors.primary.main}33`,
+                                                borderColor: undefined,
+                                            } as React.CSSProperties & { '--tw-ring-color': string }}
+                                            onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                                            onBlur={(e) => e.target.style.borderColor = ''}
+                                            aria-describedby="firstName-help"
+                                        />
+                                        <div id="firstName-help" className="sr-only">
+                                            Enter your first name for your SkillSwap account
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="lastName"
+                                            className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
+                                        >
+                                            Last Name *
+                                        </label>
+                                        <input
+                                            id="lastName"
+                                            name="lastName"
+                                            type="text"
+                                            autoComplete="family-name"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            placeholder="Enter your last name"
+                                            required
+                                            className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                                            style={{
+                                                '--tw-ring-color': `${colors.primary.main}33`,
+                                                borderColor: undefined,
+                                            } as React.CSSProperties & { '--tw-ring-color': string }}
+                                            onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                                            onBlur={(e) => e.target.style.borderColor = ''}
+                                            aria-describedby="lastName-help"
+                                        />
+                                        <div id="lastName-help" className="sr-only">
+                                            Enter your last name for your SkillSwap account
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
                                     >
-                                        Email (optional)
+                                        Email *
                                     </label>
                                     <input
                                         id="email"
@@ -144,40 +212,115 @@ export function Register() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="Enter your email"
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
+                                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                                        style={{
+                                            '--tw-ring-color': `${colors.primary.main}33`,
+                                            borderColor: undefined,
+                                        } as React.CSSProperties & { '--tw-ring-color': string }}
+                                        onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                                        onBlur={(e) => e.target.style.borderColor = ''}
                                         aria-describedby="email-help"
                                     />
                                     <div id="email-help" className="sr-only">
-                                        Optional email for account recovery and notifications
+                                        Mandatory email for account recovery and notifications
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="password"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
+                                    >
+                                        Password *
+                                    </label>
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="new-password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Enter your password"
+                                        required
+                                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                                        style={{
+                                            '--tw-ring-color': `${colors.primary.main}33`,
+                                            borderColor: undefined,
+                                        } as React.CSSProperties & { '--tw-ring-color': string }}
+                                        onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                                        onBlur={(e) => e.target.style.borderColor = ''}
+                                        aria-describedby="password-help"
+                                    />
+                                    <div id="password-help" className="sr-only">
+                                        Create a secure password for your account
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="confirmPassword"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2"
+                                    >
+                                        Confirm Password *
+                                    </label>
+                                    <input
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        type="password"
+                                        autoComplete="new-password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        placeholder="Confirm your password"
+                                        required
+                                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                                        style={{
+                                            '--tw-ring-color': `${colors.primary.main}33`,
+                                            borderColor: undefined,
+                                        } as React.CSSProperties & { '--tw-ring-color': string }}
+                                        onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                                        onBlur={(e) => e.target.style.borderColor = ''}
+                                        aria-describedby="confirmPassword-help"
+                                    />
+                                    <div id="confirmPassword-help" className="sr-only">
+                                        Re-enter your password to confirm
                                     </div>
                                 </div>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset className="space-y-3 sm:space-y-4">
                                 <legend className="sr-only">Account creation</legend>
                                 <button
-                                    type="button"
-                                    onClick={handlePerformPasskeyRegister}
-                                    disabled={isPending || !username.trim()}
-                                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-700 hover:to-blue-700 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+                                    type="submit"
+                                    disabled={
+                                        isPending ||
+                                        !firstName.trim() ||
+                                        !lastName.trim() ||
+                                        !email.trim() ||
+                                        !password.trim() ||
+                                        !confirmPassword.trim()
+                                    }
+                                    className="w-full text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                                    style={{
+                                        backgroundColor: colors.primary.main,
+                                        '--tw-ring-color': `${colors.primary.main}80`,
+                                    } as React.CSSProperties & { '--tw-ring-color': string }}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
                                     aria-describedby="register-help"
                                 >
                                     {isPending ? "Creating Account..." : "Create Account"}
                                 </button>
                                 <div id="register-help" className="sr-only">
-                                    Create your SkillSwap account using secure passkey
-                                    authentication
+                                    Create your SkillSwap account with email and password
                                 </div>
 
-                                <div className="relative my-6" role="separator">
-                                    <div className="absolute inset-0 flex items-center">
-                                        <div className="w-full border-t border-gray-200" />
-                                    </div>
-                                    <div className="relative flex justify-center text-sm">
-                                        <span className="px-4 bg-white text-gray-500 font-medium">
+                                <div className="relative my-4 sm:my-6" aria-label="Alternative authentication methods">
+                                    <hr className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t border-gray-200" />
+                                    <p className="relative flex justify-center text-xs sm:text-sm">
+                                        <span className="px-3 sm:px-4 bg-white text-gray-500 font-medium">
                                             or
                                         </span>
-                                    </div>
+                                    </p>
                                 </div>
 
                                 <button
@@ -189,13 +332,13 @@ export function Register() {
                                         })
                                     }
                                     disabled={isPending}
-                                    className="w-full flex items-center justify-center gap-3 bg-white text-gray-700 border border-gray-200 py-3 px-6 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm font-medium"
+                                    className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white text-gray-700 border border-gray-200 py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base hover:cursor-pointer hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all duration-200 shadow-sm font-medium"
                                     aria-label="Sign up with Google account"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 533.5 544.3"
-                                        className="h-5 w-5"
+                                        className="h-4 w-4 sm:h-5 sm:w-5"
                                         aria-hidden="true"
                                         role="img"
                                     >
@@ -223,8 +366,8 @@ export function Register() {
                         </form>
 
                         {result && (
-                            <div
-                                className={`mt-6 p-4 rounded-xl ${result.includes("successful")
+                            <output
+                                className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl text-sm sm:text-base block ${result.includes("successful")
                                         ? "bg-green-50 text-green-800 border border-green-200"
                                         : "bg-red-50 text-red-800 border border-red-200"
                                     }`}
@@ -233,15 +376,21 @@ export function Register() {
                                 aria-atomic="true"
                             >
                                 {result}
-                            </div>
+                            </output>
                         )}
 
-                        <nav className="mt-8 text-center" aria-label="Account login">
-                            <p className="text-gray-600">
+                        <nav
+                            className="mt-6 sm:mt-8 text-center"
+                            aria-label="Account login"
+                        >
+                            <p className="text-sm sm:text-base text-gray-600">
                                 Already have an account?{" "}
                                 <a
-                                    href="/user/login"
-                                    className="text-purple-600 hover:text-blue-600 font-medium transition-colors duration-200"
+                                    href="/login"
+                                    className="font-medium transition-colors duration-200 underline-offset-2 hover:underline cursor-pointer"
+                                    style={{ color: colors.primary.main }}
+                                    onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.hover}
+                                    onMouseLeave={(e) => e.currentTarget.style.color = colors.primary.main}
                                 >
                                     Sign In
                                 </a>
@@ -249,17 +398,27 @@ export function Register() {
                         </nav>
                     </section>
 
-                    <section className="flex-1 flex items-center justify-center p-8 lg:max-w-md">
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 blur-3xl"></div>
-                            <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20">
-                                <div className="text-center space-y-6">
-                                    <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mx-auto flex items-center justify-center">
+                    <aside className="hidden lg:flex lg:flex-1 lg:items-center self-center lg:justify-center lg:max-w-md">
+                        <article className="relative w-full">
+                            <div 
+                                className="absolute inset-0 blur-3xl" 
+                                style={{
+                                    background: `linear-gradient(to right, ${colors.primary.main}33, #10b98133)`
+                                }}
+                                aria-hidden="true"
+                            ></div>
+                            <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">
+                                <div className="text-center space-y-4 lg:space-y-6">
+                                    <figure 
+                                        className="w-20 h-20 lg:w-24 lg:h-24 rounded-full mx-auto flex items-center justify-center"
+                                        style={{ backgroundColor: colors.primary.main }}
+                                    >
                                         <svg
-                                            className="w-12 h-12 text-white"
+                                            className="w-10 h-10 lg:w-12 lg:h-12 text-white"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
+                                            aria-hidden="true"
                                         >
                                             <path
                                                 strokeLinecap="round"
@@ -268,32 +427,32 @@ export function Register() {
                                                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                                             />
                                         </svg>
-                                    </div>
-                                    <h2 className="text-2xl font-bold text-gray-800">
+                                    </figure>
+                                    <h2 className="text-xl lg:text-2xl font-bold text-gray-800">
                                         Start Your Journey
                                     </h2>
-                                    <p className="text-gray-600">
+                                    <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
                                         Connect with learners and experts in your community. Share
                                         knowledge, develop skills, and grow together.
                                     </p>
-                                    <div className="grid grid-cols-2 gap-4 text-sm">
-                                        <div className="bg-purple-50 rounded-lg p-3">
-                                            <div className="font-semibold text-purple-800">
+                                    <ul className="grid grid-cols-2 gap-3 lg:gap-4 text-xs lg:text-sm list-none">
+                                        <li className="bg-teal-50 rounded-lg p-2.5 lg:p-3">
+                                            <strong className="font-semibold text-teal-800 block">
                                                 🚀 Build
-                                            </div>
-                                            <div className="text-purple-600">Your Profile</div>
-                                        </div>
-                                        <div className="bg-blue-50 rounded-lg p-3">
-                                            <div className="font-semibold text-blue-800">
+                                            </strong>
+                                            <span className="text-teal-600">Your Profile</span>
+                                        </li>
+                                        <li className="bg-emerald-50 rounded-lg p-2.5 lg:p-3">
+                                            <strong className="font-semibold text-emerald-800 block">
                                                 🌟 Discover
-                                            </div>
-                                            <div className="text-blue-600">Opportunities</div>
-                                        </div>
-                                    </div>
+                                            </strong>
+                                            <span className="text-emerald-600">Opportunities</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </article>
+                    </aside>
                 </div>
             </div>
         </main>
