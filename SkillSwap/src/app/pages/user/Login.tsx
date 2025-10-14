@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { colors } from "@/app/theme";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -58,29 +59,42 @@ export function Login() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <main className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50">
       {/* Brand Header */}
       <header className="fixed top-0 left-0 right-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-4 sm:px-6 py-3 sm:py-4">
-        <div className="max-w-7xl mx-auto flex items-center space-x-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        <nav className="max-w-7xl mx-auto" aria-label="Site navigation">
+          <a 
+            href="/" 
+            className="flex items-center space-x-2 hover:opacity-90 transition-opacity w-fit"
+            aria-label="SkillSwap home"
+          >
+            <div 
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center" 
+              style={{ backgroundColor: colors.primary.main }}
+              aria-hidden="true"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-          </div>
-          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            SkillSwap
-          </span>
-        </div>
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            </div>
+            <span 
+              className="text-lg sm:text-xl font-bold"
+              style={{ color: colors.primary.main }}
+            >
+              SkillSwap
+            </span>
+          </a>
+        </nav>
       </header>
 
       {/* Main Content */}
@@ -129,7 +143,13 @@ export function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                    style={{
+                      '--tw-ring-color': `${colors.primary.main}33`,
+                      borderColor: undefined,
+                    } as React.CSSProperties & { '--tw-ring-color': string }}
+                    onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                    onBlur={(e) => e.target.style.borderColor = ''}
                     aria-describedby="email-help"
                   />
                   <div id="email-help" className="sr-only">
@@ -153,7 +173,13 @@ export function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
+                    style={{
+                      '--tw-ring-color': `${colors.primary.main}33`,
+                      borderColor: undefined,
+                    } as React.CSSProperties & { '--tw-ring-color': string }}
+                    onFocus={(e) => e.target.style.borderColor = colors.primary.main}
+                    onBlur={(e) => e.target.style.borderColor = ''}
                     aria-describedby="password-help"
                   />
                   <div id="password-help" className="sr-only">
@@ -167,7 +193,13 @@ export function Login() {
                 <button
                   type="submit"
                   disabled={isPending || !email.trim() || !password.trim()}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                  className="w-full text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                  style={{
+                    backgroundColor: colors.primary.main,
+                    '--tw-ring-color': `${colors.primary.main}80`,
+                  } as React.CSSProperties & { '--tw-ring-color': string }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
                   aria-label="Sign in with email and password"
                   aria-describedby="login-help"
                 >
@@ -177,19 +209,13 @@ export function Login() {
                   Sign in with your email and password
                 </div>
 
-                <div
-                  className="relative my-4 sm:my-6"
-                  role="separator"
-                  aria-label="Alternative authentication methods"
-                >
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200" />
-                  </div>
-                  <div className="relative flex justify-center text-xs sm:text-sm">
+                <div className="relative my-4 sm:my-6" aria-label="Alternative authentication methods">
+                  <hr className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t border-gray-200" />
+                  <p className="relative flex justify-center text-xs sm:text-sm">
                     <span className="px-3 sm:px-4 bg-white text-gray-500 font-medium">
                       or
                     </span>
-                  </div>
+                  </p>
                 </div>
 
                 <button
@@ -201,7 +227,7 @@ export function Login() {
                     })
                   }
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white text-gray-700 border border-gray-200 py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all duration-200 shadow-sm font-medium"
+                  className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white text-gray-700 border border-gray-200 py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base hover:cursor-pointer hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all duration-200 shadow-sm font-medium"
                   aria-label="Sign in with Google account"
                 >
                   <svg
@@ -235,8 +261,8 @@ export function Login() {
             </form>
 
             {result && (
-              <div
-                className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl text-sm sm:text-base ${result.includes("successful")
+              <output
+                className={`mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl text-sm sm:text-base block ${result.includes("successful")
                     ? "bg-green-50 text-green-800 border border-green-200"
                     : "bg-red-50 text-red-800 border border-red-200"
                   }`}
@@ -245,7 +271,7 @@ export function Login() {
                 aria-atomic="true"
               >
                 {result}
-              </div>
+              </output>
             )}
 
             <nav className="mt-6 sm:mt-8 text-center" aria-label="Account registration">
@@ -253,7 +279,10 @@ export function Login() {
                 Don't have an account?{" "}
                 <a
                   href="/register"
-                  className="text-blue-600 hover:text-purple-600 font-medium transition-colors duration-200 underline-offset-2 hover:underline"
+                  className="font-medium transition-colors duration-200 underline-offset-2 hover:underline cursor-pointer"
+                  style={{ color: colors.primary.main }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.hover}
+                  onMouseLeave={(e) => e.currentTarget.style.color = colors.primary.main}
                 >
                   Sign up
                 </a>
@@ -261,17 +290,27 @@ export function Login() {
             </nav>
           </section>
 
-          <section className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center self-center lg:max-w-md">
-            <div className="relative w-full">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
+          <aside className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center self-center lg:max-w-md">
+            <article className="relative w-full">
+              <div 
+                className="absolute inset-0 blur-3xl" 
+                style={{
+                  background: `linear-gradient(to right, ${colors.primary.main}33, #10b98133)`
+                }}
+                aria-hidden="true"
+              ></div>
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">
                 <div className="text-center space-y-4 lg:space-y-6">
-                  <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto flex items-center justify-center">
+                  <figure 
+                    className="w-20 h-20 lg:w-24 lg:h-24 rounded-full mx-auto flex items-center justify-center"
+                    style={{ backgroundColor: colors.primary.main }}
+                  >
                     <svg
                       className="w-10 h-10 lg:w-12 lg:h-12 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -280,7 +319,7 @@ export function Login() {
                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                       />
                     </svg>
-                  </div>
+                  </figure>
                   <h2 className="text-xl lg:text-2xl font-bold text-gray-800">
                     Get back in the game!
                   </h2>
@@ -288,24 +327,24 @@ export function Login() {
                     Connect with learners and experts in your community. Share
                     knowledge, develop skills, and grow together.
                   </p>
-                  <div className="grid grid-cols-2 gap-3 lg:gap-4 text-xs lg:text-sm">
-                    <div className="bg-blue-50 rounded-lg p-2.5 lg:p-3">
-                      <div className="font-semibold text-blue-800">
+                  <ul className="grid grid-cols-2 gap-3 lg:gap-4 text-xs lg:text-sm list-none">
+                    <li className="bg-teal-50 rounded-lg p-2.5 lg:p-3">
+                      <strong className="font-semibold text-teal-800 block">
                         🎯 Learn
-                      </div>
-                      <div className="text-blue-600">New Skills</div>
-                    </div>
-                    <div className="bg-purple-50 rounded-lg p-2.5 lg:p-3">
-                      <div className="font-semibold text-purple-800">
+                      </strong>
+                      <span className="text-teal-600">New Skills</span>
+                    </li>
+                    <li className="bg-emerald-50 rounded-lg p-2.5 lg:p-3">
+                      <strong className="font-semibold text-emerald-800 block">
                         🤝 Share
-                      </div>
-                      <div className="text-purple-600">Knowledge</div>
-                    </div>
-                  </div>
+                      </strong>
+                      <span className="text-emerald-600">Knowledge</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-          </section>
+            </article>
+          </aside>
         </div>
       </div>
     </main>
