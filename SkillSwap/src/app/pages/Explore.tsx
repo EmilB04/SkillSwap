@@ -11,15 +11,45 @@ export default function Explore(){
                     <h1 className="text-2xl font-bold mb-2">Explore Jobs</h1>
                     <p className="mb-2">Filter and find the perfect job for you</p>
                     <div className="p-4 pl-0">
-                        <form className="flex flex-wrap gap-4 items-center">
-                            <div className="flex items-center gap-2">
-                                <label htmlFor="date" className="font-bold">Date:</label>
-                                <input type="date" name="date" className="p-2 border rounded-md" />
+                        <form className="flex flex-wrap items-center justify-between">
+                            <div>
+                                <label htmlFor="keyword" className="font-bold mr-2">Filter</label>
+                                <select id="keyword" name="keyword" className="p-2 border rounded-md">
+                                    <option value="popular">Popular</option>
+                                    <option value="new">New</option>
+                                    <option value="high-paid">High paid</option>
+                                    <option value="low-paid">Low paid</option>
+                                </select>
                             </div>
 
-                            <div className="flex flex-row gap-4 items-center">
+                            <div>
+                                <label htmlFor="category" className="font-bold mr-2">Category:</label>
+                                <select id="category" name="category" className="p-2 border rounded-md">
+                                    <option value="all">All</option>
+                                    <option value="design">Design</option>
+                                    <option value="development">Development</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="gardening">Gardening</option>
+                                    <option value="cooking">Cooking</option>
+                                    <option value="tutoring">Tutoring</option>
+                                </select>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <label htmlFor="dateRange" className="font-bold">Period:</label>
+                                <select id="dateRange" name="dateRange" className="p-2 border rounded-md">
+                                    <option value="alltime">All time</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This week</option>
+                                    <option value="month">Next month</option>
+                                    <option value="3months">3 months</option>
+                                    <option value="6months">6 months</option>
+                                </select>
+                            </div>
+
+                            <div className="flex flex-row gap-2 items-center">
                                 <legend className="mr-2 font-bold">Payment:</legend>
-                                <div className="flex items-center gap-6">
+                                <div className="flex items-center gap-2">
                                     <div className="flex items-center gap-2">
                                         <input 
                                             type="radio" 
