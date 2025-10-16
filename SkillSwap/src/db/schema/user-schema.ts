@@ -22,7 +22,7 @@ export const ads = sqliteTable("ads", {
 export const directMessages = sqliteTable("direct_messages", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   senderId: integer("sender_id").notNull().references(() => users.id),
-  receiverId: integer("reciever_id").notNull().references(() => users.id),
+  receiverId: integer("receiever_id").notNull().references(() => users.id),
   message: text("message").notNull(),
     ...timestamps,
 });
