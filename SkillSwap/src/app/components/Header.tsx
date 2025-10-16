@@ -1,0 +1,34 @@
+import ProfileMenuFlyout from "./ProfileMenuFlyout";
+
+export default function Header() {
+  return (
+    <header className="flex items-center justify-between px-6 py-3 bg-white shadow mb-4">
+      <a href="/" className="flex items-center gap-3">
+        <img src="/src/app/assets/logo.png" alt="Logo" className="h-12 w-auto" />
+        <h1 className="text-2xl font-semibold bg-gradient-to-r from-[#439F8F] via-[#48ECA1] to-[#394251] bg-clip-text text-transparent inline-block">
+          SkillSwap
+        </h1>
+      </a>
+
+      <div className="flex-1 max-w-md mx-6">
+        <form action="#" method="get" className="w-full">
+          <input type="text" placeholder="Search..." className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"/>
+        </form>
+      </div>
+
+      <nav className="flex items-center gap-10 text-gray-700">
+        <a href="#" className="hover:text-green-600"> Explore </a>
+        <a href="#" className="hover:text-green-600"> Contact us </a>
+        <a href="#" className="flex items-center">
+          <img src="./src/app/assets/icons/notification-icon.png" alt="Notifications" className="h-6 w-6" />
+        </a>
+        <a href="#" className="flex items-center">
+          <img src="./src/app/assets/icons/email-icon.png" alt="Messages" className="h-6 w-6" />
+        </a>
+        
+        {/* Profile Menu or Sign Up */}
+        <ProfileMenuFlyout />
+      </nav>
+    </header>
+  );
+}

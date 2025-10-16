@@ -1,14 +1,13 @@
 import { RequestInfo } from "rwsdk/worker";
+import JobCard from "../components/JobCard";
+import Header from "../components/Header";
+import Footer from '../components/Footer';
 
 export function Home({ ctx }: RequestInfo) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Welcome to SkillSwap</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Connect, learn, and share skills with others in your community</p>
-        </header>
-
+      <Header />
+      <main className="max-w-3/4 justify-center mx-auto px-6 py-3">
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           {ctx.user?.name ? (
             <div className="text-center">
@@ -37,6 +36,15 @@ export function Home({ ctx }: RequestInfo) {
           )}
         </div>
 
+        <div className="flex flex-wrap gap-6 mb-12 justify-center">
+          <JobCard />
+          <JobCard />
+          <JobCard />
+          <JobCard />
+          <JobCard />
+          <JobCard />
+        </div>
+
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <div className="text-4xl mb-4">🎯</div>
@@ -54,7 +62,9 @@ export function Home({ ctx }: RequestInfo) {
             <p className="text-gray-600">Message and coordinate with other learners and teachers</p>
           </div>
         </div>
-      </div>
+
+      </main>
+      <Footer />
     </div>
   );
 }
