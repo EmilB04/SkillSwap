@@ -4,6 +4,7 @@ import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
 import { sessions, setupSessionStore } from "./session/store";
+import Explore from "@/app/pages/Explore";
 import { Session } from "./session/durableObject";
 import { db } from "@/db";
 import { users, type User } from "@/db/schema";
@@ -50,6 +51,8 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
+    // Explore route
+    route("/explore", Explore),
 
 
 

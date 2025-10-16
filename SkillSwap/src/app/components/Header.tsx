@@ -17,7 +17,7 @@ export default function Header() {
       </div>
 
       <nav className="flex items-center gap-10 text-gray-700">
-        <a href="#" className="hover:text-green-600"> Explore </a>
+        <a href="/explore" className="hover:text-green-600"> Explore </a>
         <a href="#" className="hover:text-green-600"> Contact us </a>
         <a href="#" className="flex items-center">
           <img src="./src/app/assets/icons/notification-icon.png" alt="Notifications" className="h-6 w-6" />
