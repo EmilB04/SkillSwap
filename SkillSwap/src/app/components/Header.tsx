@@ -1,6 +1,11 @@
 import ProfileMenuFlyout from "./ProfileMenuFlyout";
+import type { AppContext } from "@/worker";
 
-export default function Header() {
+interface HeaderProps {
+  ctx?: AppContext;
+}
+
+export default function Header({ ctx }: HeaderProps) {
   return (
     <header className="flex items-center justify-between px-6 py-3 bg-white shadow mb-4">
       <a href="/" className="flex items-center gap-3">
@@ -27,7 +32,7 @@ export default function Header() {
         </a>
         
         {/* Profile Menu or Sign Up */}
-        <ProfileMenuFlyout />
+        <ProfileMenuFlyout user={ctx?.user} />
       </nav>
     </header>
   );
