@@ -1,4 +1,4 @@
-import ProfileMenuFlyout from "./ProfileMenuFlyout";
+import ProfileMenuFlyout from "./profile/HeaderMenyFlyout";
 import type { AppContext } from "@/worker";
 
 interface HeaderProps {

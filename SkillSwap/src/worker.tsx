@@ -44,7 +44,7 @@ export default defineApp([
       throw error;
     }
 
-    // Temporary: Always set test user to verify header works
+    // Temporary: Always set test user to verify header works: See TODO below
     ctx.user = {
       role: "user",
       id: 1,
