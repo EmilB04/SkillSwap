@@ -47,31 +47,45 @@ export default function Explore(){
             });
         }
 
-        // Filter by keyword (sorting)
-        if (filters.keyword) {
-            switch (filters.keyword) {
-                case 'high-paid':
-                    result.sort((a, b) => {
-                        const aPrice = parseInt(a.payment.replace(/[^0-9]/g, '')) || 0;
-                        const bPrice = parseInt(b.payment.replace(/[^0-9]/g, '')) || 0;
-                        return bPrice - aPrice;
-                    });
-                    break;
-                case 'low-paid':
-                    result.sort((a, b) => {
-                        const aPrice = parseInt(a.payment.replace(/[^0-9]/g, '')) || 0;
-                        const bPrice = parseInt(b.payment.replace(/[^0-9]/g, '')) || 0;
-                        return aPrice - bPrice;
-                    });
-                    break;
-                case 'new':
-                    // In the future, this will sort by createdAt
-                    result.sort((a, b) => b.id - a.id);
-                    break;
-                // 'popular' will be implemented when we have a way to track popularity
-            }
+        // Filter by date range
+        if (filters.dateRange !== 'alltime' && result.length > 0) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            result = result.filter(job => {
+                if (!job.date) return false;
+                const jobDate = new Date(job.date);
+                jobDate.setHours(0, 0, 0, 0);
+                
+                switch (filters.dateRange) {
+                    case 'today':
+                        return jobDate.getTime() === today.getTime();
+                    
+                    case 'week':
+                        const weekAhead = new Date(today);
+                        weekAhead.setDate(today.getDate() + 6);
+                        return jobDate >= today && jobDate <= weekAhead;
+                    
+                    case 'month':
+                        const monthAhead = new Date(today);
+                        monthAhead.setDate(today.getDate() + 30);
+                        return jobDate >= today && jobDate <= monthAhead;
+                    
+                    case '3months':
+                        const threeMonthsAhead = new Date(today);
+                        threeMonthsAhead.setDate(today.getDate() + 90);
+                        return jobDate >= today && jobDate <= threeMonthsAhead;
+                    
+                    case '6months':
+                        const sixMonthsAhead = new Date(today);
+                        sixMonthsAhead.setDate(today.getDate() + 180);
+                        return jobDate >= today && jobDate <= sixMonthsAhead;
+                    
+                    default:
+                        return true;
+                }
+            });
         }
-
         setFilteredJobs(result);
     };
     return(
@@ -120,13 +134,18 @@ export default function Explore(){
 
                             <div className="flex items-center gap-2">
                                 <label htmlFor="dateRange" className="font-bold">Period:</label>
-                                <select id="dateRange" name="dateRange" className="p-2 border rounded-md">
+                                <select 
+                                    id="dateRange" 
+                                    name="dateRange" 
+                                    className="p-2 border rounded-md"
+                                    value={filters.dateRange}
+                                    onChange={handleFilterChange}>
                                     <option value="alltime">All time</option>
                                     <option value="today">Today</option>
                                     <option value="week">This week</option>
                                     <option value="month">Next month</option>
-                                    <option value="3months">3 months</option>
-                                    <option value="6months">6 months</option>
+                                    <option value="3months">Next 3 months</option>
+                                    <option value="6months">Next 6 months</option>
                                 </select>
                             </div>
 

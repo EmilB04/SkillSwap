@@ -6,9 +6,10 @@ export interface Job {
   category: string;
   payment: string;
   imageUrl: string;
-  createdAt?: string;
-  updatedAt?: string;
-  deletedAt?: string;
+  date: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export interface JobCardProps {
@@ -16,6 +17,7 @@ export interface JobCardProps {
   category?: string;
   payment?: string;
   imageUrl?: string;
+  date?: Date;
   onRequestJob?: (id: number) => void;
 }
 
@@ -27,7 +29,8 @@ export const defaultJob: Job = {
   userId: 1,
   category: "Gardening",
   payment: "$20/hour",
-  imageUrl: "./src/app/assets/gardening.jpeg"
+  imageUrl: "./src/app/assets/gardening.jpeg",
+  date: new Date(2025, 11, 31) // December 31, 2025
 };
 
 // Default props for JobCard
@@ -35,7 +38,8 @@ export const defaultJobCardProps: JobCardProps = {
   job: defaultJob,
   category: defaultJob.category,
   payment: defaultJob.payment,
-  imageUrl: defaultJob.imageUrl
+  imageUrl: defaultJob.imageUrl,
+  date: defaultJob.date
 };
 
 // Mock job data will be in db in future
@@ -47,7 +51,8 @@ export const mockJobs: Job[] = [
     payment: "$20/hour",
     category: "Gardening",
     userId: 1,
-    imageUrl: "./src/app/assets/gardening.jpeg"
+    imageUrl: "./src/app/assets/gardening.jpeg",
+    date: new Date(2025, 9, 17) // October 17, 2025
   },
   {
     id: 2,
@@ -56,7 +61,8 @@ export const mockJobs: Job[] = [
     payment: "$10/hour",
     category: "Language",
     userId: 3,
-    imageUrl: "./src/app/assets/translating.webp"
+    imageUrl: "./src/app/assets/translating.webp",
+    date: new Date(2025, 9, 18) // October 18, 2025
   },
   {
     id: 3,
@@ -65,7 +71,8 @@ export const mockJobs: Job[] = [
     payment: "$30/hour",
     category: "Development",
     userId: 3,
-    imageUrl: "./src/app/assets/web-design.jpg"
+    imageUrl: "./src/app/assets/web-design.jpg",
+    date: new Date(2025, 9, 20) // October 20, 2025
   },
   {
     id: 4,
@@ -74,7 +81,8 @@ export const mockJobs: Job[] = [
     payment: "Skill swap",
     category: "Tutoring",
     userId: 4,
-    imageUrl: "./src/app/assets/math-tutoring.png"
+    imageUrl: "./src/app/assets/math-tutoring.png",
+    date: new Date(2025, 11, 12) // December 12, 2025
   },
   {
     id: 5,
@@ -83,7 +91,8 @@ export const mockJobs: Job[] = [
     payment: "$40/hour",
     category: "Cooking",
     userId: 4,
-    imageUrl: "./src/app/assets/cooking-lessons.jpg"
+    imageUrl: "./src/app/assets/cooking-lessons.jpg",
+    date: new Date(2025, 10, 15) // November 15, 2025
   },
   {
     id: 6,
@@ -92,6 +101,7 @@ export const mockJobs: Job[] = [
     payment: "$10/hour",
     category: "Design",
     userId: 5,
-    imageUrl: "./src/app/assets/graphic-design.jpg"
+    imageUrl: "./src/app/assets/graphic-design.jpg",
+    date: new Date(2025, 9, 30) // October 30, 2025
   }
 ]
