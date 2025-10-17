@@ -12,6 +12,10 @@ import { env } from "cloudflare:workers";
 import { Login } from "./app/pages/user/account/Login";
 import { Register } from "./app/pages/user/account/Register";
 import { MyPage } from "./app/pages/user/profile/MyPage";
+import { MessagesPage } from "./app/pages/user/profile/MessagesPage";
+import { NotificationsPage } from "./app/pages/user/profile/NotificationsPage";
+import SettingsPage from "./app/pages/user/profile/SettingsPage";
+import EditPage from "./app/pages/user/profile/EditPage";
 export { SessionDurableObject } from "./session/durableObject";
 
 export type AppContext = {
@@ -61,30 +65,26 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
-
-    // Profile route
-    route("/profile", MyPage),
-
-    // Logout route
     route("/logout", async function ({ request }) {
       const headers = new Headers();
       await sessions.remove(request, headers);
       headers.set("Location", "/");
-
-      return new Response(null, {
-        status: 302,
-        headers,
-      });
+      return new Response(null, { status: 302, headers });
     }),
+
+    // TODO: Consider render instead of route, for nested routes
+    // Profile routes
+    route("/profile", MyPage),
+    route("/profile/edit", EditPage),
+    route("/profile/messages", MessagesPage),
+    route("/profile/notifications", NotificationsPage),
+    route("/profile/settings", SettingsPage),
 
     // Protected route example
     route("/protected", [
       ({ ctx }) => {
         if (!ctx.user) {
-          return new Response(null, {
-            status: 302,
-            headers: { Location: "/login" },
-          });
+          return new Response(null, { status: 302, headers: { Location: "/login" } });
         }
       },
       Home,
