@@ -1,9 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SideMenuFlyout() {
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [currentPath, setCurrentPath] = useState("");
+
+    // Get current path on client
+    useEffect(() => {
+        setCurrentPath(window.location.pathname);
+    }, []);
+
+    // Load state from localStorage on mount
+    useEffect(() => {
+        const saved = localStorage.getItem('sideMenuExpanded');
+        if (saved !== null) setIsExpanded(JSON.parse(saved));
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('sideMenuExpanded', JSON.stringify(isExpanded));
+    }, [isExpanded]);
 
     const menuItems = [
         {
@@ -66,7 +82,7 @@ export default function SideMenuFlyout() {
     return (
         <div className="relative flex">
             {/* Side Menu */}
-            <nav 
+            <nav
                 className={`
                     bg-white border-r border-gray-200 shadow-lg
                     transition-all duration-300 ease-in-out
@@ -78,13 +94,13 @@ export default function SideMenuFlyout() {
                 <div className="p-4 border-b border-gray-200 flex justify-end">
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
                         aria-label={isExpanded ? "Collapse menu" : "Expand menu"}
                     >
-                        <svg 
+                        <svg
                             className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${isExpanded ? 'rotate-0' : 'rotate-180'}`}
-                            fill="none" 
-                            stroke="currentColor" 
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -94,27 +110,37 @@ export default function SideMenuFlyout() {
 
                 {/* Menu Items */}
                 <ul className="py-4">
-                    {menuItems.map((item, index) => (
-                        <li key={index}>
-                            <a
-                                href={item.href}
-                                className="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
-                            >
-                                <span className="flex-shrink-0 text-gray-500">
-                                    {item.icon}
-                                </span>
-                                <span 
+                    {menuItems.map((item, index) => {
+                        const isActive = currentPath === item.href;
+                        return (
+                            <li key={index}>
+                                <a
+                                    href={item.href}
                                     className={`
-                                        ml-4 font-medium whitespace-nowrap
-                                        transition-all duration-300
-                                        ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}
+                                        flex items-center px-6 py-3 transition-colors
+                                        ${isActive 
+                                            ? 'bg-gray-100 text-gray-900' 
+                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                        }
                                     `}
                                 >
-                                    {item.label}
-                                </span>
-                            </a>
-                        </li>
-                    ))}
+                                    <span className="flex-shrink-0 text-gray-500">
+                                        {item.icon}
+                                    </span>
+                                    <span
+                                        className={`
+                                            ml-4 whitespace-nowrap
+                                            transition-all duration-300
+                                            ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}
+                                            ${isActive ? 'font-bold' : 'font-medium'}
+                                        `}
+                                    >
+                                        {item.label}
+                                    </span>
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
             </nav>
         </div>
