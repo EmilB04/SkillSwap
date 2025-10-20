@@ -121,13 +121,13 @@ export default function Explore(){
                 <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
                     <p className="mb-2">Filter and find the perfect job for you</p>
                     <div className="p-4 pl-0">
-                        <form className="flex flex-wrap items-center justify-between">
-                            <div>
-                                <label htmlFor="sortBy" className="font-bold mr-2">Sort By</label>
+                        <form className="flex flex-wrap items-start sm:items-end gap-4 sm:gap-6">
+                            <div className="w-full sm:w-auto">
+                                <label htmlFor="sortBy" className="block font-bold mb-2">Sort By</label>
                                 <select 
                                     id="sortBy" 
                                     name="sortBy" 
-                                    className="p-2 border rounded-md"
+                                    className="w-full sm:w-auto p-3 border rounded-md text-base"
                                     value={searchQuery}
                                     onChange={handleFilterChange}
                                 >
@@ -139,12 +139,12 @@ export default function Explore(){
                                 </select>
                             </div>
 
-                            <div>
-                                <label htmlFor="category" className="font-bold mr-2">Category:</label>
+                            <div className="w-full sm:w-auto">
+                                <label htmlFor="category" className="block font-bold mb-2 sm:mb-2">Category:</label>
                                 <select 
                                     id="category" 
                                     name="category" 
-                                    className="p-2 border rounded-md"
+                                    className="w-full sm:w-auto p-3 border rounded-md text-base"
                                     value={filters.category}
                                     onChange={handleFilterChange}
                                 >
@@ -158,12 +158,12 @@ export default function Explore(){
                                 </select>
                             </div>
 
-                            <div className="flex items-center gap-2">
-                                <label htmlFor="dateRange" className="font-bold">Period:</label>
+                            <div className="w-full sm:w-auto">
+                                <label htmlFor="dateRange" className="block font-bold mb-2 sm:mb-2">Period:</label>
                                 <select 
                                     id="dateRange" 
                                     name="dateRange" 
-                                    className="p-2 border rounded-md"
+                                    className="w-full sm:w-auto p-3 border rounded-md text-base"
                                     value={filters.dateRange}
                                     onChange={handleFilterChange}>
                                     <option value="alltime">All time</option>
@@ -175,10 +175,10 @@ export default function Explore(){
                                 </select>
                             </div>
 
-                            <div className="flex flex-row gap-2 items-center">
-                                <legend className="mr-2 font-bold">Payment:</legend>
-                                <div className="flex items-center gap-2">
-                                    <div className="flex items-center gap-2">
+                            <div className="w-full sm:w-auto sm:self-center sm:mt-7">
+                                <div className="flex flex-wrap gap-4 items-center">
+                                    <span className="font-bold sm:mr-2">Payment:</span>
+                                    <div className="flex items-center gap-3">
                                         <input 
                                             type="radio" 
                                             id="cash" 
@@ -186,10 +186,10 @@ export default function Explore(){
                                             value="cash"
                                             checked={filters.payment === 'cash'}
                                             onChange={handleFilterChange}
-                                            className="form-radio h-4 w-4 text-blue-600" />
-                                        <label htmlFor="cash" className="text-sm">Cash</label>
+                                            className="form-radio h-5 w-5 text-blue-600" />
+                                        <label htmlFor="cash" className="text-base">Cash</label>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-3">
                                         <input 
                                             type="radio" 
                                             id="swap" 
@@ -197,14 +197,14 @@ export default function Explore(){
                                             value="swap"
                                             checked={filters.payment === 'swap'}
                                             onChange={handleFilterChange}
-                                            className="form-radio h-4 w-4 text-blue-600" />
-                                        <label htmlFor="swap" className="text-sm">Swap</label>
+                                            className="form-radio h-5 w-5 text-blue-600" />
+                                        <label htmlFor="swap" className="text-base">Swap</label>
                                     </div>
                                 </div>
                             </div>
                             <button 
                                 type="submit" 
-                                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200"
+                                className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition duration-200 text-base font-medium mt-4 sm:mt-0 sm:self-end"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     applyFilters();
