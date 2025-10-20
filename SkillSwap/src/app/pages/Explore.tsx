@@ -3,17 +3,32 @@
 import Header from "../components/Header";
 import Footer from '../components/Footer';
 import JobCard from "../components/JobCard";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Job, mockJobs } from '@/types/job';
 
 export default function Explore(){
     const [filteredJobs, setFilteredJobs] = useState<Job[]>(mockJobs);
     const [filters, setFilters] = useState({
-        keyword: 'popular',
         category: 'all',
         dateRange: 'alltime',
         payment: ''
     });
+
+    // State for search query
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Get search query from URL when component mounts
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            setSearchQuery(params.get('q') || '');
+        }
+    }, []);
+
+    // Apply filters and search when component mounts or search query changes
+    useEffect(() => {
+        applyFilters();
+    }, [searchQuery, filters]);
 
     // Handle filter changes
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -27,6 +42,16 @@ export default function Explore(){
     // Apply filters to jobs
     const applyFilters = () => {
         let result = [...mockJobs];
+
+        // Filter by search query
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase().trim();
+            result = result.filter(job => 
+                job.title.toLowerCase().includes(query) ||
+                job.description.toLowerCase().includes(query) ||
+                job.category.toLowerCase().includes(query)
+            );
+        }
 
         // Filter by category
         if (filters.category !== 'all') {
@@ -98,18 +123,19 @@ export default function Explore(){
                     <div className="p-4 pl-0">
                         <form className="flex flex-wrap items-center justify-between">
                             <div>
-                                <label htmlFor="keyword" className="font-bold mr-2">Filter</label>
+                                <label htmlFor="sortBy" className="font-bold mr-2">Sort By</label>
                                 <select 
-                                    id="keyword" 
-                                    name="keyword" 
+                                    id="sortBy" 
+                                    name="sortBy" 
                                     className="p-2 border rounded-md"
-                                    value={filters.keyword}
+                                    value={searchQuery}
                                     onChange={handleFilterChange}
                                 >
-                                    <option value="popular">Popular</option>
-                                    <option value="new">New</option>
-                                    <option value="high-paid">High paid</option>
-                                    <option value="low-paid">Low paid</option>
+                                    <option value="">Relevance</option>
+                                    <option value="new">Newest</option>
+                                    <option value="popular">Most Popular</option>
+                                    <option value="high-paid">Highest Paid</option>
+                                    <option value="low-paid">Lowest Paid</option>
                                 </select>
                             </div>
 
