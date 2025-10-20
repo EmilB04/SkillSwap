@@ -117,8 +117,8 @@ export default function Explore(){
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
             <Header/>
             <main className="max-w-3/4 justify-center mx-auto px-6 py-3">
+                <h1 className="text-2xl font-bold mb-5 p-2">Explore Jobs</h1>
                 <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-                    <h1 className="text-2xl font-bold mb-2">Explore Jobs</h1>
                     <p className="mb-2">Filter and find the perfect job for you</p>
                     <div className="p-4 pl-0">
                         <form className="flex flex-wrap items-center justify-between">

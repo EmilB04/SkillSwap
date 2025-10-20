@@ -12,6 +12,7 @@ import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { Login } from "./app/pages/user/Login";
 import { Register } from "./app/pages/user/Register";
+import Contact from "./app/pages/Contact";
 export { SessionDurableObject } from "./session/durableObject";
 
 export type AppContext = {
@@ -53,8 +54,8 @@ export default defineApp([
     route("/register", Register),
     // Explore route
     route("/explore", Explore),
-
-
+    // Contact route
+    route("/contact", Contact),
 
     // Logout route
     route("/logout", async function ({ request }) {
