@@ -2,7 +2,7 @@
   "name": "@redwoodjs/starter-standard",
   "version": "1.0.0",
   "description": "Build fast, server-driven webapps on Cloudflare with SSR, RSC, and realtime. ",
-  "main": "index.js",
+  "main": "src/worker.tsx",
   "type": "module",
   "keywords": [],
   "author": "",
@@ -70,8 +70,5 @@
       "sharp",
       "workerd"
     ]
-  },
-  "overrides": {
-    "esbuild": ">=0.24.3"
   }
 }
