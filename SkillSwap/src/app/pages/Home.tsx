@@ -1,6 +1,8 @@
+"use client";
+
 import { RequestInfo } from "rwsdk/worker";
-import JobCard from "../components/JobCard";
 import { PageLayout } from "./PageLayout";
+import JobCard from "../components/JobCard";
 
 export function Home({ ctx }: RequestInfo) {
   return (

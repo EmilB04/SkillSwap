@@ -1,3 +1,4 @@
+"use client";
 
 export default function Footer() {
     return (
@@ -137,7 +138,7 @@ export default function Footer() {
                                         Terms of Service
                                     </a>
                                 </li>
-                            </ul>       
+                            </ul>
                         </section>
                     </section>
                 </div>

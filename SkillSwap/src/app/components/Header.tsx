@@ -1,6 +1,7 @@
-import ProfileMenuFlyout from "./profile/HeaderMenyFlyout";
+"use client";
+
 import type { AppContext } from "@/worker";
-import ProfileMenuFlyout from "./ProfileMenuFlyout";
+import ProfileMenuFlyout from "./profile/HeaderMenuFlyout";
 import SearchBar from "./SearchBar";
 
 interface HeaderProps {
