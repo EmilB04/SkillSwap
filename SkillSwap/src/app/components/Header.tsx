@@ -1,5 +1,7 @@
 import ProfileMenuFlyout from "./profile/HeaderMenyFlyout";
 import type { AppContext } from "@/worker";
+import ProfileMenuFlyout from "./ProfileMenuFlyout";
+import SearchBar from "./SearchBar";
 
 interface HeaderProps {
   ctx?: AppContext;
@@ -16,14 +18,12 @@ export default function Header({ ctx }: HeaderProps) {
       </a>
 
       <div className="flex-1 max-w-md mx-6">
-        <form action="#" method="get" className="w-full">
-          <input type="text" placeholder="Search..." className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400"/>
-        </form>
+        <SearchBar />
       </div>
 
       <nav className="flex items-center gap-10 text-gray-700">
-        <a href="#" className="hover:text-green-600"> Explore </a>
-        <a href="#" className="hover:text-green-600"> Contact us </a>
+        <a href="/explore" className="hover:text-green-600"> Explore </a>
+        <a href="/contact" className="hover:text-green-600"> Contact us </a>
         <a href="#" className="flex items-center">
           <img src="./src/app/assets/icons/notification-icon.png" alt="Notifications" className="h-6 w-6" />
         </a>
