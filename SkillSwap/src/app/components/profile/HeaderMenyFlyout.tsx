@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import type { User } from "@/db/schema";
 
-export default function ProfileMenuFlyout() {
+interface ProfileMenuFlyoutProps {
+    user?: User | null;
+}
+
+export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    // TODO: Replace with actual authentication check
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Change to false to test "Sign Up" button
+    const isLoggedIn = !!user;
     const menuRef = useRef<HTMLDivElement>(null);
 
     // Close menu when clicking outside
@@ -48,7 +52,7 @@ export default function ProfileMenuFlyout() {
                     {showProfileMenu && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                             <a
-                                href="#"
+                                href="/profile"
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                             >
                                 <div className="flex items-center gap-2">
@@ -94,8 +98,7 @@ export default function ProfileMenuFlyout() {
                             </a>
                             <div className="border-t border-gray-200 my-2"></div>
                             <a
-                                href="#"
-                                onClick={() => setIsLoggedIn(false)}
+                                href="/logout"
                                 className="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                             >
                                 <div className="flex items-center gap-2">
@@ -110,7 +113,7 @@ export default function ProfileMenuFlyout() {
                 </div>
             ) : (
                 <a
-                    href="/user/register"
+                    href="/login"
                     className="text-center text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
                     style={{ backgroundColor: '#438C86' }} // TODO: Replace with theme color when merged to main
                 >
