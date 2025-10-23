@@ -75,11 +75,58 @@ export function createAdsRepository(): AdsRepository {
             }
         },
 
-        async create(ad: InsertAd) {
-            return { success: false, error: { message: "not implemented", code: 501 } };
+        // Create a new ad in the database
+        async create(data: InsertAd) {
+            try {
+                const [row] = await db
+                .insert(ads)
+                .values({
+                    title: data.title,
+                    description: data.description,
+                    userId: data.userId,
+                })
+                .returning();
+                
+                return { success: true, data: row };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to create ad in database",
+                    },
+                };   
+            }
         },
-        async update(id: string, patch: Partial<InsertAd>) {
-            return { success: false, error: { message: "not implemented", code: 501 } };
+
+        // Update an existing ad by its ID
+        async update(id, data) {
+            try {
+                const [row] = await db
+                .update(ads)
+                .set({
+                    title: data.title,
+                    description: data.description,
+                })
+                .where(eq(ads.id, id))
+                .returning();
+
+                if (!row) {
+                    return { success: false, error: { code: 404, message: "Ad not found" } };
+                }
+                
+                return { success: true, data: row };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to update ad in database",
+                    },
+                }
+            }
         }
     };
 }
+
+export const adsRepository = createAdsRepository();
