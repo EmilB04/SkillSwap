@@ -34,7 +34,8 @@ SkillSwap is a web application that connects people who want to learn new skills
 
 ## 📋 Prerequisites
 
-- Node.js 18+ and npm 10+
+- Node.js 18+
+- pnpm 8+ (install with `npm install -g pnpm` or `corepack enable`)
 - Cloudflare account (for deployment)
 - Git
 
@@ -50,7 +51,7 @@ cd SkillSwap/SkillSwap
 ### 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 3. Configure database
@@ -74,22 +75,22 @@ Update `wrangler.jsonc` with your D1 database ID:
 
 ```bash
 # Local development database
-npm run migrate:dev
+pnpm run migrate:dev
 
 # Production database
-npm run migrate:prd
+pnpm run migrate:prd
 ```
 
 ### 5. Seed the database (optional)
 
 ```bash
-npm run seed
+pnpm run seed
 ```
 
 ### 6. Start development server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The application will be available at `http://localhost:5173`
@@ -145,16 +146,16 @@ The application uses the following main tables:
 ## 🔧 Available Scripts
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run release      # Clean, build, and deploy to Cloudflare
-npm run migrate:dev  # Run migrations on local DB
-npm run migrate:prd  # Run migrations on production DB
-npm run migrate:new  # Generate new migration
-npm run seed         # Seed database with sample data
-npm run types        # Run TypeScript type checking
-npm run clean        # Clear build cache
+pnpm run dev          # Start development server
+pnpm run build        # Build for production
+pnpm run preview      # Preview production build
+pnpm run release      # Clean, build, and deploy to Cloudflare
+pnpm run migrate:dev  # Run migrations on local DB
+pnpm run migrate:prd  # Run migrations on production DB
+pnpm run migrate:new  # Generate new migration
+pnpm run seed         # Seed database with sample data
+pnpm run types        # Run TypeScript type checking
+pnpm run clean        # Clear build cache
 ```
 
 ## 🚀 Deployment
@@ -175,12 +176,12 @@ npx wrangler d1 create skillswap-db
 
 4. Run migrations on production:
 ```bash
-npm run migrate:prd
+pnpm run migrate:prd
 ```
 
 5. Deploy:
 ```bash
-npm run release
+pnpm run release
 ```
 
 ## 🎨 Key Features Implementation
