@@ -4,7 +4,7 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
-import { mockProfileData, parseSkills } from "./profileData";
+import { mockProfileData, parseSkills } from "../../../components/profile/profileData";
 
 export default function EditPage({ ctx }: RequestInfo) {
     // Initialize with centralized profile data - override with actual user data from database when available

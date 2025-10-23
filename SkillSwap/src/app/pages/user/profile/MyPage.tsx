@@ -3,7 +3,7 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { colors } from "../../../theme";
-import { mockProfileData, parseSkills } from "./profileData";
+import { mockProfileData, parseSkills } from "../../../components/profile/profileData";
 
 export function MyPage({ ctx }: RequestInfo) {
     // Use centralized profile data - override with real data from ctx.user when available
