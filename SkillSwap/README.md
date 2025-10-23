@@ -13,7 +13,7 @@ This "standard starter" is the recommended implementation for RedwoodSDK. You ge
 ```shell
 npx create-rwsdk my-project-name
 cd my-project-name
-npm install
+pnpm install
 ```
 
 ## Running the dev server

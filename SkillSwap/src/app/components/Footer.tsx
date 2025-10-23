@@ -2,41 +2,29 @@
 
 export default function Footer() {
     return (
-        <footer className="bg-white text-gray-900 mt-auto border-t border-gray-200">
+        <footer className="bg-white text-gray-900 mt-auto border-t border-gray-200" role="contentinfo">
             <div className="w-full px-8 lg:px-16 xl:px-24 py-12">
                 {/* Top Section */}
                 <div className="flex flex-col lg:flex-row justify-between gap-12 mb-8">
                     {/* Left Side - Brand and Social Media stacked */}
                     <div className="lg:w-1/3 space-y-8">
                         {/* Brand Section */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                                        />
-                                    </svg>
-                                </div>
-                                <span className="text-xl font-bold text-gray-900">SkillSwap</span>
-                            </div>
+                        <section aria-labelledby="footer-brand">
+                            <a href="/" className="flex items-center gap-3 mb-4">
+                                <img src="/src/app/assets/logo.png" alt="SkillSwap Logo" className="h-12 w-auto" />
+                                <span id="footer-brand" className="text-2xl font-semibold bg-gradient-to-r from-[#439F8F] via-[#48ECA1] to-[#394251] bg-clip-text text-transparent inline-block">
+                                    SkillSwap
+                                </span>
+                            </a>
                             <p className="text-gray-600 text-sm">
                                 Connect, learn, and grow by exchanging skills with others in our community.
                             </p>
-                        </div>
+                        </section>
 
                         {/* Social Media */}
-                        <section>
-                            <h3 className="text-lg font-semibold mb-4 text-gray-900">Follow Us</h3>
-                            <ul className="flex gap-4 list-none">
+                        <nav aria-labelledby="footer-social">
+                            <h3 id="footer-social" className="text-lg font-semibold mb-4 text-gray-900">Follow Us</h3>
+                            <ul className="flex gap-4 list-none" role="list">
                                 <li>
                                     <a
                                         href="#"
@@ -82,15 +70,15 @@ export default function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </section>
+                        </nav>
                     </div>
 
                     {/* Right Side - Quick Links and Support side by side */}
-                    <section className="flex flex-col sm:flex-row gap-12 lg:w-2/3">
+                    <div className="flex flex-col sm:flex-row gap-12 lg:w-2/3">
                         {/* Quick Links */}
-                        <article className="flex-1">
-                            <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Links</h3>
-                            <ul className="space-y-2 list-none">
+                        <nav aria-labelledby="footer-quick-links" className="flex-1">
+                            <h3 id="footer-quick-links" className="text-lg font-semibold mb-4 text-gray-900">Quick Links</h3>
+                            <ul className="space-y-2 list-none" role="list">
                                 <li>
                                     <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
                                         About Us
@@ -112,12 +100,12 @@ export default function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </article>
+                        </nav>
 
                         {/* Support */}
-                        <section className="flex-1">
-                            <h3 className="text-lg font-semibold mb-4 text-gray-900">Support</h3>
-                            <ul className="space-y-2 list-none">
+                        <nav aria-labelledby="footer-support" className="flex-1">
+                            <h3 id="footer-support" className="text-lg font-semibold mb-4 text-gray-900">Support</h3>
+                            <ul className="space-y-2 list-none" role="list">
                                 <li>
                                     <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
                                         Help Center
@@ -139,29 +127,37 @@ export default function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </section>
-                    </section>
+                        </nav>
+                    </div>
                 </div>
 
                 {/* Bottom Section */}
-                <div className="border-t border-gray-300 pt-8">
+                <section className="border-t border-gray-300 pt-8" aria-label="Legal and copyright information">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-gray-600 text-sm">
-                            &copy; {new Date().getFullYear()} SkillSwap. All rights reserved.
+                            <small>&copy; {new Date().getFullYear()} SkillSwap. All rights reserved.</small>
                         </p>
-                        <div className="flex gap-6">
-                            <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
-                                Privacy
-                            </a>
-                            <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
-                                Terms
-                            </a>
-                            <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
-                                Cookies
-                            </a>
-                        </div>
+                        <nav aria-label="Legal links">
+                            <ul className="flex gap-6 list-none" role="list">
+                                <li>
+                                    <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
+                                        Privacy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
+                                        Terms
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
+                                        Cookies
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
-                </div>
+                </section>
             </div>
         </footer>
     );
