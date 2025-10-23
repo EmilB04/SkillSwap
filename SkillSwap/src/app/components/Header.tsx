@@ -15,7 +15,7 @@ export default function Header({ ctx }: HeaderProps) {
 
   return (
     <header className="bg-white shadow relative">
-      <div className="flex items-center gap-3 px-4 sm:px-6 py-3">
+  <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 sm:gap-3 z-20 flex-shrink-0">
           <img src="/src/app/assets/logo.png" alt="Logo" className="h-10 sm:h-12 w-auto" />
@@ -25,7 +25,7 @@ export default function Header({ ctx }: HeaderProps) {
         </a>
 
         {/* Desktop Search Bar - Always visible on medium+ screens */}
-        <div className="hidden md:flex flex-1 min-w-0 max-w-2xl">
+        <div className="hidden md:flex flex-1 min-w-0 max-w-2xl justify-center">
           <SearchBar />
         </div>
 
