@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export default function Header({ ctx }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-white shadow mb-4">
+    <header className="flex items-center justify-between px-6 py-3 bg-white shadow">
       <a href="/" className="flex items-center gap-3">
         <img src="/src/app/assets/logo.png" alt="Logo" className="h-12 w-auto" />
         <h1 className="text-2xl font-semibold bg-gradient-to-r from-[#439F8F] via-[#48ECA1] to-[#394251] bg-clip-text text-transparent inline-block">
