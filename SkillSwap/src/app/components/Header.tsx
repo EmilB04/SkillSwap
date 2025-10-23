@@ -36,10 +36,10 @@ export default function Header({ ctx }: HeaderProps) {
         <nav className="hidden md:flex items-center gap-6 xl:gap-10 text-gray-700 flex-shrink-0">
           <a href="/explore" className="hover:text-green-600 transition-colors"> Explore </a>
           <a href="/contact" className="hover:text-green-600 transition-colors"> Contact us </a>
-          <a href="#" className="flex items-center hover:opacity-70 transition-opacity">
+          <a href="/profile/notifications" className="flex items-center hover:opacity-70 transition-opacity">
             <img src="./src/app/assets/icons/notification-icon.png" alt="Notifications" className="h-6 w-6" />
           </a>
-          <a href="#" className="flex items-center hover:opacity-70 transition-opacity">
+          <a href="/profile/messages" className="flex items-center hover:opacity-70 transition-opacity">
             <img src="./src/app/assets/icons/email-icon.png" alt="Messages" className="h-6 w-6" />
           </a>
           
