@@ -94,6 +94,7 @@ export function MyPage({ ctx }: RequestInfo) {
                             style={{
                                 backgroundColor: colors.primary.main,
                                 color: 'white',
+                                textWrap: 'nowrap',
                                 borderColor: colors.primary.main,
                             }}
                             onMouseEnter={(e) => {
