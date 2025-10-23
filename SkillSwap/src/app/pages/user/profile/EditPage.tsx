@@ -4,17 +4,14 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
+import { mockProfileData, parseSkills } from "./profileData";
 
 export default function EditPage({ ctx }: RequestInfo) {
+    // Initialize with centralized profile data - override with actual user data from database when available
     const [formData, setFormData] = useState({
-        name: ctx?.user?.name || "",
-        email: ctx?.user?.email || "",
-        displayName: "",
-        phoneNumber: "",
-        bio: "",
-        location: "",
-        website: "",
-        skills: "",
+        ...mockProfileData,
+        name: ctx?.user?.name || mockProfileData.name,
+        email: ctx?.user?.email || mockProfileData.email,
     });
 
     const [profileImage, setProfileImage] = useState<string>("/src/app/assets/icons/boy-icon.png");
@@ -337,7 +334,7 @@ export default function EditPage({ ctx }: RequestInfo) {
 
                             <div>
                                 <label htmlFor="skills" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Skills & Interests
+                                    Skills I Offer
                                 </label>
                                 <input
                                     type="text"
@@ -359,10 +356,41 @@ export default function EditPage({ ctx }: RequestInfo) {
                                         e.target.style.outline = '';
                                         e.target.style.outlineOffset = '';
                                     }}
-                                    placeholder="Photography, Web Development, Cooking, Guitar"
+                                    placeholder="React, TypeScript, UI/UX Design, Node.js, Tailwind CSS"
                                 />
                                 <p className="mt-2 text-xs text-gray-500">
                                     Separate multiple skills with commas
+                                </p>
+                            </div>
+
+                            <div>
+                                <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Skills I'm Learning (Interests)
+                                </label>
+                                <input
+                                    type="text"
+                                    id="interests"
+                                    name="interests"
+                                    value={formData.interests}
+                                    onChange={handleInputChange}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all"
+                                    style={{
+                                        '--tw-ring-color': `${colors.primary.main}33`,
+                                    } as React.CSSProperties & { '--tw-ring-color': string }}
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = colors.primary.main;
+                                        e.target.style.outline = `2px solid ${colors.primary.main}`;
+                                        e.target.style.outlineOffset = '2px';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = '';
+                                        e.target.style.outline = '';
+                                        e.target.style.outlineOffset = '';
+                                    }}
+                                    placeholder="Python, Maskinlæring, GraphQL, Docker"
+                                />
+                                <p className="mt-2 text-xs text-gray-500">
+                                    Separate multiple interests with commas
                                 </p>
                             </div>
                         </fieldset>
