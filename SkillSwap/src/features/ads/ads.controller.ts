@@ -33,7 +33,7 @@ export function createAdsController(service: AdsService) {
                     return new Response(
                         JSON.stringify({
                             error: "Failed to fetch ads",
-                            succsess: false,
+                            success: false,
                         }),
                         {
                             status: 500,
@@ -92,7 +92,7 @@ export function createAdsController(service: AdsService) {
                 const serviceResults = await service.update(id, data as any);
 
                 return new Response(JSON.stringify(serviceResults), {
-                    status: 200, 
+                    status: serviceResults.success ? 200 : (serviceResults.error.code || 500),
                     headers: { "Content-Type": "application/json" },
                 });
             },
