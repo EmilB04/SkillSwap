@@ -6,11 +6,13 @@ import { setCommonHeaders } from "@/app/headers";
 import { userRoutes } from "@/app/pages/user/routes";
 import { sessions, setupSessionStore } from "./session/store";
 import { Session } from "./session/durableObject";
-import { type User, db } from "@/db";
+
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 export { SessionDurableObject } from "./session/durableObject";
+
+import { adsRoutes } from "@/features/ads/ads.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -83,6 +85,8 @@ export default defineApp([
     route("/", Home),
     // User routes
     prefix("/user", userRoutes),
+    // Ads routes
+    prefix("/api/v1/ads", adsRoutes),
 
     // Protected route example
     route("/protected", [

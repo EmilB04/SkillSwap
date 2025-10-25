@@ -96,6 +96,18 @@ export function createAdsController(service: AdsService) {
                     headers: { "Content-Type": "application/json" },
                 });
             },
+
+            // DELETE /api/v1/ads/:id
+            async deleteAd(context: RequestInfo) {
+                const { id } = context.params;
+                const result = await service.delete(id);
+                
+                return new Response(JSON.stringify(result), {
+                    status: result.success ? 200 : result.error.code || 500,
+                    headers: { "Content-Type": "application/json" },
+                });
+            },
+
         };
     }
 

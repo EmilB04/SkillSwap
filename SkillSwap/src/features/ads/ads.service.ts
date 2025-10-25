@@ -8,6 +8,7 @@ export interface AdsService {
     getById(id: string): Promise<Result<Ad>>;
     create(data: InsertAd): Promise<Result<Ad>>;
     update(id: string, data: Partial<InsertAd>): Promise<Result<Ad>>;
+    delete(id: string): Promise<Result<{ deleted: boolean }>>;
 }
 
 // Factory function to create an AdsService instance
@@ -37,6 +38,11 @@ export function createAdsService(repository: AdsRepository): AdsService {
         // Update an existing ad
         async update(id: string, data: Partial<InsertAd>) {
             return repository.update(id, data);
+        }, 
+
+        // Delete an ad by its ID
+        async delete(id: string) {
+            return repository.delete(id);
         }
     };
 }
