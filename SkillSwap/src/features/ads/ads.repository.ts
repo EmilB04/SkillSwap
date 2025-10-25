@@ -14,6 +14,7 @@ export interface AdsRepository {
     findById(id: string): Promise<Result<Ad>>;
     create(ad: InsertAd): Promise<Result<Ad>>;
     update(id: string, patch: Partial<InsertAd>): Promise<Result<Ad>>;
+    delete(id: string): Promise<Result<{ deleted: boolean }>>;
 }
 
 // Factory function to create an AdsRepository instance
@@ -124,6 +125,18 @@ export function createAdsRepository(): AdsRepository {
                         message: (error as Error)?.message ?? "Failed to update ad in database",
                     },
                 }
+            }
+        },
+
+        // Delete an ad by its ID
+        async delete(id) {
+            try {
+                const result = await db.delete(ads).where(eq(ads.id, id));
+                const deleted = (result as any)?.rowsAffected ? (result as any).rowsAffected > 0 : true;
+                if (!deleted) return { success: false, error: { code: 404, message: "Ad not found" } };
+                return { success: true, data: { deleted: true } };
+            } catch (error) {
+                return { success: false, error: { code: 500, message: (error as Error)?.message ?? "Failed to delete ad from database" }};
             }
         }
     };
