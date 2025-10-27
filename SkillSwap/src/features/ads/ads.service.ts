@@ -3,6 +3,7 @@ import { adsRepository, type AdsRepository } from "./ads.repository";
 import type { Ad, InsertAd } from "../../db/schema/ads";
 import type { AdsQueryParams } from "./ads.repository";
 
+// Service interface for managing ads
 export interface AdsService {
     list(params? : AdsQueryParams): Promise<Result<Ad[]>>;
     getById(id: string): Promise<Result<Ad>>;

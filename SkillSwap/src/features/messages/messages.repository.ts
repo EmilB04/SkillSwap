@@ -116,6 +116,7 @@ export function createMessageRepository(db: DB): MessagesRepository {
             }
         },
 
+        // Update an existing message by its ID
         async update(id, data) {
             try {
                 const [updated] = await db
