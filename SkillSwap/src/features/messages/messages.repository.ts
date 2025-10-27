@@ -20,6 +20,7 @@ export interface MessagesRepository {
 
 export function createMessageRepository(db: DB): MessagesRepository {
     return {
+        // Find multiple messages
         async findMany(params = {}) {
             try {
                 const transformParams = {
@@ -67,6 +68,80 @@ export function createMessageRepository(db: DB): MessagesRepository {
             }
         },
 
-    }
-    
+        // Find a single message by its ID
+        async findById(id: string) {
+            try {
+                const message = await db.query.directMessages.findFirst({
+                    where: eq(directMessages.id, id),
+                    with: { sender: true, receiver: true },
+                });
+
+                if (!message) {
+                    return { success: false, error: { code: 404, message: "Message not found" } };
+                }
+
+                return { success: true, data: message };
+            } catch (error) {
+                return {
+                    success: false, 
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to fetch message from database",
+                    },
+                };
+            }
+        },
+
+        // Create a new message in the database
+        async create(data: InsertDirectMessage) {
+            try {
+                const [row] = await db
+                    .insert(directMessages)
+                    .values({
+                        senderId: data.senderId,
+                        receiverId: data.receiverId,
+                        message: data.message,
+                    })
+                    .returning();
+
+                return { success: true, data: row };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to create message in database",
+                    },
+                };
+            }
+        },
+
+        async update(id, data) {
+            try {
+                const [updated] = await db
+                    .update(directMessages)
+                    .set({
+                        message: data.message,
+                    } as any)
+                    .where(eq(directMessages.id, id))
+                    .returning();
+
+                if (!updated) {
+                    return { success: false, error: { code: 404, message: "Message not found" } };
+                }
+
+                return { success: true, data: updated };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to update message in database",
+                    },
+                };
+            }
+        },
+    } 
 }
+
+export const messagesRepository = createMessageRepository(db);
