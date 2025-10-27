@@ -9,7 +9,7 @@ export function Home({ ctx }: RequestInfo) {
     <PageLayout ctx={ctx}>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <main className="max-w-3/4 justify-center mx-auto px-6 py-3">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-6 mt-6">
           {ctx.user?.name ? (
             <div className="text-center">
               <p className="text-lg text-gray-700 mb-6">Welcome back, {ctx.user.name}!</p>
