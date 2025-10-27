@@ -2,6 +2,7 @@ import { db } from "../../db";
 import { ads, type Ad, type InsertAd } from "../../db/schema/ads";
 import { eq, desc } from "drizzle-orm";
 import type { Result } from "../../types/results";
+import { CrudRepository } from "@/types/crud";
 
 export type AdsQueryParams = {
     userId?: number | string;
@@ -9,12 +10,9 @@ export type AdsQueryParams = {
     offset?: number | string;
 };
 
-export interface AdsRepository {
-    findMany(params?: AdsQueryParams): Promise<Result<Ad[]>>;
-    findById(id: string): Promise<Result<Ad>>;
-    create(ad: InsertAd): Promise<Result<Ad>>;
-    update(id: string, patch: Partial<InsertAd>): Promise<Result<Ad>>;
-    delete(id: string): Promise<Result<{ deleted: boolean }>>;
+export interface AdsRepository
+  extends CrudRepository<Ad, InsertAd, Partial<InsertAd>, AdsQueryParams> {
+  delete(id: string): Promise<Result<{ deleted: boolean }>>; 
 }
 
 // Factory function to create an AdsRepository instance

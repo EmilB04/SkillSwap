@@ -2,6 +2,7 @@ import { db } from "../../db";
 import { directMessages, type DirectMessage, type InsertDirectMessage } from "@/db/schema";
 import { eq, and, desc, or } from "drizzle-orm";
 import type { Result } from "../../types/results";
+import { CrudRepository } from "@/types/crud";
 export type DB = typeof db;
 
 export type MessagesQueryParams = {
@@ -11,12 +12,9 @@ export type MessagesQueryParams = {
     offset?: number | string;
 }
 
-export interface MessagesRepository {
-    findMany(params?: MessagesQueryParams): Promise<Result<DirectMessage[]>>;
-    findById(id: string): Promise<Result<DirectMessage>>;
-    create(data: InsertDirectMessage): Promise<Result<DirectMessage>>;
-    update(id: string, data: Partial<InsertDirectMessage>): Promise<Result<DirectMessage>>;
-}
+// Repository interface for managing direct messages
+export interface MessagesRepository
+  extends CrudRepository<DirectMessage, InsertDirectMessage, Partial<InsertDirectMessage>, MessagesQueryParams> {}
 
 export function createMessageRepository(db: DB): MessagesRepository {
     return {
