@@ -13,6 +13,7 @@ import { env } from "cloudflare:workers";
 export { SessionDurableObject } from "./session/durableObject";
 
 import { adsRoutes } from "@/features/ads/ads.routes";
+import { messagesRoutes } from "@/features/messages/messages.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -87,6 +88,8 @@ export default defineApp([
     prefix("/user", userRoutes),
     // Ads routes
     prefix("/api/v1/ads", adsRoutes),
+    // Messages routes
+    prefix("/api/v1/messages", messagesRoutes),
 
     // Protected route example
     route("/protected", [
