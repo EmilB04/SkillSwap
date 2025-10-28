@@ -15,3 +15,8 @@ export interface CrudService<T, Insert, Update, Query = unknown> {
     create(data: Insert): Promise<Result<T>>;
     update(id: string, data: Update): Promise<Result<T>>;
 }
+
+// Extension interface for repositories/services that support deletion
+export interface WithDelete {
+    delete(id: string): Promise<Result<{ deleted: boolean }>>;
+}

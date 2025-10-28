@@ -2,14 +2,11 @@ import type { Result } from "../../types/results";
 import { messagesRepository, type MessagesRepository } from "./messages.repository";
 import type { DirectMessage, InsertDirectMessage } from "@/db/schema";
 import type { MessagesQueryParams } from "./messages.repository";
+import { CrudService } from "@/types/crud";
 
 // Service interface for managing direct messages
-export interface MessagesService {
-    list(params? : MessagesQueryParams): Promise<Result<DirectMessage[]>>;
-    getById(id: string): Promise<Result<DirectMessage>>;
-    create(data: InsertDirectMessage): Promise<Result<DirectMessage>>;
-    update(id: string, data: Partial<InsertDirectMessage>): Promise<Result<DirectMessage>>;
-}
+export interface MessagesService 
+    extends CrudService<DirectMessage, InsertDirectMessage, Partial<InsertDirectMessage>, MessagesQueryParams> {}
 
 export function createMessagesService(repository: MessagesRepository): MessagesService {
     return {

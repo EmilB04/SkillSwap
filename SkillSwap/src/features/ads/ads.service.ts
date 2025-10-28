@@ -2,15 +2,11 @@ import type { Result } from "../../types/results";
 import { adsRepository, type AdsRepository } from "./ads.repository";
 import type { Ad, InsertAd } from "../../db/schema/ads";
 import type { AdsQueryParams } from "./ads.repository";
+import type { CrudService, WithDelete } from "../../types/crud";
 
 // Service interface for managing ads
-export interface AdsService {
-    list(params? : AdsQueryParams): Promise<Result<Ad[]>>;
-    getById(id: string): Promise<Result<Ad>>;
-    create(data: InsertAd): Promise<Result<Ad>>;
-    update(id: string, data: Partial<InsertAd>): Promise<Result<Ad>>;
-    delete(id: string): Promise<Result<{ deleted: boolean }>>;
-}
+export interface AdsService 
+    extends CrudService<Ad, InsertAd, Partial<InsertAd>, AdsQueryParams>, WithDelete {}
 
 // Factory function to create an AdsService instance
 export function createAdsService(repository: AdsRepository): AdsService {
