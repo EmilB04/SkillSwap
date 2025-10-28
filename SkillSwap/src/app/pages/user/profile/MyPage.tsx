@@ -3,33 +3,29 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { colors } from "../../../theme";
-import { mockProfileData, parseSkills } from "../../../components/profile/profileData";
+import { UserProfile, mockUserProfile, formatJoinDate } from "../../../components/profile/profileData";
 
-export function MyPage({ ctx }: RequestInfo) {
-    // Use centralized profile data - override with real data from ctx.user when available
-    const userData = {
-        ...mockProfileData,
-        name: ctx.user?.name || mockProfileData.name,
-        email: ctx.user?.email || mockProfileData.email,
-    };
+interface MyPageProps {
+    ctx: RequestInfo;
+    userProfile?: UserProfile; // User profile from backend
+}
 
-    // Parse skills and interests from comma-separated strings
-    const skillsOffered = parseSkills(userData.skills);
-    const skillsLearning = parseSkills(userData.interests);
+export function MyPage({ ctx, userProfile }: MyPageProps) {
+    // Use provided user profile or fall back to mock data
+    // In production, userProfile should be fetched from backend based on ctx.user.id
+    const userData = userProfile || mockUserProfile;
 
     const stats = {
-        skillsOffered: skillsOffered.length,
-        skillsLearning: skillsLearning.length,
-        completedSwaps: 24,
-        hoursExchanged: 156,
-        rating: 4.8,
-        reviews: 18,
+        skillsOffered: userData.skillsOffered.length,
+        skillsLearning: userData.skillsLearning.length,
+        completedSwaps: userData.stats.completedSwaps,
+        hoursExchanged: userData.stats.hoursExchanged,
+        rating: userData.stats.rating,
+        reviews: userData.stats.reviews,
     };
 
-    const skills = {
-        offered: skillsOffered,
-        learning: skillsLearning,
-    };
+    // Format join date for display
+    const formattedJoinDate = formatJoinDate(userData.joinDate);
 
     return (
         <ProfileLayout ctx={ctx}>
@@ -39,36 +35,51 @@ export function MyPage({ ctx }: RequestInfo) {
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                         {/* Profile Picture */}
                         <figure className="flex-shrink-0">
-                            <div 
-                                className="w-32 h-32 rounded-full border-4 flex items-center justify-center text-4xl font-bold text-white"
-                                style={{ 
-                                    backgroundColor: colors.primary.main,
-                                    borderColor: colors.primary.light,
-                                }}
-                            >
-                                {userData.name.charAt(0).toUpperCase()}
-                            </div>
+                            {userData.profileImage ? (
+                                <img
+                                    src={userData.profileImage}
+                                    alt={`${userData.name}'s profile picture`}
+                                    className="w-32 h-32 rounded-full border-4 object-cover"
+                                    style={{ borderColor: colors.primary.light }}
+                                />
+                            ) : (
+                                <div 
+                                    className="w-32 h-32 rounded-full border-4 flex items-center justify-center text-4xl font-bold text-white"
+                                    style={{ 
+                                        backgroundColor: colors.primary.main,
+                                        borderColor: colors.primary.light,
+                                    }}
+                                >
+                                    {userData.name.charAt(0).toUpperCase()}
+                                </div>
+                            )}
                         </figure>
 
                         {/* Profile Info */}
                         <div className="flex-grow text-center md:text-left">
                             <h1 className="text-3xl font-bold text-gray-900 mb-1">{userData.name}</h1>
-                            <p className="text-lg text-gray-600 mb-3">{userData.displayName}</p>
-                            <p className="text-gray-700 mb-4 max-w-2xl">{userData.bio}</p>
+                            {userData.displayName && (
+                                <p className="text-lg text-gray-600 mb-3">{userData.displayName}</p>
+                            )}
+                            {userData.bio && (
+                                <p className="text-gray-700 mb-4 max-w-2xl">{userData.bio}</p>
+                            )}
                             
                             <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm text-gray-600">
-                                <span className="flex items-center gap-1">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    {userData.location}
-                                </span>
+                                {userData.location && (
+                                    <span className="flex items-center gap-1">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        {userData.location}
+                                    </span>
+                                )}
                                 <span className="flex items-center gap-1">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    Joined {userData.joinDate}
+                                    Joined {formattedJoinDate}
                                 </span>
                                 {userData.website && (
                                     <a 
@@ -168,7 +179,7 @@ export function MyPage({ ctx }: RequestInfo) {
                             Skills I Offer
                         </h2>
                         <div className="flex flex-wrap gap-2">
-                            {skills.offered.map((skill, index) => (
+                            {userData.skillsOffered.map((skill, index) => (
                                 <span 
                                     key={index}
                                     className="px-4 py-2 rounded-full text-sm font-medium"
@@ -182,8 +193,9 @@ export function MyPage({ ctx }: RequestInfo) {
                             ))}
                         </div>
                         <button
-                            className="mt-4 text-sm font-medium hover:underline"
+                            className="mt-4 text-sm font-medium hover:underline cursor-pointer"
                             style={{ color: colors.primary.main }}
+                            onClick={() => (window.location.href = "/profile/edit")}
                         >
                             + Add more skills
                         </button>
@@ -198,7 +210,7 @@ export function MyPage({ ctx }: RequestInfo) {
                             Skills I'm Learning
                         </h2>
                         <div className="flex flex-wrap gap-2">
-                            {skills.learning.map((skill, index) => (
+                            {userData.skillsLearning.map((skill, index) => (
                                 <span 
                                     key={index}
                                     className="px-4 py-2 rounded-full text-sm font-medium border-2"
@@ -212,8 +224,9 @@ export function MyPage({ ctx }: RequestInfo) {
                             ))}
                         </div>
                         <button
-                            className="mt-4 text-sm font-medium hover:underline"
+                            className="mt-4 text-sm font-medium hover:underline cursor-pointer"
                             style={{ color: colors.primary.main }}
+                            onClick={() => (window.location.href = "/profile/edit")}
                         >
                             + Add more interests
                         </button>
@@ -238,15 +251,17 @@ export function MyPage({ ctx }: RequestInfo) {
                                 <div className="text-sm font-medium text-gray-900">{userData.email}</div>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            <div>
-                                <div className="text-xs text-gray-500">Phone</div>
-                                <div className="text-sm font-medium text-gray-900">{userData.phoneNumber}</div>
+                        {userData.phoneNumber && (
+                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                <div>
+                                    <div className="text-xs text-gray-500">Phone</div>
+                                    <div className="text-sm font-medium text-gray-900">{userData.phoneNumber}</div>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </section>
             </main>

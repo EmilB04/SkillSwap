@@ -4,19 +4,37 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
-import { mockProfileData, parseSkills } from "../../../components/profile/profileData";
+import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, updateUserProfile } from "../../../components/profile/profileData";
 
-export default function EditPage({ ctx }: RequestInfo) {
-    // Initialize with centralized profile data - override with actual user data from database when available
+interface EditPageProps {
+    ctx: RequestInfo;
+    userProfile?: UserProfile; // User profile from backend
+}
+
+export default function EditPage({ ctx, userProfile }: EditPageProps) {
+    // Initialize with provided user profile or mock data
+    const initialProfile = userProfile || mockUserProfile;
+
+    // Initialize form data with user profile
     const [formData, setFormData] = useState({
-        ...mockProfileData,
-        name: ctx?.user?.name || mockProfileData.name,
-        email: ctx?.user?.email || mockProfileData.email,
+        id: initialProfile.id,
+        name: initialProfile.name,
+        email: initialProfile.email,
+        displayName: initialProfile.displayName || "",
+        phoneNumber: initialProfile.phoneNumber || "",
+        bio: initialProfile.bio || "",
+        location: initialProfile.location || "",
+        website: initialProfile.website || "",
+        skillsOffered: skillsToString(initialProfile.skillsOffered),
+        skillsLearning: skillsToString(initialProfile.skillsLearning),
     });
 
-    const [profileImage, setProfileImage] = useState<string>("/src/app/assets/icons/boy-icon.png");
+    const [profileImage, setProfileImage] = useState<string | null>(
+        initialProfile.profileImage
+    );
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -29,9 +47,26 @@ export default function EditPage({ ctx }: RequestInfo) {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                setErrorMessage("Please upload a valid image file (JPG, PNG, GIF, or WebP)");
+                return;
+            }
+
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                setErrorMessage("Image size must be less than 5MB");
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onloadend = () => {
                 setProfileImage(reader.result as string);
+                setErrorMessage("");
+            };
+            reader.onerror = () => {
+                setErrorMessage("Failed to read image file");
             };
             reader.readAsDataURL(file);
         }
@@ -41,15 +76,46 @@ export default function EditPage({ ctx }: RequestInfo) {
         e.preventDefault();
         setIsSaving(true);
         setSuccessMessage("");
+        setErrorMessage("");
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsSaving(false);
+        try {
+            // Parse skills and interests from comma-separated strings
+            const skillsOffered = formData.skillsOffered
+                .split(',')
+                .map(s => s.trim())
+                .filter(Boolean);
+            
+            const skillsLearning = formData.skillsLearning
+                .split(',')
+                .map(s => s.trim())
+                .filter(Boolean);
+
+            // Prepare update data
+            const updateData: UserProfileUpdate = {
+                id: formData.id,
+                name: formData.name,
+                email: formData.email,
+                displayName: formData.displayName || null,
+                phoneNumber: formData.phoneNumber || null,
+                bio: formData.bio || null,
+                location: formData.location || null,
+                website: formData.website || null,
+                profileImage: profileImage,
+                skillsOffered,
+                skillsLearning,
+            };
+
+            // Call backend API to update profile
+            await updateUserProfile(updateData);
+            
             setSuccessMessage("Profile updated successfully!");
             setTimeout(() => setSuccessMessage(""), 3000);
-        }, 1000);
-
-        // TODO: Implement actual API call to update profile
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            setErrorMessage("Failed to update profile. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
@@ -76,6 +142,20 @@ export default function EditPage({ ctx }: RequestInfo) {
                     </aside>
                 )}
 
+                {/* Error Message */}
+                {errorMessage && (
+                    <aside 
+                        className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3"
+                        role="alert"
+                        aria-live="assertive"
+                    >
+                        <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-red-800 font-medium">{errorMessage}</span>
+                    </aside>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-8" aria-labelledby="profile-form-heading">
                     <span id="profile-form-heading" className="sr-only">Edit your profile information</span>
                     
@@ -84,11 +164,20 @@ export default function EditPage({ ctx }: RequestInfo) {
                         <h2 id="profile-picture-heading" className="text-xl font-semibold text-gray-900 mb-4">Profile Picture</h2>
                         <div className="flex items-center gap-6">
                             <figure className="relative">
-                                <img 
-                                    src={profileImage} 
-                                    alt="Current profile picture" 
-                                    className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
-                                />
+                                {profileImage ? (
+                                    <img 
+                                        src={profileImage} 
+                                        alt="Profile picture preview" 
+                                        className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
+                                    />
+                                ) : (
+                                    <div 
+                                        className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center text-3xl font-bold text-white"
+                                        style={{ backgroundColor: colors.primary.main }}
+                                    >
+                                        {formData.name.charAt(0).toUpperCase()}
+                                    </div>
+                                )}
                                 <label 
                                     htmlFor="profile-image-upload" 
                                     className="absolute bottom-0 right-0 text-white rounded-full p-2 cursor-pointer shadow-lg transition-colors"
@@ -114,7 +203,16 @@ export default function EditPage({ ctx }: RequestInfo) {
                             </figure>
                             <div id="image-upload-help">
                                 <p className="text-sm font-medium text-gray-900 mb-1">Upload a new profile picture</p>
-                                <p className="text-xs text-gray-500">JPG, PNG or GIF. Max size 5MB</p>
+                                <p className="text-xs text-gray-500">JPG, PNG, GIF or WebP. Max size 5MB</p>
+                                {profileImage && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setProfileImage(null)}
+                                        className="mt-2 text-xs text-red-600 hover:text-red-700 hover:underline cursor-pointer"
+                                    >
+                                        Remove picture
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </section>
@@ -339,8 +437,8 @@ export default function EditPage({ ctx }: RequestInfo) {
                                 <input
                                     type="text"
                                     id="skills"
-                                    name="skills"
-                                    value={formData.skills}
+                                    name="skillsOffered"
+                                    value={formData.skillsOffered}
                                     onChange={handleInputChange}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all"
                                     style={{
@@ -370,8 +468,8 @@ export default function EditPage({ ctx }: RequestInfo) {
                                 <input
                                     type="text"
                                     id="interests"
-                                    name="interests"
-                                    value={formData.interests}
+                                    name="skillsLearning"
+                                    value={formData.skillsLearning}
                                     onChange={handleInputChange}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all"
                                     style={{
