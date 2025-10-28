@@ -193,8 +193,9 @@ export function MyPage({ ctx, userProfile }: MyPageProps) {
                             ))}
                         </div>
                         <button
-                            className="mt-4 text-sm font-medium hover:underline"
+                            className="mt-4 text-sm font-medium hover:underline cursor-pointer"
                             style={{ color: colors.primary.main }}
+                            onClick={() => (window.location.href = "/profile/edit")}
                         >
                             + Add more skills
                         </button>
@@ -223,8 +224,9 @@ export function MyPage({ ctx, userProfile }: MyPageProps) {
                             ))}
                         </div>
                         <button
-                            className="mt-4 text-sm font-medium hover:underline"
+                            className="mt-4 text-sm font-medium hover:underline cursor-pointer"
                             style={{ color: colors.primary.main }}
+                            onClick={() => (window.location.href = "/profile/edit")}
                         >
                             + Add more interests
                         </button>

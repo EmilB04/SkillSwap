@@ -29,8 +29,8 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
         skillsLearning: skillsToString(initialProfile.skillsLearning),
     });
 
-    const [profileImage, setProfileImage] = useState<string>(
-        initialProfile.profileImage || "/src/app/assets/icons/boy-icon.png"
+    const [profileImage, setProfileImage] = useState<string | null>(
+        initialProfile.profileImage
     );
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -47,6 +47,13 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                setErrorMessage("Please upload a valid image file (JPG, PNG, GIF, or WebP)");
+                return;
+            }
+
             // Validate file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 setErrorMessage("Image size must be less than 5MB");
@@ -57,6 +64,9 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
             reader.onloadend = () => {
                 setProfileImage(reader.result as string);
                 setErrorMessage("");
+            };
+            reader.onerror = () => {
+                setErrorMessage("Failed to read image file");
             };
             reader.readAsDataURL(file);
         }
@@ -90,7 +100,7 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
                 bio: formData.bio || null,
                 location: formData.location || null,
                 website: formData.website || null,
-                profileImage: profileImage !== "/src/app/assets/icons/boy-icon.png" ? profileImage : null,
+                profileImage: profileImage,
                 skillsOffered,
                 skillsLearning,
             };
@@ -154,11 +164,20 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
                         <h2 id="profile-picture-heading" className="text-xl font-semibold text-gray-900 mb-4">Profile Picture</h2>
                         <div className="flex items-center gap-6">
                             <figure className="relative">
-                                <img 
-                                    src={profileImage} 
-                                    alt="Current profile picture" 
-                                    className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
-                                />
+                                {profileImage ? (
+                                    <img 
+                                        src={profileImage} 
+                                        alt="Profile picture preview" 
+                                        className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
+                                    />
+                                ) : (
+                                    <div 
+                                        className="w-24 h-24 rounded-full border-4 border-gray-100 flex items-center justify-center text-3xl font-bold text-white"
+                                        style={{ backgroundColor: colors.primary.main }}
+                                    >
+                                        {formData.name.charAt(0).toUpperCase()}
+                                    </div>
+                                )}
                                 <label 
                                     htmlFor="profile-image-upload" 
                                     className="absolute bottom-0 right-0 text-white rounded-full p-2 cursor-pointer shadow-lg transition-colors"
@@ -184,7 +203,16 @@ export default function EditPage({ ctx, userProfile }: EditPageProps) {
                             </figure>
                             <div id="image-upload-help">
                                 <p className="text-sm font-medium text-gray-900 mb-1">Upload a new profile picture</p>
-                                <p className="text-xs text-gray-500">JPG, PNG or GIF. Max size 5MB</p>
+                                <p className="text-xs text-gray-500">JPG, PNG, GIF or WebP. Max size 5MB</p>
+                                {profileImage && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setProfileImage(null)}
+                                        className="mt-2 text-xs text-red-600 hover:text-red-700 hover:underline cursor-pointer"
+                                    >
+                                        Remove picture
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </section>
