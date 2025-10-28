@@ -4,19 +4,37 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
-import { mockProfileData, parseSkills } from "../../../components/profile/profileData";
+import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, updateUserProfile } from "../../../components/profile/profileData";
 
-export default function EditPage({ ctx }: RequestInfo) {
-    // Initialize with centralized profile data - override with actual user data from database when available
+interface EditPageProps {
+    ctx: RequestInfo;
+    userProfile?: UserProfile; // User profile from backend
+}
+
+export default function EditPage({ ctx, userProfile }: EditPageProps) {
+    // Initialize with provided user profile or mock data
+    const initialProfile = userProfile || mockUserProfile;
+
+    // Initialize form data with user profile
     const [formData, setFormData] = useState({
-        ...mockProfileData,
-        name: ctx?.user?.name || mockProfileData.name,
-        email: ctx?.user?.email || mockProfileData.email,
+        id: initialProfile.id,
+        name: initialProfile.name,
+        email: initialProfile.email,
+        displayName: initialProfile.displayName || "",
+        phoneNumber: initialProfile.phoneNumber || "",
+        bio: initialProfile.bio || "",
+        location: initialProfile.location || "",
+        website: initialProfile.website || "",
+        skillsOffered: skillsToString(initialProfile.skillsOffered),
+        skillsLearning: skillsToString(initialProfile.skillsLearning),
     });
 
-    const [profileImage, setProfileImage] = useState<string>("/src/app/assets/icons/boy-icon.png");
+    const [profileImage, setProfileImage] = useState<string>(
+        initialProfile.profileImage || "/src/app/assets/icons/boy-icon.png"
+    );
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -29,9 +47,16 @@ export default function EditPage({ ctx }: RequestInfo) {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                setErrorMessage("Image size must be less than 5MB");
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onloadend = () => {
                 setProfileImage(reader.result as string);
+                setErrorMessage("");
             };
             reader.readAsDataURL(file);
         }
@@ -41,15 +66,46 @@ export default function EditPage({ ctx }: RequestInfo) {
         e.preventDefault();
         setIsSaving(true);
         setSuccessMessage("");
+        setErrorMessage("");
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsSaving(false);
+        try {
+            // Parse skills and interests from comma-separated strings
+            const skillsOffered = formData.skillsOffered
+                .split(',')
+                .map(s => s.trim())
+                .filter(Boolean);
+            
+            const skillsLearning = formData.skillsLearning
+                .split(',')
+                .map(s => s.trim())
+                .filter(Boolean);
+
+            // Prepare update data
+            const updateData: UserProfileUpdate = {
+                id: formData.id,
+                name: formData.name,
+                email: formData.email,
+                displayName: formData.displayName || null,
+                phoneNumber: formData.phoneNumber || null,
+                bio: formData.bio || null,
+                location: formData.location || null,
+                website: formData.website || null,
+                profileImage: profileImage !== "/src/app/assets/icons/boy-icon.png" ? profileImage : null,
+                skillsOffered,
+                skillsLearning,
+            };
+
+            // Call backend API to update profile
+            await updateUserProfile(updateData);
+            
             setSuccessMessage("Profile updated successfully!");
             setTimeout(() => setSuccessMessage(""), 3000);
-        }, 1000);
-
-        // TODO: Implement actual API call to update profile
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            setErrorMessage("Failed to update profile. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
@@ -73,6 +129,20 @@ export default function EditPage({ ctx }: RequestInfo) {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span className="text-green-800 font-medium">{successMessage}</span>
+                    </aside>
+                )}
+
+                {/* Error Message */}
+                {errorMessage && (
+                    <aside 
+                        className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3"
+                        role="alert"
+                        aria-live="assertive"
+                    >
+                        <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-red-800 font-medium">{errorMessage}</span>
                     </aside>
                 )}
 
@@ -339,8 +409,8 @@ export default function EditPage({ ctx }: RequestInfo) {
                                 <input
                                     type="text"
                                     id="skills"
-                                    name="skills"
-                                    value={formData.skills}
+                                    name="skillsOffered"
+                                    value={formData.skillsOffered}
                                     onChange={handleInputChange}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all"
                                     style={{
@@ -370,8 +440,8 @@ export default function EditPage({ ctx }: RequestInfo) {
                                 <input
                                     type="text"
                                     id="interests"
-                                    name="interests"
-                                    value={formData.interests}
+                                    name="skillsLearning"
+                                    value={formData.skillsLearning}
                                     onChange={handleInputChange}
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all"
                                     style={{
