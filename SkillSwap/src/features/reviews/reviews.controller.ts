@@ -58,10 +58,10 @@ export function createReviewsController(service: ReviewsService) {
                 reviewText: body.reviewText ?? null, 
             } as any );
 
-            return new Response(JSON.stringify(serviceResults)), {
-                status: serviceResults.success ? 201 : (serviceResults.error.code || 500),
+            return new Response(JSON.stringify(serviceResults), {
+                status: serviceResults.success ? 201 : (serviceResults.error?.code || 500),
                 headers: { "Content-Type": "application/json" },
-            };
+            });
         },
 
         // PATCH /api/v1/reviews/:id

@@ -12,8 +12,9 @@ import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 export { SessionDurableObject } from "./session/durableObject";
 
-import { adsRoutes } from "@/features/ads/ads.routes";
-import { messagesRoutes } from "@/features/messages/messages.routes";
+import { adsRoutes } from "./features/ads/ads.routes";
+import { messagesRoutes } from "./features/messages/messages.routes";
+import { reviewsRoutes } from "./features/reviews/reviews.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -90,6 +91,8 @@ export default defineApp([
     prefix("/api/v1/ads", adsRoutes),
     // Messages routes
     prefix("/api/v1/messages", messagesRoutes),
+    // Reviews routes
+    prefix("/api/v1/reviews", reviewsRoutes),
 
     // Protected route example
     route("/protected", [
