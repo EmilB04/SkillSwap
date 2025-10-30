@@ -15,6 +15,7 @@ export { SessionDurableObject } from "./session/durableObject";
 import { adsRoutes } from "./features/ads/ads.routes";
 import { messagesRoutes } from "./features/messages/messages.routes";
 import { reviewsRoutes } from "./features/reviews/reviews.routes";
+import { notificationsRoutes } from "./features/notifications/notifications.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -93,6 +94,8 @@ export default defineApp([
     prefix("/api/v1/messages", messagesRoutes),
     // Reviews routes
     prefix("/api/v1/reviews", reviewsRoutes),
+    // Notifications routes
+    prefix("/api/v1/notifications", notificationsRoutes),
 
     // Protected route example
     route("/protected", [
