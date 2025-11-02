@@ -63,7 +63,11 @@ export function NotificationsPage({
 
     // TODO: Mark as read in backend
 
-    // TODO: Navigate based on notification type
+    // Navigate to messages for message notifications
+    // TODO: Add navigation for other notification types
+    if (notification.notificationType === "message") {
+      window.location.href = "/profile/messages";
+    }
   };
 
   return (
