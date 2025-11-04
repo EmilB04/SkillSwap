@@ -6,9 +6,17 @@ interface GoogleLoginButtonProps {
     onClick: () => void;
     disabled?: boolean;
     isPending?: boolean;
+    text?: string;
+    pendingText?: string;
 }
 
-export function GoogleLoginButton({ onClick, disabled = false, isPending = false }: GoogleLoginButtonProps) {
+export function GoogleLoginButton({
+    onClick,
+    disabled = false,
+    isPending = false,
+    text = "Sign in with Google",
+    pendingText = "Redirecting..."
+}: GoogleLoginButtonProps) {
     return (
         <button
             type="button"
@@ -42,7 +50,7 @@ export function GoogleLoginButton({ onClick, disabled = false, isPending = false
                     d="M272 107.7c39.9-.6 78.4 14.2 107.7 41.1l80.7-80.7C405.5 24.8 345.2 0 272 0 167 0 75.1 58.3 29.9 146.1l89.7 70.1C141.1 155.3 201.2 107.7 272 107.7z"
                 />
             </svg>
-            {isPending ? "Redirecting..." : "Sign in with Google"}
+            {isPending ? pendingText : text}
         </button>
     );
 }
