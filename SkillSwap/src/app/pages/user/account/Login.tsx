@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useMemo } from "react";
 import { colors } from "@/app/theme";
 import { LoginHeader } from "../../../components/user/account/LoginHeader";
 import { LoginFormHeader } from "../../../components/user/account/LoginFormHeader";
@@ -10,7 +10,7 @@ import { SubmitButton } from "../../../components/user/account/SubmitButton";
 import { GoogleLoginButton } from "../../../components/user/account/GoogleLoginButton";
 import { StatusMessage } from "../../../components/user/account/StatusMessage";
 import { LoginSidebar } from "../../../components/user/account/LoginSidebar";
-import { validateLoginForm, performLogin, initiateGoogleAuth } from "./LoginFunctions";
+import { validateLoginForm, performLogin, initiateGoogleAuth, redirectUser, isLoginFormValid } from "./LoginFunctions";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -29,9 +29,7 @@ export function Login() {
     setResult(loginResult.message);
 
     if (loginResult.success) {
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 1000);
+      redirectUser("/", 1000);
     }
   };
 
@@ -45,6 +43,11 @@ export function Login() {
       initiateGoogleAuth();
     });
   };
+
+  // Validate form fields in real-time
+  const isFormValid = useMemo(() => {
+    return isLoginFormValid(email, password);
+  }, [email, password]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 flex flex-col">
@@ -75,7 +78,7 @@ export function Login() {
                 <legend className="sr-only">Authentication methods</legend>
                 <SubmitButton
                   isPending={isPending}
-                  disabled={isPending || !email.trim() || !password.trim()}
+                  disabled={isPending || !isFormValid}
                 />
 
                 <div className="relative my-4 sm:my-6" aria-label="Alternative authentication methods">

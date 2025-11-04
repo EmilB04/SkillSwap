@@ -106,3 +106,15 @@ export const redirectUser = (url: string, delay: number = 1000): void => {
         window.location.href = url;
     }, delay);
 };
+
+/**
+ * Validates if login form is ready to submit (real-time validation)
+ */
+export const isLoginFormValid = (email: string, password: string): boolean => {
+    return (
+        email.trim().length > 0 &&
+        email.includes('@') &&
+        email.includes('.') &&
+        password.trim().length >= 6
+    );
+};
