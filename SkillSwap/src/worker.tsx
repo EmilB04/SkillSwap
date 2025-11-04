@@ -83,7 +83,7 @@ export default defineApp([
 
     // TODO: Consider render instead of route, for nested routes
     // Profile routes
-    route("/profile", MyPage),
+    route("/profile", MyPage()),
     route("/profile/edit", EditPage),
     route("/profile/messages", MessagesPage),
     route("/profile/notifications", NotificationsPage),

@@ -15,7 +15,7 @@ export default function Header({ ctx }: HeaderProps) {
 
   return (
     <header className="bg-white shadow relative">
-  <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
+      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 sm:gap-3 z-20 flex-shrink-0">
           <img src="/src/app/assets/logo.png" alt="Logo" className="h-10 sm:h-12 w-auto" />
@@ -42,7 +42,7 @@ export default function Header({ ctx }: HeaderProps) {
           <a href="/profile/messages" className="flex items-center hover:opacity-70 transition-opacity">
             <img src="./src/app/assets/icons/email-icon.png" alt="Messages" className="h-6 w-6" />
           </a>
-          
+
           {/* Profile Menu or Sign Up */}
           <ProfileMenuFlyout user={ctx?.user} />
         </nav>
@@ -70,19 +70,16 @@ export default function Header({ ctx }: HeaderProps) {
           >
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                }`}
+                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                  }`}
               ></span>
               <span
-                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : ""
-                }`}
+                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""
+                  }`}
               ></span>
               <span
-                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
+                className={`block h-0.5 w-full bg-gray-700 transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                  }`}
               ></span>
             </div>
           </button>
@@ -111,9 +108,8 @@ export default function Header({ ctx }: HeaderProps) {
 
       {/* Mobile Menu Sidebar */}
       <nav
-        className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         aria-label="Mobile navigation"
       >
         <div className="flex flex-col h-full">
@@ -221,7 +217,7 @@ export default function Header({ ctx }: HeaderProps) {
                       Settings
                     </a>
                   </li>
-                  
+
                   <li>
                     <a href="/help" className="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 hover:text-green-600 transition-colors cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
