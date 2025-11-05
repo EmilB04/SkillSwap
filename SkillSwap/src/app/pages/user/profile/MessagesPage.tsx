@@ -132,6 +132,7 @@ export function MessagesPage({ ctx }: RequestInfo) {
   >(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [messageInput, setMessageInput] = useState("");
+  const [showConversationMenu, setShowConversationMenu] = useState(false);
 
   const activeConversation =
     conversations.find((conv) => conv.id === selectedConversationId) || null;
@@ -182,6 +183,36 @@ export function MessagesPage({ ctx }: RequestInfo) {
     if (!messageInput.trim() || !activeConversation) return;
     sendMessage(activeConversation.id, messageInput);
     setMessageInput("");
+  };
+
+  const handleRemoveChat = () => {
+    if (!activeConversation) return;
+    setConversations((prev) =>
+      prev.filter((conv) => conv.id !== activeConversation.id)
+    );
+    setSelectedConversationId(null);
+    setShowConversationMenu(false);
+  };
+
+  const handleBlockUser = () => {
+    if (!activeConversation) return;
+    // TODO: Implement block user functionality
+    alert(`Blocked ${activeConversation.name}`);
+    setShowConversationMenu(false);
+  };
+
+  const handleReportUser = () => {
+    if (!activeConversation) return;
+    // TODO: Implement report user functionality
+    alert(`Reported ${activeConversation.name}`);
+    setShowConversationMenu(false);
+  };
+
+  const handleViewProfile = () => {
+    if (!activeConversation) return;
+    // TODO: Navigate to user profile
+    window.location.href = `/profile/${activeConversation.id}`;
+    setShowConversationMenu(false);
   };
 
   return (
@@ -297,8 +328,14 @@ export function MessagesPage({ ctx }: RequestInfo) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
+                <div className="flex items-center gap-2 relative">
+                  <button 
+                    onClick={() => setShowConversationMenu(!showConversationMenu)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                    aria-label="Conversation options"
+                    aria-expanded={showConversationMenu}
+                    aria-haspopup="true"
+                  >
                     {/* SVG generert med Claude */}
                     <svg
                       className="w-5 h-5 text-gray-600"
@@ -314,6 +351,69 @@ export function MessagesPage({ ctx }: RequestInfo) {
                       />
                     </svg>
                   </button>
+
+                  {/* Dropdown Menu */}
+                  {showConversationMenu && (
+                    <>
+                      {/* Backdrop to close menu when clicking outside */}
+                      <div 
+                        className="fixed inset-0 z-10" 
+                        onClick={() => setShowConversationMenu(false)}
+                      />
+                      
+                      <div 
+                        className="absolute right-0 top-12 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20"
+                        role="menu"
+                        aria-orientation="vertical"
+                      >
+                        <button
+                          onClick={handleViewProfile}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors cursor-pointer"
+                          role="menuitem"
+                        >
+                          <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          View Profile
+                        </button>
+
+                        <hr className="my-2 border-gray-200" />
+
+                        <button
+                          onClick={handleRemoveChat}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors cursor-pointer"
+                          role="menuitem"
+                        >
+                          <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                          Remove Chat
+                        </button>
+
+                        <button
+                          onClick={handleBlockUser}
+                          className="w-full px-4 py-2 text-left text-sm text-orange-600 hover:bg-orange-50 flex items-center gap-3 transition-colors cursor-pointer"
+                          role="menuitem"
+                        >
+                          <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                          </svg>
+                          Block User
+                        </button>
+
+                        <button
+                          onClick={handleReportUser}
+                          className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors cursor-pointer"
+                          role="menuitem"
+                        >
+                          <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                          Report User
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </header>
 
