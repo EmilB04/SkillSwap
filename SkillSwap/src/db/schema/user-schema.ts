@@ -30,9 +30,15 @@ export const directMessages = sqliteTable("direct_messages", {
 export const profileDetails = sqliteTable("profile_details", {
     id: integer("id").primaryKey({ autoIncrement: true }), 
     userId: integer("user_id").notNull().references(() => users.id).unique(),
-    displayName: text("display_name").notNull(),
-    profileImageUrl: text("profile_image_url").notNull(), 
-    bio: text("bio").notNull().default("There is no bio for this user yet."),
+    displayName: text("display_name"),
+    profileImageUrl: text("profile_image_url"), 
+    bio: text("bio"),
+    phoneNumber: text("phone_number"),
+    location: text("location"),
+    website: text("website"),
+    skillsOffered: text("skills_offered"), // Comma-separated string or JSON
+    skillsLearning: text("skills_learning"), // Comma-separated string or JSON
+    ...timestamps,
 });
 
 export const reviews = sqliteTable("reviews", {

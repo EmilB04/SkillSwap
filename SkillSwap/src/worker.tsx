@@ -26,6 +26,16 @@ export type AppContext = {
   user: User | null;
 };
 
+// Authentication middleware - requires user to be logged in
+const requireAuth = ({ ctx }: { ctx: AppContext }) => {
+  if (!ctx.user) {
+    return new Response(null, { 
+      status: 302, 
+      headers: { Location: "/login" } 
+    });
+  }
+};
+
 export default defineApp([
   setCommonHeaders(),
   async ({ ctx, request, headers }) => {
@@ -48,6 +58,7 @@ export default defineApp([
     }
 
     // Temporary: Always set test user to verify header works: See TODO below
+    // To test authentication: Comment out the lines below to see redirects to /login
     ctx.user = {
       role: "user",
       id: 1,
@@ -68,12 +79,6 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
-    // Explore route
-    route("/explore", Explore),
-    // Contact route
-    route("/contact", Contact),
-
-    // Logout route
     route("/logout", async function ({ request }) {
       const headers = new Headers();
       await sessions.remove(request, headers);
@@ -81,22 +86,20 @@ export default defineApp([
       return new Response(null, { status: 302, headers });
     }),
 
-    // TODO: Consider render instead of route, for nested routes
-    // Profile routes
-    route("/profile", MyPage),
-    route("/profile/edit", EditPage),
-    route("/profile/messages", MessagesPage),
-    route("/profile/notifications", NotificationsPage),
-    route("/profile/settings", SettingsPage),
+    // Explore route
+    route("/explore", Explore),
+
+    // Contact route
+    route("/contact", Contact),
+
+    // Profile routes (protected - require authentication)
+    route("/profile", [requireAuth, MyPage]),
+    route("/profile/edit", [requireAuth, EditPage]),
+    route("/profile/messages", [requireAuth, MessagesPage]),
+    route("/profile/notifications", [requireAuth, NotificationsPage]),
+    route("/profile/settings", [requireAuth, SettingsPage]),
 
     // Protected route example
-    route("/protected", [
-      ({ ctx }) => {
-        if (!ctx.user) {
-          return new Response(null, { status: 302, headers: { Location: "/login" } });
-        }
-      },
-      Home,
-    ]),
+    route("/protected", [requireAuth, Home]),
   ]),
 ]);
