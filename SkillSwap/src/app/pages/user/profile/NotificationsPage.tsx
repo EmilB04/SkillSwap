@@ -43,17 +43,11 @@ const mockNotifications: Notification[] = [
   },
 ];
 
-export interface NotificationsPageProps {
-  ctx: RequestInfo;
-  notifications?: Notification[];
-}
-
-export function NotificationsPage({
-  ctx,
-  notifications,
-}: NotificationsPageProps) {
+export function NotificationsPage({ ctx }: RequestInfo) {
+  // In production, fetch notifications from backend based on ctx.user.id
+  // For now, using mock data
   const [notificationList, setNotificationList] = useState<Notification[]>(
-    notifications || mockNotifications
+    mockNotifications
   );
 
   const handleNotificationClick = (notification: Notification) => {

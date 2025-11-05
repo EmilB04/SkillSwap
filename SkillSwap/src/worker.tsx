@@ -68,12 +68,6 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
-    // Explore route
-    route("/explore", Explore),
-    // Contact route
-    route("/contact", Contact),
-
-    // Logout route
     route("/logout", async function ({ request }) {
       const headers = new Headers();
       await sessions.remove(request, headers);
@@ -81,9 +75,15 @@ export default defineApp([
       return new Response(null, { status: 302, headers });
     }),
 
-    // TODO: Consider render instead of route, for nested routes
+    // Explore route
+    route("/explore", Explore),
+
+    // Contact route
+    route("/contact", Contact),
+
+
     // Profile routes
-    route("/profile", MyPage()),
+    route("/profile", MyPage),
     route("/profile/edit", EditPage),
     route("/profile/messages", MessagesPage),
     route("/profile/notifications", NotificationsPage),

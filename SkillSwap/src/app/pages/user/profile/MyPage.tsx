@@ -5,15 +5,10 @@ import { RequestInfo } from "rwsdk/worker";
 import { colors } from "../../../theme";
 import { UserProfile, mockUserProfile, formatJoinDate } from "../../../components/profile/profileData";
 
-interface MyPageProps {
-    ctx: RequestInfo;
-    userProfile?: UserProfile; // User profile from backend
-}
-
-export function MyPage({ ctx, userProfile }: MyPageProps) {
-    // Use provided user profile or fall back to mock data
+export function MyPage({ ctx }: RequestInfo) {
     // In production, userProfile should be fetched from backend based on ctx.user.id
-    const userData = userProfile || mockUserProfile;
+    // For now, using mock data
+    const userData = mockUserProfile;
 
     const stats = {
         skillsOffered: userData.skillsOffered.length,

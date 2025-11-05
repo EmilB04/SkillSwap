@@ -6,14 +6,10 @@ import { useState } from "react";
 import { colors } from "@/app/theme";
 import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, updateUserProfile } from "../../../components/profile/profileData";
 
-interface EditPageProps {
-    ctx: RequestInfo;
-    userProfile?: UserProfile; // User profile from backend
-}
-
-export default function EditPage({ ctx, userProfile }: EditPageProps) {
-    // Initialize with provided user profile or mock data
-    const initialProfile = userProfile || mockUserProfile;
+export default function EditPage({ ctx }: RequestInfo) {
+    // In production, fetch user profile from backend based on ctx.user.id
+    // For now, using mock data
+    const initialProfile = mockUserProfile;
 
     // Initialize form data with user profile
     const [formData, setFormData] = useState({
