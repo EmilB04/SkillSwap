@@ -90,7 +90,7 @@ export default function Footer() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
+                                    <a href="/explore" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
                                         Browse Skills
                                     </a>
                                 </li>
@@ -112,7 +112,7 @@ export default function Footer() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
+                                    <a href="/contact" className="text-gray-600 hover:text-gray-900 hover:underline hover:underline-offset-4 transition-all duration-200 text-sm">
                                         Contact Us
                                     </a>
                                 </li>
