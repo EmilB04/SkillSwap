@@ -6,9 +6,6 @@ import { setCommonHeaders } from "@/app/headers";
 import { sessions, setupSessionStore } from "./session/store";
 import Explore from "@/app/pages/Explore";
 import { Session } from "./session/durableObject";
-import { db } from "@/db";
-import { users, type User } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 import { Login } from "./app/pages/user/account/Login";
 import { Register } from "./app/pages/user/account/Register";
@@ -18,12 +15,14 @@ import { NotificationsPage } from "./app/pages/user/profile/NotificationsPage";
 import SettingsPage from "./app/pages/user/profile/SettingsPage";
 import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
+import { getUserProfile } from "./app/services/userProfileService";
+import type { UserProfile } from "./app/components/profile/profileData";
 
 export { SessionDurableObject } from "./session/durableObject";
 
 export type AppContext = {
   session: Session | null;
-  user: User | null;
+  user: UserProfile | null;
 };
 
 // Authentication middleware - requires user to be logged in
@@ -57,20 +56,23 @@ export default defineApp([
       throw error;
     }
 
-    // Temporary: Always set test user to verify header works: See TODO below
-    // To test authentication: Comment out the lines below to see redirects to /login
-    ctx.user = {
-      role: "user",
-      id: 1,
-      name: "Test User",
-      email: "testuser@example.com",
-    };
+    // Load user profile if session exists
+    if (ctx.session?.userId) {
+      const userId = parseInt(ctx.session.userId);
+      ctx.user = await getUserProfile(userId);
+      
+      // If user not found in DB but session exists, clear session
+      if (!ctx.user) {
+        await sessions.remove(request, headers);
+        ctx.user = null; // Ensure user is null if not found
+      }
+    } else {
+      // No session - user is not logged in
+      ctx.user = null;
+    }
 
-    // TODO: Uncomment this and remove above when auth is working
-    // if (ctx.session?.userId) { // Load user if logged in - Get user from DB
-    //   const userResult = await db.select().from(users).where(eq(users.id, parseInt(ctx.session.userId))).limit(1);
-    //   ctx.user = userResult[0] || null;
-    // }
+    // TEMPORARY: For development/testing with mock user, uncomment the line below
+    ctx.user = await getUserProfile(1); // Load mock user with ID 1
   },
   render(Document, [
     // Home route

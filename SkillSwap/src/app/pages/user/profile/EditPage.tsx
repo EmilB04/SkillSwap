@@ -4,7 +4,7 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
-import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, updateUserProfile } from "../../../components/profile/profileData";
+import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "../../../components/profile/profileData";
 
 export default function EditPage({ ctx }: RequestInfo) {
     // In production, fetch user profile from backend based on ctx.user.id
@@ -101,10 +101,19 @@ export default function EditPage({ ctx }: RequestInfo) {
                 skillsLearning,
             };
 
-            // Call backend API to update profile
-            await updateUserProfile(updateData);
+            // TODO: Call backend API to update profile
+            // This should make a fetch request to an API endpoint in the worker
+            // Example:
+            // const response = await fetch('/api/profile', {
+            //     method: 'PATCH',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(updateData),
+            // });
+            // if (!response.ok) throw new Error('Failed to update profile');
             
-            setSuccessMessage("Profile updated successfully!");
+            // Temporary: Just show success message without actually saving
+            console.log("Profile update data:", updateData);
+            setSuccessMessage("Profile updated successfully! (Note: Backend save not yet implemented)");
             setTimeout(() => setSuccessMessage(""), 3000);
         } catch (error) {
             console.error("Error updating profile:", error);

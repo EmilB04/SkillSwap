@@ -12,8 +12,9 @@ import {
     JobGrid, 
     EmptyState 
 } from '../components/explore';
+import { RequestInfo } from "rwsdk/worker";
 
-export default function Explore(){
+export default function Explore({ ctx }: RequestInfo){
     const [filteredJobs, setFilteredJobs] = useState<Job[]>(mockJobs);
     const [filters, setFilters] = useState({
         category: 'all',
@@ -133,7 +134,7 @@ export default function Explore(){
         <div className="min-h-screen" style={{ 
             background: `linear-gradient(135deg, ${colors.primary.light}15 0%, ${colors.secondary.emerald}10 100%)` 
         }}>
-            <Header/>
+            <Header ctx={ctx} />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <ExploreHeader />
 

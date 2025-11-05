@@ -2,11 +2,12 @@
 
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { RequestInfo } from "rwsdk/worker";
 
-export default function Contact() {
+export default function Contact({ ctx }: RequestInfo) {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-            <Header />
+            <Header ctx={ctx} />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
                 <div className="text-center">
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">Contact us</h1>
