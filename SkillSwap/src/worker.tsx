@@ -16,7 +16,7 @@ import SettingsPage from "./app/pages/user/profile/SettingsPage";
 import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
 import { getUserProfile } from "./app/services/userProfileService";
-import type { UserProfile } from "./app/components/profile/profileData";
+import type { UserProfile } from "./app/pages/user/profile/profileData";
 
 export { SessionDurableObject } from "./session/durableObject";
 

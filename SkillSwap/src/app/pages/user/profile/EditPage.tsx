@@ -4,7 +4,7 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
 import { colors } from "@/app/theme";
-import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "../../../components/profile/profileData";
+import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "./profileData";
 
 export default function EditPage({ ctx }: RequestInfo) {
     // In production, fetch user profile from backend based on ctx.user.id

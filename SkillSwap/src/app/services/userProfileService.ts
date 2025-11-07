@@ -3,7 +3,7 @@
  * Handles fetching and updating user profile data from the backend
  */
 
-import { UserProfile, UserProfileUpdate, parseSkills, mockUserProfile } from "../components/profile/profileData";
+import { UserProfile, UserProfileUpdate, parseSkills, mockUserProfile } from "../pages/user/profile/profileData";
 import { db } from "@/db";
 import { users, profileDetails, reviews } from "@/db/schema";
 import { eq, and, sql } from "drizzle-orm";

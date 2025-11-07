@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import type { UserProfile } from "./profileData";
+import type { UserProfile } from "../../pages/user/profile/profileData";
 
 interface ProfileMenuFlyoutProps {
     user?: UserProfile | null;
