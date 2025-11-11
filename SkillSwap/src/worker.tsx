@@ -1,5 +1,5 @@
-import { defineApp, ErrorResponse } from "rwsdk/worker";
-import { route, render } from "rwsdk/router";
+import { defineApp, ErrorResponse, RequestInfo } from "rwsdk/worker";
+import { route, render, RouteDefinition } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
@@ -20,6 +20,12 @@ import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
 
 export { SessionDurableObject } from "./session/durableObject";
+
+import { adsRoutes } from "./features/ads/ads.routes";
+import { messagesRoutes } from "./features/messages/messages.routes";
+import { reviewsRoutes } from "./features/reviews/reviews.routes";
+import { notificationsRoutes } from "./features/notifications/notifications.routes";
+import { profileRoutes } from "./features/profile/profile.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -88,6 +94,16 @@ export default defineApp([
     route("/profile/messages", MessagesPage),
     route("/profile/notifications", NotificationsPage),
     route("/profile/settings", SettingsPage),
+    // Ads routes
+    prefix("/api/v1/ads", adsRoutes),
+    // Messages routes
+    prefix("/api/v1/messages", messagesRoutes),
+    // Reviews routes
+    prefix("/api/v1/reviews", reviewsRoutes),
+    // Notifications routes
+    prefix("/api/v1/notifications", notificationsRoutes),
+    // Profile routes
+    prefix("/api/v1/profile", profileRoutes),
 
     // Protected route example
     route("/protected", [
@@ -100,3 +116,7 @@ export default defineApp([
     ]),
   ]),
 ]);
+function prefix(arg0: string, adsRoutes: RouteDefinition<RequestInfo<any, DefaultAppContext>>[]): import("rwsdk/router").Route<import("rwsdk/worker").RequestInfo<any, import("rwsdk/worker").DefaultAppContext>> {
+  throw new Error("Function not implemented.");
+}
+
