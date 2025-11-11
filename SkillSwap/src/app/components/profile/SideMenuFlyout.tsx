@@ -75,7 +75,7 @@ export default function SideMenuFlyout() {
                 </svg>
             ),
             label: "Help",
-            href: "/help"
+            href: "/contact"
         }
     ];
 

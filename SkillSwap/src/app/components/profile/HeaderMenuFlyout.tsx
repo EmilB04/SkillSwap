@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import type { User } from "@/db/schema";
+import type { UserProfile } from "../../pages/user/profile/profileData";
 
 interface ProfileMenuFlyoutProps {
-    user?: User | null;
+    user?: UserProfile | null;
 }
 
 export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {

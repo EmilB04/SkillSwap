@@ -2,69 +2,101 @@
 
 import { RequestInfo } from "rwsdk/worker";
 import { PageLayout } from "./PageLayout";
-import JobCard from "../components/JobCard";
+import { colors } from "../theme";
+import { TopContributors, type Contributor } from "../components/home/TopContributors";
+import { HowItWorks } from "../components/home/HowItWorks";
+import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
+import { Hero } from "../components/home/Hero";
+
+// TODO: Remove this import when integrating with backend
+import { mockJobs } from "../../types/job";
+
+// Mock data for top contributors
+// TODO: Replace with real data from backend
+const topContributors: Contributor[] = [
+  {
+    id: 1,
+    name: "Sara Hansen",
+    avatar: "SJ",
+    completedSwaps: 45,
+    rating: 4.9,
+    skills: ["Web Development", "UI/UX Design"],
+    profileImage: null,
+  },
+  {
+    id: 2,
+    name: "Michael Johansen",
+    avatar: "MC",
+    completedSwaps: 38,
+    rating: 4.8,
+    skills: ["Photography", "Video Editing"],
+    profileImage: null,
+  },
+  {
+    id: 3,
+    name: "Emma Steinbakken",
+    avatar: "ER",
+    completedSwaps: 35,
+    rating: 5.0,
+    skills: ["Language Teaching", "Cooking"],
+    profileImage: null,
+  },
+  {
+    id: 4,
+    name: "Thomas Seltzer",
+    avatar: "DK",
+    completedSwaps: 32,
+    rating: 4.7,
+    skills: ["Guitar Lessons", "Music Theory"],
+    profileImage: null,
+  },
+  {
+    id: 5,
+    name: "Lisa Andersen",
+    avatar: "LA",
+    completedSwaps: 28,
+    rating: 4.9,
+    skills: ["Yoga Instruction", "Meditation"],
+    profileImage: null,
+  },
+];
 
 export function Home({ ctx }: RequestInfo) {
   return (
     <PageLayout ctx={ctx}>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <main className="max-w-3/4 justify-center mx-auto px-6 py-3">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6 mt-6">
-          {ctx.user?.name ? (
-            <div className="text-center">
-              <p className="text-lg text-gray-700 mb-6">Welcome back, {ctx.user.name}!</p>
-              <div className="flex justify-center space-x-4">
-                <a href="/protected" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200 font-medium">
-                  Dashboard
-                </a>
-                <a href="/user/logout" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition duration-200 font-medium">
-                  Logout
-                </a>
-              </div>
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50">
+        {/* Hero Section */}
+        <Hero isLoggedIn={!!ctx.user} />
+
+        {/* Featured Opportunities */}
+        <FeaturedOpportunities jobs={mockJobs} />
+        
+        {/* How It Works */}
+        <HowItWorks />
+
+        {/* Top Contributors This Month */}
+        <TopContributors contributors={topContributors} />
+
+        {/* CTA Section (Call to Action) */}
+        {!ctx.user && (
+          <section className="py-16 bg-gradient-to-r from-teal-500 to-emerald-500">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+                Ready to Start Learning?
+              </h2>
+              <p className="text-xl text-white/90 mb-8">
+                Join thousands of learners and teachers in our community today.
+              </p>
+              <a
+                href="/register"
+                className="inline-block px-8 py-4 bg-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                style={{ color: colors.primary.main }}
+              >
+                Create Your Free Account
+              </a>
             </div>
-          ) : (
-            <div className="text-center">
-              <p className="text-lg text-gray-700 mb-6">Join SkillSwap to start your learning journey</p>
-              <div className="flex justify-center space-x-4">
-                <a href="/user/register" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200 font-medium">
-                  Get Started
-                </a>
-                <a href="/user/login" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition duration-200 font-medium">
-                  Sign In
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-wrap gap-6 mb-12 justify-center">
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
-          <JobCard />
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <div className="text-4xl mb-4">🎯</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Find Skills</h3>
-            <p className="text-gray-600">Discover people with the skills you want to learn</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <div className="text-4xl mb-4">🤝</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Share Knowledge</h3>
-            <p className="text-gray-600">Teach others and build your reputation in the community</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
-            <div className="text-4xl mb-4">💬</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Connect</h3>
-            <p className="text-gray-600">Message and coordinate with other learners and teachers</p>
-          </div>
-        </div>
-
-      </main>
+          </section>
+        )}
       </div>
     </PageLayout>
   );
