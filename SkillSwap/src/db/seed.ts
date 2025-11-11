@@ -9,6 +9,7 @@ export default defineScript(async ({ env }) => {
   // Removing data from database
   await db.delete(ads);
   await db.delete(profileDetails);
+  await db.delete(users);
 
   // Insert a user
   const [testUser] = await db
