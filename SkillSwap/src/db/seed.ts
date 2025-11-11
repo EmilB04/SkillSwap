@@ -1,20 +1,36 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
-import { users } from './schema';
+import { users, profileDetails, ads } from './schema';
 
 export default defineScript(async ({ env }) => {
+  
   const db = drizzle(env.DB);
 
+  // Removing data from database
+  await db.delete(ads);
+  await db.delete(profileDetails);
+
   // Insert a user
-  await db.insert(users).values({
-    name: "Test user",
-    email: "test@testuser.io",
+  const [testUser] = await db
+    .insert(users)
+    .values({ name: "Test User", email: "test@example.com" })
+    .returning();
+
+  // creating a profile
+  await db.insert(profileDetails).values({
+     userId: testUser.id,
+     displayName: "Test User",
+     profileImageUrl: "https://example.com/",
+     bio: "Hei! Jeg er kul.",
   });
 
-  // Verify the insert by selecting all users
-  const result = await db.select().from(users).all();
+  // creating a ad
+  await db.insert(ads).values({
+    title: "Matlaging",
+    description: "Jeg kan lage mat, ønsker å bytte mot noen som kan ta oppvasken.",
+    userId: testUser.id,
+  });
 
   console.log("🌱 Finished seeding");
 
-  return Response.json(result);
 });
