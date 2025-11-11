@@ -1,5 +1,5 @@
 import { defineApp, ErrorResponse, RequestInfo } from "rwsdk/worker";
-import { route, render, RouteDefinition } from "rwsdk/router";
+import { route, render, RouteDefinition, prefix } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
@@ -121,7 +121,4 @@ export default defineApp([
     route("/protected", [requireAuth, Home]),
   ]),
 ]);
-function prefix(arg0: string, adsRoutes: RouteDefinition<RequestInfo<any, DefaultAppContext>>[]): import("rwsdk/router").Route<import("rwsdk/worker").RequestInfo<any, import("rwsdk/worker").DefaultAppContext>> {
-  throw new Error("Function not implemented.");
-}
 
