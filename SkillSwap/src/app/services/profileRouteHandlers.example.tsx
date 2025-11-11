@@ -8,7 +8,7 @@
 import { MyPage } from "../pages/user/profile/MyPage";
 import EditPage from "../pages/user/profile/EditPage";
 import { getUserProfile } from "../services/userProfileService";
-import { mockUserProfile } from "../components/profile/profileData";
+import { mockUserProfile } from "../pages/user/profile/profileData";
 import type { RequestInfo } from "rwsdk/worker";
 
 /**

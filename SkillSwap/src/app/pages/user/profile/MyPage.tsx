@@ -3,7 +3,7 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { colors } from "../../../theme";
-import { UserProfile, mockUserProfile, formatJoinDate } from "../../../components/profile/profileData";
+import { UserProfile, mockUserProfile, formatDate } from "./profileData";
 
 export function MyPage({ ctx }: RequestInfo) {
     // In production, userProfile should be fetched from backend based on ctx.user.id
@@ -20,7 +20,7 @@ export function MyPage({ ctx }: RequestInfo) {
     };
 
     // Format join date for display
-    const formattedJoinDate = formatJoinDate(userData.joinDate);
+    const formattedJoinDate = formatDate(userData.createdAt);
 
     return (
         <ProfileLayout ctx={ctx}>

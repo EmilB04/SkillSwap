@@ -43,16 +43,29 @@ export default function Header({ ctx }: HeaderProps) {
           </h1>
         </a>
 
-        {/* Desktop Search Bar - Always visible on medium+ screens */}
-        <div className="hidden md:flex flex-1 min-w-0 max-w-2xl justify-center">
-          <SearchBar />
-        </div>
-
         {/* Spacer to push navigation/icons to the right */}
-        <div className="flex-1 md:hidden"></div>
-
+        <div className="flex-1"></div>
         {/* Desktop Navigation - Hidden on mobile/small tablet */}
         <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-gray-700 flex-shrink-0">
+          {/* Desktop Search Icon */}
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className="p-2 rounded-lg transition-all duration-200 cursor-pointer"
+            style={{ backgroundColor: colors.primary.main }}
+            aria-label="Toggle search"
+            aria-expanded={isSearchOpen}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+          >
+            <svg
+              className="w-6 h-6 transition-colors"
+              fill="none"
+              stroke="white"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
           <a
             href="/explore"
             className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-gray-50"
@@ -131,12 +144,14 @@ export default function Header({ ctx }: HeaderProps) {
           {/* Mobile Search Icon */}
           <button
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="p-2 rounded-lg transition-all duration-200 hover:bg-gray-50 cursor-pointer"
-            style={{ color: colors.neutral.gray[700] }}
+            className="p-2 rounded-lg transition-all duration-200 cursor-pointer"
+            style={{ backgroundColor: colors.primary.main }}
             aria-label="Toggle search"
             aria-expanded={isSearchOpen}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
@@ -169,10 +184,10 @@ export default function Header({ ctx }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Search Bar Overlay - Expands below header when search icon is tapped */}
+      {/* Expandable Search Bar Overlay - Expands below header when search icon is clicked */}
       {isSearchOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-lg z-30 px-4 py-3 animate-slideDown">
-          <div className="flex items-center gap-2">
+        <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-lg z-30 px-4 py-3 animate-slideDown">
+          <div className="flex items-center gap-2 max-w-7xl mx-auto">
             <div className="flex-1">
               <SearchBar />
             </div>
