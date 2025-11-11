@@ -2,9 +2,11 @@
 
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { colors } from "@/app/theme";
 import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "./profileData";
+import { ImageSourcePopup } from "@/app/components/ImageSourcePopup";
+import { AvatarCreator } from "@/app/components/AvatarCreator";
 
 export default function EditPage({ ctx }: RequestInfo) {
     // In production, fetch user profile from backend based on ctx.user.id
@@ -31,6 +33,9 @@ export default function EditPage({ ctx }: RequestInfo) {
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [showPopup, setShowPopup] = useState(false);
+    const [showAvatarCreator, setShowAvatarCreator] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -66,6 +71,21 @@ export default function EditPage({ ctx }: RequestInfo) {
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleUploadClick = () => {
+        setShowPopup(false);
+        fileInputRef.current?.click();
+    };
+
+    const handleAvatarClick = () => {
+        setShowPopup(false);
+        setShowAvatarCreator(true);
+    };
+
+    const handleAvatarSave = (avatarUrl: string) => {
+        setProfileImage(avatarUrl);
+        setShowAvatarCreator(false);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -183,22 +203,30 @@ export default function EditPage({ ctx }: RequestInfo) {
                                         {formData.name.charAt(0).toUpperCase()}
                                     </div>
                                 )}
-                                <label 
-                                    htmlFor="profile-image-upload" 
+                                <button 
+                                    type="button"
+                                    onClick={() => setShowPopup(!showPopup)}
                                     className="absolute bottom-0 right-0 text-white rounded-full p-2 cursor-pointer shadow-lg transition-colors"
                                     style={{ backgroundColor: colors.primary.main }}
                                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
                                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
-                                    aria-label="Upload new profile picture"
+                                    aria-label="Change profile picture"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         {/* Generated SVG with Claude Sonnet 4.5 */}
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                </label>
+                                </button>
+                                {showPopup && (
+                                    <ImageSourcePopup 
+                                        onUploadPicture={handleUploadClick}
+                                        onCustomizeAvatar={handleAvatarClick}
+                                        onClose={() => setShowPopup(false)}
+                                    />
+                                )}
                                 <input 
-                                    id="profile-image-upload" 
+                                    ref={fileInputRef}
                                     type="file" 
                                     accept="image/*" 
                                     onChange={handleImageUpload}
@@ -537,6 +565,12 @@ export default function EditPage({ ctx }: RequestInfo) {
                     </nav>
                 </form>
             </main>
+            {showAvatarCreator && (
+                <AvatarCreator 
+                    onSave={handleAvatarSave}
+                    onCancel={() => setShowAvatarCreator(false)}
+                />
+            )}
         </ProfileLayout>
     );
 }
