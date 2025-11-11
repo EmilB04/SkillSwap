@@ -9,15 +9,15 @@ import { profileDetails } from "./profile-details";
 // Relations for users
 
 export const usersRelations = relations(users, ({ many, one }) => ({
-    ads: many(ads),
     profile: one(profileDetails, {
         fields: [users.id],
         references: [profileDetails.userId],
     }),
-    sentMessages: many(directMessages, { relationName: "sender" }),
-    receivedMessages: many(directMessages, { relationName: "receiver" }),
-    reviewsWritten: many(reviews, { relationName: "reviewer" }),
-    reviewsReceived: many(reviews, { relationName: "receiver" }),
+    ads: many(ads),
+    sentMessages: many(directMessages, { relationName: "sent" }),
+    receivedMessages: many(directMessages, { relationName: "recieved" }),
+    writtenReviews: many(reviews, { relationName: "reviewer" }),
+    receivedReviews: many(reviews, { relationName: "receiver" }),
     notifications: many(notifications),
 }));
 
@@ -36,12 +36,12 @@ export const directMessagesRelations = relations(directMessages, ({ one }) => ({
     sender: one(users, {
         fields: [directMessages.senderId],
         references: [users.id],
-        relationName: "sender",     
+        relationName: "sent",     
     }),
     receiver: one(users, {
         fields: [directMessages.receiverId],
         references: [users.id],
-        relationName: "receiver",
+        relationName: "received",
     }),
 }));
 
