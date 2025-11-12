@@ -1,0 +1,218 @@
+import { Job as JobType, mockJobs } from "@/types/job";
+import { colors } from "@/app/theme";
+import Header from "@/app/components/Header";
+
+// Mock users data - in the future this will come from the database
+const mockUsers = [
+    {
+        id: 1,
+        name: "Ola Nordmann",
+        displayName: "@olanordmann",
+        profileImage: null,
+        avatar: "ON", // initials for fallback
+    },
+    {
+        id: 2,
+        name: "Kari Hansen",
+        displayName: "@karihansen",
+        profileImage: null,
+        avatar: "KH",
+    },
+    {
+        id: 3,
+        name: "Per Olsen",
+        displayName: "@perolsen",
+        profileImage: null,
+        avatar: "PO",
+    },
+    {
+        id: 4,
+        name: "Lisa Berg",
+        displayName: "@lisaberg",
+        profileImage: null,
+        avatar: "LB",
+    },
+    {
+        id: 5,
+        name: "Tom Jensen",
+        displayName: "@tomjensen",
+        profileImage: null,
+        avatar: "TJ",
+    },
+];
+
+export default function Job({ params }: { params: { id: string } }) {
+    const jobId = parseInt(params.id);
+    const job = mockJobs.find((j) => j.id === jobId);
+    
+    // Find the user who published this job
+    const publisher = job ? mockUsers.find((u) => u.id === job.userId) : null;
+
+    if (!job) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
+                <div className="text-center">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Job Not Found</h1>
+                    <p className="text-gray-600 mb-8">The job you're looking for doesn't exist.</p>
+                    <a 
+                        href="/explore" 
+                        className="inline-block px-6 py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-lg transition-all"
+                        style={{ backgroundColor: colors.primary.main }}
+                    >
+                        Back to Explore
+                    </a>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 py-12">
+            <div className="max-w-4xl mx-auto px-4">
+                {/* Back button */}
+                <a 
+                    href="/explore" 
+                    className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Explore
+                </a>
+
+                {/* Job card */}
+                <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+                    {/* Image */}
+                    <div className="relative overflow-hidden h-96">
+                        <img 
+                            src={job.imageUrl} 
+                            alt={job.title} 
+                            className="w-full h-full object-cover" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        
+                        {/* Category badge on image */}
+                        <div className="absolute top-6 left-6">
+                            <span 
+                                className="inline-block px-4 py-2 rounded-full text-sm font-semibold bg-white/90 backdrop-blur-sm"
+                                style={{ color: colors.primary.main }}
+                            >
+                                {job.category}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-8">
+                        {/* Title */}
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                            {job.title}
+                        </h1>
+
+                        {/* Meta info */}
+                        <div className="flex items-center gap-6 mb-6 text-sm">
+                            <div className="flex items-center gap-2 text-gray-600">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>
+                                    {job.date.toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'long',
+                                        year: 'numeric'
+                                    })}
+                                </span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2 font-semibold text-lg" style={{ color: colors.primary.main }}>
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>{job.payment}</span>
+                            </div>
+                        </div>
+
+                        {/* Publisher information */}
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Published by</h2>
+                            {publisher ? (
+                                <div className="flex items-center gap-4 bg-gray-50 rounded-xl p-4">
+                                    {/* User Avatar */}
+                                    <div className="flex-shrink-0">
+                                        {publisher.profileImage ? (
+                                            <img
+                                                src={publisher.profileImage}
+                                                alt={publisher.name}
+                                                className="w-16 h-16 rounded-full object-cover border-4"
+                                                style={{ borderColor: colors.primary.main }}
+                                            />
+                                        ) : (
+                                            <div
+                                                className="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold border-4"
+                                                style={{
+                                                    backgroundColor: colors.primary.main,
+                                                    borderColor: colors.primary.light,
+                                                }}
+                                            >
+                                                {publisher.avatar}
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* User Info */}
+                                    <div className="flex-grow">
+                                        <h3 className="text-lg font-semibold text-gray-900">
+                                            {publisher.name}
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            {publisher.displayName}
+                                        </p>
+                                    </div>
+                                    
+                                    {/* View Profile Button */}
+                                    <a
+                                        href={`/profile/${publisher.id}`}
+                                        className="px-4 py-2 rounded-lg border-2 font-medium hover:bg-gray-100 transition-colors"
+                                        style={{ 
+                                            borderColor: colors.primary.main,
+                                            color: colors.primary.main 
+                                        }}
+                                    >
+                                        View Profile
+                                    </a>
+                                </div>
+                            ) : (
+                                <p className="text-gray-600">User information not available</p>
+                            )}
+                        </div>
+
+                        {/* Description */}
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Description</h2>
+                            <p className="text-gray-700 text-lg leading-relaxed">
+                                {job.description}
+                            </p>
+                        </div>
+
+                        {/* Location */}
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Location</h2>
+                            <p className="text-gray-700 text-lg leading-relaxed">
+                                {job.location}
+                            </p>
+                        </div>
+
+                        {/* Action Button */}
+                        <a 
+                            href={`/profile/messages`}
+                            className="block w-full py-4 rounded-xl text-white font-semibold text-lg shadow-md hover:shadow-lg transition-all duration-200 text-center"
+                            style={{ backgroundColor: colors.primary.main }}
+                        > 
+                            Request This Opportunity
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    );
+}
