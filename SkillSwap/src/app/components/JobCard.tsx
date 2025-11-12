@@ -5,7 +5,7 @@ export default function JobCard(props: JobCardProps) {
     const {job, category, payment, imageUrl } = { ...defaultJobCardProps, ...props };
 
     return(
-        <a href={`/job/${job?.id}`} className="block">
+        <a href={`/job/${job?.slug}`} className="block">
             <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
             {/* Image with overlay on hover */}
             <div className="relative overflow-hidden">

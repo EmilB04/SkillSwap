@@ -42,9 +42,9 @@ const mockUsers = [
     },
 ];
 
-export default function Job({ params }: { params: { id: string } }) {
-    const jobId = parseInt(params.id);
-    const job = mockJobs.find((j) => j.id === jobId);
+export default function Job({ params }: { params: { slug: string } }) {
+    const jobSlug = params.slug;
+    const job = mockJobs.find((j) => j.slug === jobSlug);
     
     // Find the user who published this job
     const publisher = job ? mockUsers.find((u) => u.id === job.userId) : null;

@@ -1,5 +1,6 @@
 export interface Job {
   id: number;
+  slug: string;
   title: string;
   description: string;
   userId: number;
@@ -15,6 +16,7 @@ export interface Job {
 
 export interface JobCardProps {
   job?: Partial<Job>;
+  slug?: string;
   category?: string;
   payment?: string;
   imageUrl?: string;
@@ -26,6 +28,7 @@ export interface JobCardProps {
 // Default job data for fallback
 export const defaultJob: Job = {
   id: 1,
+  slug: "{category}-{id}",
   title: "Mowing lawn",
   description: "Need help with lawn mowing and basic yard maintenance",
   userId: 1,
@@ -50,6 +53,7 @@ export const defaultJobCardProps: JobCardProps = {
 export const mockJobs: Job[] = [
   {
     id: 1,
+    slug: "gardening-1",
     title: "Lawn Mowing",
     description: "Need help with mowing the lawn",
     payment: "$20/hour",
@@ -62,6 +66,7 @@ export const mockJobs: Job[] = [
   },
   {
     id: 2,
+    slug: "language-2",
     title: "Translating",
     description: "Need help with translating documents",
     payment: "$10/hour",
@@ -73,6 +78,7 @@ export const mockJobs: Job[] = [
   },
   {
     id: 3,
+    slug: "development-3",
     title: "Web design",
     description: "Looking for a modern website design",
     payment: "$30/hour",
@@ -84,6 +90,7 @@ export const mockJobs: Job[] = [
   },
   {
     id: 4,
+    slug: "tutoring-4",
     title: "Math tutoring",
     description: "Help needed for high school math",
     payment: "Skill swap",
@@ -95,6 +102,7 @@ export const mockJobs: Job[] = [
   },
   {
     id: 5,
+    slug: "cooking-5",
     title: "Cooking lessons",
     description: "Teach me how to cook Italian cuisine",
     payment: "$40/hour",
@@ -106,6 +114,7 @@ export const mockJobs: Job[] = [
   },
   {
     id: 6,
+    slug: "design-6",
     title: "Graphic design",
     description: "Create a logo and branding materials",
     payment: "$10/hour",

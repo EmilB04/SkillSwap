@@ -99,7 +99,7 @@ export default defineApp([
     route("/explore", Explore),
 
     // Job detail route
-    route("/job/:id", Job),
+    route("/job/:slug", Job),
 
     // Contact route
     route("/contact", Contact),
