@@ -1,20 +1,12 @@
-"use client";
-
 import { JobCardProps, defaultJobCardProps } from "@/types/job";
 import { colors } from "@/app/theme";
 
 export default function JobCard(props: JobCardProps) {
-    const {job, category, payment, imageUrl, onRequestJob } = { ...defaultJobCardProps, ...props };
-    
-    const handleRequestClick = () => {
-        if (onRequestJob && job?.id) {
-            onRequestJob(job.id);
-            console.log(`Requested job with ID: ${job.id}`);
-        }
-    };
+    const {job, category, payment, imageUrl } = { ...defaultJobCardProps, ...props };
 
     return(
-        <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+        <a href={`/job/${job?.slug}`} className="block">
+            <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
             {/* Image with overlay on hover */}
             <div className="relative overflow-hidden">
                 <img 
@@ -74,16 +66,14 @@ export default function JobCard(props: JobCardProps) {
                 </div>
 
                 {/* Action Button */}
-                <button 
-                    className="w-full py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
-                    onClick={handleRequestClick}
+                <div 
+                    className="w-full py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200 text-center"
                     style={{ backgroundColor: colors.primary.main }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
                 > 
-                    Request Opportunity
-                </button>
+                    View Details
+                </div>
             </div>
         </article>
+        </a>
     )
 }
