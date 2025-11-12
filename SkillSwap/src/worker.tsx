@@ -17,7 +17,7 @@ import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
 import { getUserProfile } from "./app/services/userProfileService";
 import type { UserProfile } from "./app/pages/user/profile/profileData";
-import Job from "./app/components/job/Job";
+import Job from "./app/pages/Job";
 
 export { SessionDurableObject } from "./session/durableObject";
 

@@ -1,6 +1,7 @@
 import { Job as JobType, mockJobs } from "@/types/job";
 import { colors } from "@/app/theme";
-import Header from "@/app/components/Header";
+import Header from "../components/Header";
+import Footer from '../components/Footer';
 
 // Mock users data - in the future this will come from the database
 const mockUsers = [
@@ -9,7 +10,7 @@ const mockUsers = [
         name: "Ola Nordmann",
         displayName: "@olanordmann",
         profileImage: null,
-        avatar: "ON", // initials for fallback
+        avatar: "ON",
     },
     {
         id: 2,
@@ -50,35 +51,44 @@ export default function Job({ params }: { params: { id: string } }) {
 
     if (!job) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Job Not Found</h1>
-                    <p className="text-gray-600 mb-8">The job you're looking for doesn't exist.</p>
-                    <a 
-                        href="/explore" 
-                        className="inline-block px-6 py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-lg transition-all"
-                        style={{ backgroundColor: colors.primary.main }}
-                    >
-                        Back to Explore
-                    </a>
-                </div>
+            <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
+                <Header />
+                
+                <main className="flex-grow flex items-center justify-center">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">Job Not Found</h1>
+                        <p className="text-gray-600 mb-8">The job you're looking for doesn't exist.</p>
+                        <a 
+                            href="/explore" 
+                            className="inline-block px-6 py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-lg transition-all"
+                            style={{ backgroundColor: colors.primary.main }}
+                        >
+                            Back to Explore
+                        </a>
+                    </div>
+                </main>
+                
+                <Footer />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 py-12">
-            <div className="max-w-4xl mx-auto px-4">
-                {/* Back button */}
-                <a 
-                    href="/explore" 
-                    className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-                >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Back to Explore
-                </a>
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
+            <Header />
+            
+            <main className="flex-grow py-12">
+                <div className="max-w-4xl mx-auto px-4">
+                    {/* Back button */}
+                    <a 
+                        href="/explore" 
+                        className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Explore
+                    </a>
 
                 {/* Job card */}
                 <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
@@ -171,7 +181,7 @@ export default function Job({ params }: { params: { id: string } }) {
                                     
                                     {/* View Profile Button */}
                                     <a
-                                        href={`/profile/${publisher.id}`}
+                                        href={"#"}
                                         className="px-4 py-2 rounded-lg border-2 font-medium hover:bg-gray-100 transition-colors"
                                         style={{ 
                                             borderColor: colors.primary.main,
@@ -212,7 +222,10 @@ export default function Job({ params }: { params: { id: string } }) {
                         </a>
                     </div>
                 </article>
-            </div>
+                </div>
+            </main>
+            
+            <Footer />
         </div>
     );
 }
