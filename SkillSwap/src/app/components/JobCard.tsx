@@ -5,10 +5,10 @@ export default function JobCard(props: JobCardProps) {
     const {job, category, payment, imageUrl } = { ...defaultJobCardProps, ...props };
 
     return(
-        <a href={`/job/${job?.slug}`} className="block">
-            <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group cursor-pointer">
+        <a href={`/job/${job?.slug}`} className="block h-full">
+            <article className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group cursor-pointer h-full flex flex-col">
             {/* Image with overlay on hover */}
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden flex-shrink-0">
                 <img 
                     src={imageUrl} 
                     alt={`${job?.title} opportunity`} 
@@ -18,7 +18,7 @@ export default function JobCard(props: JobCardProps) {
             </div>
 
             {/* Content */}
-            <div className="p-5">
+            <div className="p-5 flex flex-col flex-grow">
                 {/* Category Badge */}
                 <div className="mb-3">
                     <span 
@@ -43,7 +43,7 @@ export default function JobCard(props: JobCardProps) {
                 </p>
 
                 {/* Meta info */}
-                <div className="flex items-center justify-between mb-4 text-sm">
+                <div className="flex items-center justify-between mb-4 text-sm mt-auto">
                     <div className="flex items-center gap-1 text-gray-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

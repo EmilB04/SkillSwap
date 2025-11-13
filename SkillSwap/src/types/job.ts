@@ -123,5 +123,77 @@ export const mockJobs: Job[] = [
     imageUrl: "/src/app/assets/graphic-design.jpg",
     date: new Date(2025, 9, 30), // October 30, 2025
     location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 7,
+    slug: "gardening-7",
+    title: "Garden landscaping",
+    description: "Help with planting flowers and arranging garden beds",
+    payment: "$25/hour",
+    category: "Gardening",
+    userId: 2,
+    imageUrl: "/src/app/assets/gardening.jpeg",
+    date: new Date(2025, 11, 5), // December 5, 2025
+    location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 8,
+    slug: "language-8",
+    title: "Spanish conversation practice",
+    description: "Looking for native Spanish speaker for conversation practice",
+    payment: "Skill swap",
+    category: "Language",
+    userId: 6,
+    imageUrl: "/src/app/assets/translating.webp",
+    date: new Date(2025, 10, 22), // November 22, 2025
+    location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 9,
+    slug: "development-9",
+    title: "Mobile app development",
+    description: "Need developer for iOS/Android app prototype",
+    payment: "$50/hour",
+    category: "Development",
+    userId: 7,
+    imageUrl: "/src/app/assets/web-design.jpg",
+    date: new Date(2025, 11, 20), // December 20, 2025
+    location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 10,
+    slug: "tutoring-10",
+    title: "Piano lessons",
+    description: "Beginner piano lessons for adults",
+    payment: "$35/hour",
+    category: "Tutoring",
+    userId: 8,
+    imageUrl: "/src/app/assets/math-tutoring.png",
+    date: new Date(2025, 10, 28), // November 28, 2025
+    location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 11,
+    slug: "cooking-11",
+    title: "Baking workshop",
+    description: "Learn to bake traditional Norwegian pastries",
+    payment: "$30/hour",
+    category: "Cooking",
+    userId: 9,
+    imageUrl: "/src/app/assets/cooking-lessons.jpg",
+    date: new Date(2025, 11, 1), // December 1, 2025
+    location: "BRA Veien 8, 1783 Halden"
+  },
+  {
+    id: 12,
+    slug: "design-12",
+    title: "UI/UX design",
+    description: "Design user interface for mobile application",
+    payment: "$45/hour",
+    category: "Design",
+    userId: 10,
+    imageUrl: "/src/app/assets/graphic-design.jpg",
+    date: new Date(2025, 11, 8), // December 8, 2025
+    location: "BRA Veien 8, 1783 Halden"
   }
 ]
