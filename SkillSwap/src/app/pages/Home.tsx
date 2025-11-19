@@ -7,6 +7,8 @@ import { TopContributors, type Contributor } from "../components/home/TopContrib
 import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
 import { Hero } from "../components/home/Hero";
+import ScrollToTop from "../components/ScrollToTop";
+import TestUserToggle from "../components/TestUserToggle";
 
 // TODO: Remove this import when integrating with backend
 import { mockJobs } from "../../types/job";
@@ -64,7 +66,7 @@ const topContributors: Contributor[] = [
 export function Home({ ctx }: RequestInfo) {
   return (
     <PageLayout ctx={ctx}>
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50">
+      <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
         {/* Hero Section */}
         <Hero isLoggedIn={!!ctx.user} />
 
@@ -79,7 +81,7 @@ export function Home({ ctx }: RequestInfo) {
 
         {/* CTA Section (Call to Action) */}
         {!ctx.user && (
-          <section className="py-16 bg-gradient-to-r from-teal-500 to-emerald-500">
+          <section className="py-16" style={{ backgroundColor: colors.primary.main }}>
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
                 Ready to Start Learning?
@@ -89,7 +91,7 @@ export function Home({ ctx }: RequestInfo) {
               </p>
               <a
                 href="/register"
-                className="inline-block px-8 py-4 bg-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                className="inline-block px-8 py-3 bg-white rounded-lg font-medium text-base transition-all duration-200 cursor-pointer"
                 style={{ color: colors.primary.main }}
               >
                 Create Your Free Account
@@ -98,6 +100,8 @@ export function Home({ ctx }: RequestInfo) {
           </section>
         )}
       </div>
+      <ScrollToTop />
+      <TestUserToggle />
     </PageLayout>
   );
 }

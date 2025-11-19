@@ -42,12 +42,13 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
                 >
                     <button
                         onClick={toggleMenu}
-                        className="flex items-center cursor-pointer bg-transparent border-none p-0"
+                        className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"
                         aria-label="Profile menu"
                         aria-expanded={showProfileMenu}
                         aria-haspopup="true"
                     >
                         <img src="./src/app/assets/icons/boy-icon.png" alt="Profile" className="h-6 w-6" />
+                        <span className="hidden xl:inline text-sm font-medium" style={{ color: '#4b5563' }}>My Profile</span>
                     </button>
 
                     {/* Dropdown Menu */}
@@ -71,6 +72,18 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
                             </li>
                             <li role="none">
                                 <a
+                                    href="/profile/messages"
+                                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                                    role="menuitem"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>Messages</span>
+                                </a>
+                            </li>
+                            <li role="none">
+                                <a
                                     href="/profile/settings"
                                     className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                                     role="menuitem"
@@ -84,7 +97,7 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
                             </li>
                             <li role="none">
                                 <a
-                                    href="/help"
+                                    href="/contact"
                                     className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                                     role="menuitem"
                                 >
@@ -113,11 +126,14 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
             ) : (
                 <a
                     href="/login"
-                    className="text-center text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white"
                     style={{ backgroundColor: '#438C86' }}
                     aria-label="Sign in to your account"
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3a7771'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#438C86'}
                 >
-                    Sign In
+                    <span className="hidden lg:inline">Sign In</span>
+                    <span className="lg:hidden">Sign In</span>
                 </a>
             )}
         </nav>

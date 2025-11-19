@@ -22,10 +22,12 @@ export default function SearchBar() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for skills, services, or people..."
-          className="w-full px-6 py-3 pr-24 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:outline-none text-gray-900 placeholder-gray-400 shadow-sm hover:shadow-md transition-all duration-200"
+                    className="w-full px-6 py-3 pr-24 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
           style={{
             fontSize: '16px',
           }}
+          onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
+          onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
         />
         <button
           type="submit"

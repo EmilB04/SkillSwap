@@ -2,6 +2,7 @@
 
 import Header from "../components/Header";
 import Footer from '../components/Footer';
+import ScrollToTop from '../components/ScrollToTop';
 import { useState, useEffect } from 'react';
 import { Job, mockJobs } from '@/types/job';
 import { colors } from '../theme';
@@ -132,7 +133,7 @@ export default function Explore({ ctx }: RequestInfo){
 
     return(
         <div className="min-h-screen" style={{ 
-            background: `linear-gradient(135deg, ${colors.primary.light}15 0%, ${colors.secondary.emerald}10 100%)` 
+            backgroundColor: colors.secondary.pale
         }}>
             <Header ctx={ctx} />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -157,6 +158,7 @@ export default function Explore({ ctx }: RequestInfo){
                 )}
             </main>
             <Footer/>
+            <ScrollToTop />
         </div>
     )
 }

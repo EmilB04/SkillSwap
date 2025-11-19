@@ -18,6 +18,7 @@ import Contact from "./app/pages/Contact";
 import { getUserProfile } from "./app/services/userProfileService";
 import type { UserProfile } from "./app/pages/user/profile/profileData";
 import Job from "./app/pages/Job";
+import NewAd from "@/app/pages/NewAd";
 
 export { SessionDurableObject } from "./session/durableObject";
 
@@ -78,8 +79,13 @@ export default defineApp([
       ctx.user = null;
     }
 
-    // TEMPORARY: For development/testing with mock user, uncomment the line below
-    ctx.user = await getUserProfile(1); // Load mock user with ID 1
+    // Check for test user cookie
+    const cookies = request.headers.get('cookie') || '';
+    const testUserMatch = cookies.match(/testUser=(\d+)/);
+    if (testUserMatch && !ctx.user) {
+      const testUserId = parseInt(testUserMatch[1]);
+      ctx.user = await getUserProfile(testUserId);
+    }
   },
   render(Document, [
     // Home route
@@ -97,6 +103,9 @@ export default defineApp([
 
     // Explore route
     route("/explore", Explore),
+
+    // New Ad route
+    route("/new-add", [requireAuth, NewAd]),
 
     // Job detail route
     route("/job/:slug", Job),

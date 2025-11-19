@@ -11,12 +11,22 @@ export const colors = {
         hover: '#3a7770',     // Darker teal for hover states
         light: '#5aa49e',     // Lighter teal
         dark: '#2f6660',      // Darkest teal
+        active: '#2f6660',    // Active state
     },
 
     // Secondary Colors
     secondary: {
-        emerald: '#10b981',   // Emerald accent
-        teal: '#14b8a6',      // Teal accent
+        sky: '#5aa49e',       // Light teal accent (matches primary.light)
+        light: '#7BC4D4',     // Lighter teal
+        pale: '#E8F5F4',      // Pale teal background
+        accent: '#A1D6E2',    // Soft blue accent
+    },
+
+    // Support/Contact Colors
+    support: {
+        email: '#816bffff',     // Coral red for email
+        phone: '#4ECDC4',     // Bright teal for phone
+        chat: '#ff6d8dff',      // Bright yellow for chat
     },
 
     // Neutral Colors
