@@ -7,7 +7,7 @@ import { colors } from "../theme";
 import { useState } from "react";
 
 export default function NewAd({ ctx }: RequestInfo) {
-    const [tradeType, setTradeType] = useState<"swap" | "cash" | null>(null);
+    const [tradeType, setTradeType] = useState<"swap" | "cash" | null>("swap");
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [formData, setFormData] = useState({
@@ -262,21 +262,30 @@ export default function NewAd({ ctx }: RequestInfo) {
                         {tradeType === "cash" && (
                             <div>
                                 <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Price (kr)
+                                    Price (NOK)
                                 </label>
-                                <input
-                                    type="number"
-                                    id="price"
-                                    name="price"
-                                    value={formData.price}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                    style={{ borderColor: colors.neutral.gray[300] }}
-                                    onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                    onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
-                                    placeholder="Example: 500"
-                                    required
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                        min="0"
+                                        step="1"
+                                        className="w-full pl-12 pr-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
+                                        style={{ borderColor: colors.neutral.gray[300] }}
+                                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
+                                        onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                        placeholder="500"
+                                        required
+                                    />
+                                    <span 
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 font-medium"
+                                    >
+                                        kr
+                                    </span>
+                                </div>
                             </div>
                         )}
 
