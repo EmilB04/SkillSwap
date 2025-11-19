@@ -132,7 +132,7 @@ export default function Explore({ ctx }: RequestInfo){
 
     return(
         <div className="min-h-screen" style={{ 
-            background: `linear-gradient(135deg, ${colors.primary.light}15 0%, ${colors.secondary.emerald}10 100%)` 
+            backgroundColor: colors.secondary.pale
         }}>
             <Header ctx={ctx} />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

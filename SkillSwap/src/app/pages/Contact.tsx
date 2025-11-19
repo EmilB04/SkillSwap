@@ -16,19 +16,18 @@ export default function Contact({ ctx }: RequestInfo) {
 
     return (
         <div className="min-h-screen" style={{ 
-            background: `linear-gradient(135deg, ${colors.primary.light}15 0%, ${colors.secondary.emerald}10 100%)` 
+            backgroundColor: colors.secondary.pale
         }}>
             <Header ctx={ctx} />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="text-center mb-16">
                     <h1 
-                        className={`text-4xl sm:text-5xl font-bold mb-6 transition-all duration-1000 ${
+                        className={`text-3xl sm:text-4xl font-bold mb-6 transition-all duration-1000 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
+                        style={{ color: colors.primary.main }}
                     >
-                        <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-                            Get in Touch
-                        </span>
+                        Get in Touch
                     </h1>
                     <p 
                         className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-300 ${
@@ -40,20 +39,20 @@ export default function Contact({ ctx }: RequestInfo) {
                 </div>
 
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-16">
-                    {/* Email Support - Teal */}
+                    {/* Email Support */}
                     <div 
-                        className={`bg-white rounded-xl shadow-md p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 ${
+                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{ 
-                            borderColor: colors.primary.main,
+                            borderColor: colors.support.email,
                             transitionDelay: '500ms',
                             transitionDuration: '1000ms'
                         }}
                     >
                         <div 
                             className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6"
-                            style={{ backgroundColor: colors.primary.main }}
+                            style={{ backgroundColor: colors.support.email }}
                         >
                             <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -64,28 +63,28 @@ export default function Contact({ ctx }: RequestInfo) {
                         <a 
                             href="mailto:support@skillswap.com" 
                             className="font-medium transition-colors duration-200"
-                            style={{ color: colors.primary.main }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.hover}
-                            onMouseLeave={(e) => e.currentTarget.style.color = colors.primary.main}
+                            style={{ color: colors.support.email }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.main}
+                            onMouseLeave={(e) => e.currentTarget.style.color = colors.support.email}
                         >
                             support@skillswap.com
                         </a>
                     </div>
 
-                    {/* Phone Support - Emerald */}
+                    {/* Phone Support */}
                     <div 
-                        className={`bg-white rounded-xl shadow-md p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 ${
+                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{ 
-                            borderColor: colors.secondary.emerald,
+                            borderColor: colors.support.phone,
                             transitionDelay: '600ms',
                             transitionDuration: '1000ms'
                         }}
                     >
                         <div 
                             className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6"
-                            style={{ backgroundColor: colors.secondary.emerald }}
+                            style={{ backgroundColor: colors.support.phone }}
                         >
                             <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -96,26 +95,28 @@ export default function Contact({ ctx }: RequestInfo) {
                         <a 
                             href="tel:+4712345678" 
                             className="font-medium transition-colors duration-200"
-                            style={{ color: colors.secondary.emerald }}
+                            style={{ color: colors.support.phone }}
                             onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.main}
-                            onMouseLeave={(e) => e.currentTarget.style.color = colors.secondary.emerald}
+                            onMouseLeave={(e) => e.currentTarget.style.color = colors.support.phone}
                         >
                             +47 123 45 678
                         </a>
                     </div>
 
-                    {/* Live Chat - Indigo */}
+                    {/* Live Chat */}
                     <div 
-                        className={`bg-white rounded-xl shadow-md p-8 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 border-indigo-500 ${
+                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{
+                            borderColor: colors.support.chat,
                             transitionDelay: '700ms',
                             transitionDuration: '1000ms'
                         }}
                     >
                         <div 
-                            className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6 bg-indigo-500"
+                            className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6"
+                            style={{ backgroundColor: colors.support.chat }}
                         >
                             <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -124,7 +125,10 @@ export default function Contact({ ctx }: RequestInfo) {
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">Live Chat</h3>
                         <p className="text-gray-600 mb-4">Quick responses during business hours</p>
                         <button 
-                            className="font-medium transition-colors duration-200 text-indigo-500 hover:text-indigo-600"
+                            className="font-medium transition-colors duration-200"
+                            style={{ color: colors.support.chat }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.main}
+                            onMouseLeave={(e) => e.currentTarget.style.color = colors.support.chat}
                         >
                             Start Chat (Coming Soon)
                         </button>
@@ -142,7 +146,7 @@ export default function Contact({ ctx }: RequestInfo) {
                     </p>
                     <a
                         href="/faq"
-                        className="inline-flex items-center px-6 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5"
+                        className="inline-flex items-center px-6 py-3 rounded-lg font-medium text-white transition-all duration-200"
                         style={{ backgroundColor: colors.primary.main }}
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
