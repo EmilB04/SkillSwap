@@ -79,8 +79,13 @@ export default defineApp([
       ctx.user = null;
     }
 
-    // TEMPORARY: For development/testing with mock user, uncomment the line below
-    ctx.user = await getUserProfile(1); // Load mock user with ID 1
+    // Check for test user cookie
+    const cookies = request.headers.get('cookie') || '';
+    const testUserMatch = cookies.match(/testUser=(\d+)/);
+    if (testUserMatch && !ctx.user) {
+      const testUserId = parseInt(testUserMatch[1]);
+      ctx.user = await getUserProfile(testUserId);
+    }
   },
   render(Document, [
     // Home route

@@ -8,6 +8,7 @@ import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
 import { Hero } from "../components/home/Hero";
 import ScrollToTop from "../components/ScrollToTop";
+import TestUserToggle from "../components/TestUserToggle";
 
 // TODO: Remove this import when integrating with backend
 import { mockJobs } from "../../types/job";
@@ -100,6 +101,7 @@ export function Home({ ctx }: RequestInfo) {
         )}
       </div>
       <ScrollToTop />
+      <TestUserToggle />
     </PageLayout>
   );
 }
