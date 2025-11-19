@@ -2,6 +2,7 @@
 
 import Header from "../components/Header";
 import Footer from '../components/Footer';
+import ScrollToTop from '../components/ScrollToTop';
 import { useState, useEffect } from 'react';
 import { Job, mockJobs } from '@/types/job';
 import { colors } from '../theme';
@@ -157,6 +158,7 @@ export default function Explore({ ctx }: RequestInfo){
                 )}
             </main>
             <Footer/>
+            <ScrollToTop />
         </div>
     )
 }

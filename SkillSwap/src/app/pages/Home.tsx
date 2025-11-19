@@ -7,6 +7,7 @@ import { TopContributors, type Contributor } from "../components/home/TopContrib
 import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
 import { Hero } from "../components/home/Hero";
+import ScrollToTop from "../components/ScrollToTop";
 
 // TODO: Remove this import when integrating with backend
 import { mockJobs } from "../../types/job";
@@ -98,6 +99,7 @@ export function Home({ ctx }: RequestInfo) {
           </section>
         )}
       </div>
+      <ScrollToTop />
     </PageLayout>
   );
 }
