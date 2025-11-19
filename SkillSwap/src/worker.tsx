@@ -18,6 +18,7 @@ import Contact from "./app/pages/Contact";
 import { getUserProfile } from "./app/services/userProfileService";
 import type { UserProfile } from "./app/pages/user/profile/profileData";
 import Job from "./app/pages/Job";
+import NewAd from "@/app/pages/NewAd";
 
 export { SessionDurableObject } from "./session/durableObject";
 
@@ -97,6 +98,9 @@ export default defineApp([
 
     // Explore route
     route("/explore", Explore),
+
+    // New Ad route
+    route("/new-add", [requireAuth, NewAd]),
 
     // Job detail route
     route("/job/:slug", Job),
