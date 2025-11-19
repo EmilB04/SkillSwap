@@ -82,8 +82,8 @@ export function Hero({
         <section className="relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
                 <div className="text-center">
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
-                        <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                        <span style={{ color: colors.primary.main }}>
                             {title.line1}
                         </span>
                         <br />
@@ -104,10 +104,12 @@ export function Hero({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder={searchPlaceholder}
-                                        className="w-full px-6 py-4 pr-32 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:outline-none text-gray-900 placeholder-gray-400 shadow-md hover:shadow-lg transition-all duration-200"
+                                        className="w-full px-6 py-4 pr-32 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                                         style={{
                                             fontSize: '16px',
                                         }}
+                                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
+                                        onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
                                     />
                                     <button
                                         type="submit"
@@ -139,7 +141,18 @@ export function Hero({
                                                     window.location.href = `/explore?search=${encodeURIComponent(term)}`;
                                                 }
                                             }}
-                                            className="text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:border-teal-500 hover:text-teal-600 transition-colors duration-200 cursor-pointer"
+                                            className="text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 transition-colors duration-200 cursor-pointer"
+                                            style={{
+                                                borderColor: '#d1d5db',
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.borderColor = colors.primary.main;
+                                                e.currentTarget.style.color = colors.primary.main;
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.borderColor = '#d1d5db';
+                                                e.currentTarget.style.color = '#4b5563';
+                                            }}
                                         >
                                             {term}
                                         </button>
@@ -154,9 +167,9 @@ export function Hero({
                             <a
                                 key={index}
                                 href={button.href}
-                                className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer ${button.variant === "primary"
-                                        ? "text-white transform hover:-translate-y-0.5"
-                                        : "bg-white text-gray-700 shadow-md hover:shadow-lg border-2 border-gray-200 hover:border-gray-300"
+                                className={`w-full sm:w-auto px-8 py-3 rounded-lg font-medium text-base transition-all duration-200 cursor-pointer ${button.variant === "primary"
+                                        ? "text-white"
+                                        : "bg-white text-gray-700 border border-gray-300"
                                     }`}
                                 style={button.variant === "primary" ? { backgroundColor: colors.primary.main } : {}}
                                 onMouseEnter={(e) => {

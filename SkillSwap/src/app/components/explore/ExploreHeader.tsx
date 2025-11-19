@@ -46,7 +46,7 @@ export default function ExploreHeader() {
             <div 
                 className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full blur-3xl -z-10"
                 style={{
-                    background: `${colors.secondary.emerald}20`,
+                    background: `${colors.secondary.accent}20`,
                     transform: `translate(${scrollY * 0.2}px, ${scrollY * 0.15}px)`,
                 }}
             />
@@ -60,58 +60,26 @@ export default function ExploreHeader() {
 
             {/* Main heading */}
             <h1 
-                className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 transition-all duration-1000 ${
+                className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-6 transition-all duration-1000 ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
                 style={{ 
-                    background: `linear-gradient(135deg, ${colors.primary.main}, ${colors.secondary.emerald})`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    letterSpacing: '-0.03em',
-                    lineHeight: '1.1',
+                    color: colors.primary.main,
+                    letterSpacing: '-0.02em',
+                    lineHeight: '1.2',
                 }}
             >
-                Explore
-                <br />
-                <span 
-                    className={`transition-all duration-1000 delay-200 ${
-                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ display: 'inline-block' }}
-                >
-                    Opportunities
-                </span>
+                Explore Opportunities
             </h1>
 
             {/* Subtitle with staggered animation */}
             <div className="space-y-2">
                 <p 
-                    className={`text-xl sm:text-2xl md:text-3xl text-gray-700 max-w-3xl mx-auto font-medium transition-all duration-1000 delay-300 ${
+                    className={`text-base sm:text-lg text-gray-600 max-w-3xl mx-auto transition-all duration-1000 delay-300 ${
                         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                     }`}
                 >
-                    Discover skills to learn
-                </p>
-                <p 
-                    className={`text-xl sm:text-2xl md:text-3xl text-gray-700 max-w-3xl mx-auto font-medium transition-all duration-1000 delay-400 ${
-                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                >
-                    Services to offer
-                </p>
-                <p 
-                    className={`text-xl sm:text-2xl md:text-3xl max-w-3xl mx-auto font-medium transition-all duration-1000 delay-500 ${
-                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ 
-                        background: `linear-gradient(135deg, ${colors.primary.main}, ${colors.secondary.emerald})`,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                    }}
-                >
-                    Opportunities to grow
+                    Discover skills to learn, services to offer, and opportunities to grow
                 </p>
             </div>
 
