@@ -99,7 +99,20 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                 {/* Payment Type */}
                 <div className="flex flex-col justify-end">
                     <label className="block font-semibold mb-2 text-gray-700">Payment Type</label>
-                    <div className="flex gap-4 p-3">
+                    <div className="flex gap-3 p-3">
+                        <div className="flex items-center gap-2">
+                            <input 
+                                type="radio" 
+                                id="all-payment" 
+                                name="payment" 
+                                value=""
+                                checked={filters.payment === ''}
+                                onChange={onFilterChange}
+                                className="w-5 h-5 cursor-pointer" 
+                                style={{ accentColor: colors.primary.main }}
+                            />
+                            <label htmlFor="all-payment" className="text-base cursor-pointer">All</label>
+                        </div>
                         <div className="flex items-center gap-2">
                             <input 
                                 type="radio" 
