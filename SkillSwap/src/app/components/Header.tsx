@@ -369,7 +369,7 @@ export default function Header({ ctx }: HeaderProps) {
                   <li className="mt-2">
                     <a
                       href="/register"
-                      className="flex items-center justify-center mx-3 py-3 px-4 rounded-lg font-semibold transition-all cursor-pointer"
+                      className="flex items-center justify-center mx-3 py-4 px-4 rounded-lg font-semibold transition-all cursor-pointer"
                       style={{
                         borderWidth: '2px',
                         borderColor: colors.primary.main,

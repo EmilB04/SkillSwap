@@ -126,11 +126,14 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
             ) : (
                 <a
                     href="/login"
-                    className="text-center text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white"
                     style={{ backgroundColor: '#438C86' }}
                     aria-label="Sign in to your account"
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3a7771'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#438C86'}
                 >
-                    Sign In
+                    <span className="hidden lg:inline">Sign In</span>
+                    <span className="lg:hidden">Sign In</span>
                 </a>
             )}
         </nav>
