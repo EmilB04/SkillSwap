@@ -90,7 +90,7 @@ export function Hero({
                         <span className="text-gray-900">{title.line2}</span>
                     </h1>
 
-                    <p className="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
                         {subtitle}
                     </p>
 
@@ -187,26 +187,6 @@ export function Hero({
                             </a>
                         ))}
                     </div>
-
-                    {/* Stats */}
-                    {showStats && (
-                        <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-                            {stats.map((stat, index) => (
-                                <div key={index}>
-                                    <div className="text-3xl sm:text-4xl font-bold" style={{ color: colors.primary.main }}>
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {showDisclaimer && disclaimerText && (
-                        <p className="text-sm text-gray-600 mt-10 italic">
-                            {disclaimerText}
-                        </p>
-                    )}
                 </div>
             </div>
         </section>

@@ -14,6 +14,10 @@ interface HowItWorksProps {
     description?: string;
     steps?: Step[];
     backgroundColor?: string;
+    showStats?: boolean;
+    stats?: Array<{value: string; label: string}>;
+    showDisclaimer?: boolean;
+    disclaimerText?: string;
 }
 
 const defaultSteps: Step[] = [
@@ -49,11 +53,21 @@ const defaultSteps: Step[] = [
     },
 ];
 
+const defaultStats = [
+    { value: "500+", label: "Active Users" },
+    { value: "1,200+", label: "Skills Shared" },
+    { value: "350+", label: "Swaps Completed" },
+];
+
 export function HowItWorks({
     title = "How SkillSwap Works",
     description = "Start exchanging skills in three simple steps",
     steps = defaultSteps,
     backgroundColor = "transparent",
+    showStats = true,
+    stats = defaultStats,
+    showDisclaimer = true,
+    disclaimerText = "Disclaimer: All statistics are for demonstration purposes only and may not reflect real user activity.",
 }: HowItWorksProps) {
     return (
         <section className="py-16" style={{ backgroundColor }}>
@@ -90,6 +104,29 @@ export function HowItWorks({
                         </div>
                     ))}
                 </div>
+
+                {/* Stats Section */}
+                {showStats && (
+                    <div className="mt-16 pt-12 border-t border-gray-200">
+                        <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+                            {stats.map((stat, index) => (
+                                <div key={index} className="text-center">
+                                    <div className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: colors.primary.main }}>
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-sm text-gray-600">{stat.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Disclaimer */}
+                {showDisclaimer && disclaimerText && (
+                    <p className="text-sm text-gray-600 mt-8 text-center italic">
+                        {disclaimerText}
+                    </p>
+                )}
             </div>
         </section>
     );
