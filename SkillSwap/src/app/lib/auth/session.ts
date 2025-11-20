@@ -153,4 +153,35 @@ export function extractSessionFromCookies(cookieHeader: string): string | null {
 }
 
 // Set session cookie
+export function setSessionCookie(sessionId: string): string {
+    const options = getSessionCookieOptions();
 
+    const baseCookie = [
+        `${SESSION_COOKIE_NAME}'=${encodeURIComponent(sessionId)}`,
+        `Max-Age=${options.maxAge}`,
+        `Path=${options.path}`,
+        `SameSite=${options.sameSite}`,
+    ];
+
+    if (options.httpOnly) baseCookie.push("HttpOnly");
+    if (options.secure) baseCookie.push("Secure");
+
+    return baseCookie.join("; ");
+}
+
+// Clearing session cookie
+
+export function clearSessionCookie(): string {
+    const options = getSessionCookieOptions();
+
+    const baseCookie = [
+        `${SESSION_COOKIE_NAME}=; Max-Age=0`,
+        `Path=${options.path}`,
+        `SameSite=${options.sameSite}`,
+    ];
+
+    if (options.httpOnly) baseCookie.push("HttpOnly");
+    if (options.secure) baseCookie.push("Secure");
+
+    return baseCookie.join("; ")
+}
