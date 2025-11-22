@@ -2,6 +2,7 @@ import { Job as JobType, mockJobs } from "@/types/job";
 import { colors } from "@/app/theme";
 import Header from "../components/Header";
 import Footer from '../components/Footer';
+import JobCard from "../components/JobCard";
 
 // Mock users data - in the future this will come from the database
 const mockUsers = [
@@ -45,6 +46,7 @@ const mockUsers = [
 export default function Job({ params }: { params: { slug: string } }) {
     const jobSlug = params.slug;
     const job = mockJobs.find((j) => j.slug === jobSlug);
+    const relatedJobs = mockJobs.filter((j) => j.category === job?.category && j.id !== job?.id).slice(0, 3);
     
     // Find the user who published this job
     const publisher = job ? mockUsers.find((u) => u.id === job.userId) : null;
@@ -245,10 +247,68 @@ export default function Job({ params }: { params: { slug: string } }) {
                             className="block w-full py-4 rounded-xl text-white font-semibold text-lg shadow-md hover:shadow-lg transition-all duration-200 text-center"
                             style={{ backgroundColor: colors.primary.main }}
                         > 
-                            Request This Opportunity
+                            Request This Job
                         </a>
                     </div>
                 </article>
+
+                {/* Related Jobs Section */}
+                <section className="mt-12">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6">Related Opportunities</h2>
+                    {relatedJobs.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {relatedJobs.map((relatedJob) => (
+                                <JobCard 
+                                    key={relatedJob.id}
+                                    job={relatedJob}
+                                    category={relatedJob.category}
+                                    payment={relatedJob.payment}
+                                    imageUrl={relatedJob.imageUrl}
+                                    date={relatedJob.date}
+                                    location={relatedJob.location}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-16 text-center relative overflow-hidden">
+                            {/* Decorative background elements */}
+                            <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20" style={{ backgroundColor: colors.primary.main }} />
+                            <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full blur-3xl opacity-20" style={{ backgroundColor: colors.primary.light }} />
+                            
+                            <div className="max-w-md mx-auto relative z-10">
+                                <div className="mb-6 relative">
+                                    <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4" 
+                                         style={{ backgroundColor: `${colors.primary.main}15` }}>
+                                        <svg 
+                                            className="w-10 h-10" 
+                                            style={{ color: colors.primary.main }}
+                                            fill="none" 
+                                            stroke="currentColor" 
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-2">No Related Opportunities</h3>
+                                <p className="text-gray-600 text-base mb-8 leading-relaxed">
+                                    We couldn't find similar opportunities at the moment, but there are plenty of other exciting options waiting for you!
+                                </p>
+                                <a 
+                                    href="/explore" 
+                                    className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-white font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200"
+                                    style={{ backgroundColor: colors.primary.main }}
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Explore All Opportunities
+                                </a>
+                            </div>
+                        </div>
+                    )}
+                </section>
                 </div>
             </main>
             
