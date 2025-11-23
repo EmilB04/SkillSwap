@@ -37,10 +37,20 @@ export function createAuthRepository(): AuthRepository {
         async findUserById(id) {
             try {
                 const rows = await db
-                    .select()
-                    .from(users)
-                    .where(eq(users.id, id))
-                    .limit(1);
+                  .select({
+                    id: users.id,
+                    name: users.name,
+                    email: users.email,
+                    role: users.role,
+                    isActive: users.isActive,
+                    lastLoginAt: users.lastLoginAt,
+                    createdAt: users.createdAt,
+                    updatedAt: users.updatedAt,
+                 })
+                 .from(users)
+                 .where(eq(users.id, id))
+                 .limit(1);
+
 
                 return { success: true, data: rows[0] || null };
             } catch (error) {
