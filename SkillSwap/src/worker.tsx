@@ -3,9 +3,7 @@ import { route, render, RouteDefinition, prefix } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
-import { sessions, setupSessionStore } from "./session/store";
 import Explore from "@/app/pages/Explore";
-import { Session } from "./session/durableObject";
 import { env } from "cloudflare:workers";
 import { Login } from "./app/pages/user/account/Login";
 import { Register } from "./app/pages/user/account/Register";
@@ -15,22 +13,21 @@ import { NotificationsPage } from "./app/pages/user/profile/NotificationsPage";
 import SettingsPage from "./app/pages/user/profile/SettingsPage";
 import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
-import { getUserProfile } from "./app/services/userProfileService";
-import type { UserProfile } from "./app/pages/user/profile/profileData";
 import Job from "./app/pages/Job";
 import NewAd from "@/app/pages/NewAd";
+import type { SafeUser, Session } from "@/db";
 
-export { SessionDurableObject } from "./session/durableObject";
 
 import { adsRoutes } from "./features/ads/ads.routes";
 import { messagesRoutes } from "./features/messages/messages.routes";
 import { reviewsRoutes } from "./features/reviews/reviews.routes";
 import { notificationsRoutes } from "./features/notifications/notifications.routes";
 import { profileRoutes } from "./features/profile/profile.routes";
+ 
 
 export type AppContext = {
   session: Session | null;
-  user: UserProfile | null;
+  user: SafeUser | null;
 };
 
 // Authentication middleware - requires user to be logged in
