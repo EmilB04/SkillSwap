@@ -16,5 +16,5 @@ export const users = sqliteTable("users", {
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
-
+export type UserRole = "user" | "moderator" | "admin";
 export type SafeUser = Omit<User, "passwordHash">;
