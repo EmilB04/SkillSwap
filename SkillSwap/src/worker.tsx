@@ -1,10 +1,9 @@
-import { defineApp, ErrorResponse, RequestInfo } from "rwsdk/worker";
-import { route, render, RouteDefinition, prefix } from "rwsdk/router";
+import { defineApp } from "rwsdk/worker";
+import { route, render, prefix } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 import { setCommonHeaders } from "@/app/headers";
 import Explore from "@/app/pages/Explore";
-import { env } from "cloudflare:workers";
 import { Login } from "./app/pages/user/account/Login";
 import { Register } from "./app/pages/user/account/Register";
 import { MyPage } from "./app/pages/user/profile/MyPage";
@@ -15,7 +14,11 @@ import EditPage from "./app/pages/user/profile/EditPage";
 import Contact from "./app/pages/Contact";
 import Job from "./app/pages/Job";
 import NewAd from "@/app/pages/NewAd";
-import type { SafeUser, Session } from "@/db";
+
+import type { Session, SafeUser } from "@/db";
+import { authenticationMiddleware } from "./app/middleware/authentication";
+import { requireAuth } from "@/app/middleware/authorization";
+import { clearSessionCookie } from "@/app/lib/auth/session";
 
 
 import { adsRoutes } from "./features/ads/ads.routes";
@@ -30,60 +33,9 @@ export type AppContext = {
   user: SafeUser | null;
 };
 
-// Authentication middleware - requires user to be logged in
-const requireAuth = ({ ctx }: { ctx: AppContext }) => {
-  if (!ctx.user) {
-    return new Response(null, { 
-      status: 302, 
-      headers: { Location: "/login" } 
-    });
-  }
-};
-
 export default defineApp([
   setCommonHeaders(),
-  async ({ ctx, request, headers }) => {
-    setupSessionStore(env);
-
-    try {
-      ctx.session = await sessions.load(request);
-    } catch (error) {
-      if (error instanceof ErrorResponse && error.code === 401) {
-        await sessions.remove(request, headers);
-        headers.set("Location", "/login");
-
-        return new Response(null, {
-          status: 302,
-          headers,
-        });
-      }
-
-      throw error;
-    }
-
-    // Load user profile if session exists
-    if (ctx.session?.userId) {
-      const userId = parseInt(ctx.session.userId);
-      ctx.user = await getUserProfile(userId);
-      
-      // If user not found in DB but session exists, clear session
-      if (!ctx.user) {
-        await sessions.remove(request, headers);
-        ctx.user = null; // Ensure user is null if not found
-      }
-    } else {
-      // No session - user is not logged in
-      ctx.user = null;
-    }
-
-    // Check for test user cookie
-    const cookies = request.headers.get('cookie') || '';
-    const testUserMatch = cookies.match(/testUser=(\d+)/);
-    if (testUserMatch && !ctx.user) {
-      const testUserId = parseInt(testUserMatch[1]);
-      ctx.user = await getUserProfile(testUserId);
-    }
-  },
+  authenticationMiddleware,
   render(Document, [
     // Home route
     route("/", Home),
@@ -91,9 +43,10 @@ export default defineApp([
     // Auth routes
     route("/login", Login),
     route("/register", Register),
-    route("/logout", async function ({ request }) {
+
+    route("/logout", () => {
       const headers = new Headers();
-      await sessions.remove(request, headers);
+      headers.set("Set-Cookie", clearSessionCookie());
       headers.set("Location", "/");
       return new Response(null, { status: 302, headers });
     }),
@@ -102,7 +55,7 @@ export default defineApp([
     route("/explore", Explore),
 
     // New Ad route
-    route("/new-add", [requireAuth, NewAd]),
+    route("/new-add", [requireAuth(), NewAd]),
 
     // Job detail route
     route("/job/:slug", Job),
@@ -111,11 +64,13 @@ export default defineApp([
     route("/contact", Contact),
 
     // Profile routes (protected - require authentication)
-    route("/profile", [requireAuth, MyPage]),
-    route("/profile/edit", [requireAuth, EditPage]),
-    route("/profile/messages", [requireAuth, MessagesPage]),
-    route("/profile/notifications", [requireAuth, NotificationsPage]),
-    route("/profile/settings", [requireAuth, SettingsPage]),
+    route("/profile", [requireAuth(), MyPage]),
+    route("/profile/edit", [requireAuth(), EditPage]),
+    route("/profile/messages", [requireAuth(), MessagesPage]),
+    route("/profile/notifications", [requireAuth(), NotificationsPage]),
+    route("/profile/settings", [requireAuth(), SettingsPage]),
+
+    // API routes
     // Ads routes
     prefix("/api/v1/ads", adsRoutes),
     // Messages routes
@@ -128,7 +83,7 @@ export default defineApp([
     prefix("/api/v1/profile", profileRoutes),
 
     // Protected route example
-    route("/protected", [requireAuth, Home]),
+     route("/protected", [requireAuth(), Home]),
   ]),
 ]);
 
