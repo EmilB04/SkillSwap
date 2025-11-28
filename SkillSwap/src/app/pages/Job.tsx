@@ -1,8 +1,11 @@
-import { Job as JobType, mockJobs } from "@/types/job";
+"use client";
+
+import { Job as JobType } from "@/types/job";
 import { colors } from "@/app/theme";
 import Header from "../components/Header";
 import Footer from '../components/Footer';
 import JobCard from "../components/JobCard";
+import { useState, useEffect } from "react";
 
 // Mock users data - in the future this will come from the database
 const mockUsers = [
@@ -45,11 +48,83 @@ const mockUsers = [
 
 export default function Job({ params }: { params: { slug: string } }) {
     const jobSlug = params.slug;
-    const job = mockJobs.find((j) => j.slug === jobSlug);
-    const relatedJobs = mockJobs.filter((j) => j.category === job?.category && j.id !== job?.id).slice(0, 3);
+    const [job, setJob] = useState<JobType | null>(null);
+    const [relatedJobs, setRelatedJobs] = useState<JobType[]>([]);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        async function fetchJob() {
+            try {
+                // Fetch specific ad by slug
+                const response = await fetch(`/api/v1/ads?slug=${jobSlug}`);
+                const result = await response.json() as { success: boolean; data?: any };
+                
+                if (result.success && result.data) {
+                    const ad = result.data;
+                    const fetchedJob: JobType = {
+                        id: ad.id,
+                        slug: ad.slug || `${ad.category?.toLowerCase()}-${ad.id}`,
+                        title: ad.title,
+                        description: ad.description,
+                        userId: ad.userId,
+                        category: ad.category || 'Other',
+                        payment: ad.payment || 'Negotiable',
+                        imageUrl: ad.imageUrl || '/src/app/assets/gardening.jpeg',
+                        date: ad.date ? new Date(ad.date) : new Date(),
+                        location: ad.location || 'Location not specified',
+                        createdAt: ad.createdAt ? new Date(ad.createdAt) : undefined,
+                        updatedAt: ad.updatedAt ? new Date(ad.updatedAt) : undefined,
+                    };
+                    setJob(fetchedJob);
+                    
+                    // Fetch all ads to get related ones
+                    const allAdsResponse = await fetch('/api/v1/ads');
+                    const allAdsResult = await allAdsResponse.json() as { success: boolean; data?: any[] };
+                    
+                    if (allAdsResult.success && allAdsResult.data) {
+                        const allJobs: JobType[] = allAdsResult.data.map((ad: any) => ({
+                            id: ad.id,
+                            slug: ad.slug || `${ad.category?.toLowerCase()}-${ad.id}`,
+                            title: ad.title,
+                            description: ad.description,
+                            userId: ad.userId,
+                            category: ad.category || 'Other',
+                            payment: ad.payment || 'Negotiable',
+                            imageUrl: ad.imageUrl || '/src/app/assets/gardening.jpeg',
+                            date: ad.date ? new Date(ad.date) : new Date(),
+                            location: ad.location || 'Location not specified',
+                        }));
+                        
+                        const related = allJobs.filter((j) => j.category === fetchedJob.category && j.id !== fetchedJob.id).slice(0, 3);
+                        setRelatedJobs(related);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching job:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        fetchJob();
+    }, [jobSlug]);
     
     // Find the user who published this job
     const publisher = job ? mockUsers.find((u) => u.id === job.userId) : null;
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
+                <Header />
+                <main className="flex-grow flex items-center justify-center">
+                    <div className="text-center">
+                        <p className="text-lg">Loading job details...</p>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
     if (!job) {
         return (

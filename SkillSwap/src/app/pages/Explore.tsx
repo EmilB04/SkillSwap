@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
 import { useState, useEffect } from 'react';
-import { Job, mockJobs } from '@/types/job';
+import { Job } from '@/types/job';
 import { colors } from '../theme';
 import { 
     ExploreHeader, 
@@ -16,7 +16,9 @@ import {
 import { RequestInfo } from "rwsdk/worker";
 
 export default function Explore({ ctx }: RequestInfo){
-    const [filteredJobs, setFilteredJobs] = useState<Job[]>(mockJobs);
+    const [allJobs, setAllJobs] = useState<Job[]>([]);
+    const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+    const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         category: 'all',
         dateRange: 'alltime',
@@ -25,6 +27,43 @@ export default function Explore({ ctx }: RequestInfo){
 
     // State for search query
     const [searchQuery, setSearchQuery] = useState('');
+
+    // Fetch ads from API when component mounts
+    useEffect(() => {
+        async function fetchAds() {
+            try {
+                setLoading(true);
+                const response = await fetch('/api/v1/ads');
+                const result = await response.json() as { success: boolean; data?: any[] };
+                
+                if (result.success && result.data) {
+                    // Transform API data to Job format
+                    const jobs: Job[] = result.data.map((ad: any) => ({
+                        id: ad.id,
+                        slug: ad.slug || `${ad.category?.toLowerCase()}-${ad.id}`,
+                        title: ad.title,
+                        description: ad.description,
+                        userId: ad.userId,
+                        category: ad.category || 'Other',
+                        payment: ad.payment || 'Negotiable',
+                        imageUrl: ad.imageUrl || '/src/app/assets/gardening.jpeg',
+                        date: ad.date ? new Date(ad.date) : new Date(),
+                        location: ad.location || 'Location not specified',
+                        createdAt: ad.createdAt ? new Date(ad.createdAt) : undefined,
+                        updatedAt: ad.updatedAt ? new Date(ad.updatedAt) : undefined,
+                    }));
+                    setAllJobs(jobs);
+                    setFilteredJobs(jobs);
+                }
+            } catch (error) {
+                console.error('Error fetching ads:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        fetchAds();
+    }, []);
 
     // Get search query from URL when component mounts
     useEffect(() => {
@@ -36,8 +75,10 @@ export default function Explore({ ctx }: RequestInfo){
 
     // Apply filters and search when component mounts or search query changes
     useEffect(() => {
-        applyFilters();
-    }, [searchQuery, filters]);
+        if (!loading) {
+            applyFilters();
+        }
+    }, [searchQuery, filters, allJobs, loading]);
 
     // Handle filter changes
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -50,7 +91,7 @@ export default function Explore({ ctx }: RequestInfo){
 
     // Apply filters to jobs
     const applyFilters = () => {
-        let result = [...mockJobs];
+        let result = [...allJobs];
 
         // Filter by search query
         if (searchQuery.trim()) {
@@ -151,7 +192,11 @@ export default function Explore({ ctx }: RequestInfo){
                     searchQuery={searchQuery}
                 />
 
-                {filteredJobs.length > 0 ? (
+                {loading ? (
+                    <div className="text-center py-12">
+                        <p className="text-lg">Loading ads...</p>
+                    </div>
+                ) : filteredJobs.length > 0 ? (
                     <JobGrid jobs={filteredJobs} />
                 ) : (
                     <EmptyState onClearFilters={handleClearFilters} />
