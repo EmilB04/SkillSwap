@@ -40,8 +40,8 @@ export const validateLoginForm = (
         return "Password is required";
     }
 
-    if (password.length < 6) {
-        return "Password must be at least 6 characters";
+    if (password.length < 8) {
+        return "Password must be at least 8 characters";
     }
 
     return null;
@@ -54,7 +54,6 @@ export const performLogin = async (
     credentials: LoginCredentials
 ): Promise<LoginResponse> => {
     try {
-        // TODO: Implement standard login API call
         const response = await fetch("/api/login", {
             method: "POST",
             headers: {
@@ -66,11 +65,11 @@ export const performLogin = async (
             }),
         });
 
+        const data: any = await response.json().catch(() => ({}));
+
         if (!response.ok) {
-            const error = await response.json();
             return {
-                success: false,
-                message: (error as any).message || "Login failed",
+                success: false, message: data?.error?.message || (data as any)?.message || "Login failed",
             };
         }
 
@@ -115,6 +114,6 @@ export const isLoginFormValid = (email: string, password: string): boolean => {
         email.trim().length > 0 &&
         email.includes('@') &&
         email.includes('.') &&
-        password.trim().length >= 6
+        password.trim().length >= 8
     );
 };

@@ -16,17 +16,16 @@ import Job from "./app/pages/Job";
 import NewAd from "@/app/pages/NewAd";
 
 import type { Session, SafeUser } from "@/db";
-import { authenticationMiddleware } from "./app/middleware/authentication";
+import { authenticationMiddleware } from "@/app/middleware/authentication";
 import { requireAuth } from "@/app/middleware/authorization";
 import { clearSessionCookie } from "@/app/lib/auth/session";
-
 
 import { adsRoutes } from "./features/ads/ads.routes";
 import { messagesRoutes } from "./features/messages/messages.routes";
 import { reviewsRoutes } from "./features/reviews/reviews.routes";
 import { notificationsRoutes } from "./features/notifications/notifications.routes";
 import { profileRoutes } from "./features/profile/profile.routes";
- 
+import { authRoutes } from "./features/auth/auth.routes";
 
 export type AppContext = {
   session: Session | null;
@@ -35,15 +34,28 @@ export type AppContext = {
 
 export default defineApp([
   setCommonHeaders(),
+
+  // Her settes ctx.user og ctx.session basert på cookie
   authenticationMiddleware,
+
+  // API-ruter 
+  prefix("/api", authRoutes),
+  prefix("/api/v1/ads", adsRoutes),
+  prefix("/api/v1/messages", messagesRoutes),
+  prefix("/api/v1/reviews", reviewsRoutes),
+  prefix("/api/v1/notifications", notificationsRoutes),
+  prefix("/api/v1/profile", profileRoutes),
+
+  // Page-ruter
   render(Document, [
     // Home route
     route("/", Home),
 
-    // Auth routes
+    // Auth pages
     route("/login", Login),
     route("/register", Register),
 
+    // Logout, clearing session cookie + redirect
     route("/logout", () => {
       const headers = new Headers();
       headers.set("Set-Cookie", clearSessionCookie());
@@ -54,7 +66,7 @@ export default defineApp([
     // Explore route
     route("/explore", Explore),
 
-    // New Ad route
+    // New Ad route (krever login)
     route("/new-add", [requireAuth(), NewAd]),
 
     // Job detail route
@@ -63,27 +75,14 @@ export default defineApp([
     // Contact route
     route("/contact", Contact),
 
-    // Profile routes (protected - require authentication)
+    // Profile routes (beskyttet)
     route("/profile", [requireAuth(), MyPage]),
     route("/profile/edit", [requireAuth(), EditPage]),
     route("/profile/messages", [requireAuth(), MessagesPage]),
     route("/profile/notifications", [requireAuth(), NotificationsPage]),
     route("/profile/settings", [requireAuth(), SettingsPage]),
 
-    // API routes
-    // Ads routes
-    prefix("/api/v1/ads", adsRoutes),
-    // Messages routes
-    prefix("/api/v1/messages", messagesRoutes),
-    // Reviews routes
-    prefix("/api/v1/reviews", reviewsRoutes),
-    // Notifications routes
-    prefix("/api/v1/notifications", notificationsRoutes),
-    // Profile routes
-    prefix("/api/v1/profile", profileRoutes),
-
     // Protected route example
-     route("/protected", [requireAuth(), Home]),
+    route("/protected", [requireAuth(), Home]),
   ]),
 ]);
-

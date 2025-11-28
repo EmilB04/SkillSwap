@@ -2,7 +2,7 @@
 import { route, type RouteDefinition } from "rwsdk/router";
 import { authService } from "@/features/auth/auth.service";
 import { LoginDTOSchema, RegisterDTOSchema } from "@/db/schema/auth/dtos";
-import { setSessionCookie, clearSessionCookie } from "@/app/lib/auth/session";
+import { setSessionCookie } from "@/app/lib/auth/session";
 
 export const authRoutes: RouteDefinition[] = [
   // POST /api/login
