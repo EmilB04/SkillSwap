@@ -25,12 +25,42 @@ export default defineScript(async ({ env }) => {
      bio: "Hei! Jeg er kul.",
   });
 
-  // creating a ad
-  await db.insert(ads).values({
-    title: "Matlaging",
-    description: "Jeg kan lage mat, ønsker å bytte mot noen som kan ta oppvasken.",
-    userId: testUser.id,
-  });
+  // creating ads with full data
+  await db.insert(ads).values([
+    {
+      slug: "gardening-1",
+      title: "Lawn Mowing",
+      description: "Need help with mowing the lawn",
+      userId: testUser.id,
+      category: "Gardening",
+      payment: "$20/hour",
+      imageUrl: "/src/app/assets/gardening.jpeg",
+      location: "BRA Veien 8, 1783 Halden",
+      date: new Date(2025, 9, 17), // October 17, 2025
+    },
+    {
+      slug: "language-2",
+      title: "Translating",
+      description: "Need help with translating documents",
+      userId: testUser.id,
+      category: "Language",
+      payment: "$10/hour",
+      imageUrl: "/src/app/assets/translating.webp",
+      location: "BRA Veien 8, 1783 Halden",
+      date: new Date(2025, 9, 18),
+    },
+    {
+      slug: "development-3",
+      title: "Web design",
+      description: "Looking for a modern website design",
+      userId: testUser.id,
+      category: "Development",
+      payment: "$30/hour",
+      imageUrl: "/src/app/assets/web-design.jpg",
+      location: "BRA Veien 8, 1783 Halden",
+      date: new Date(2025, 9, 20),
+    },
+  ]);
 
   console.log("🌱 Finished seeding");
 
