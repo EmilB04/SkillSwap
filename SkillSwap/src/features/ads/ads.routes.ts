@@ -6,8 +6,13 @@ export const adsRoutes = [
     route("/", async (ctx) => {
         const method = ctx.request.method.toLowerCase();
         switch (method) {
-            // GET /api/v1/ads
+            // GET /api/v1/ads or GET /api/v1/ads?slug=...
             case "get": 
+                const url = new URL(ctx.request.url);
+                const slug = url.searchParams.get('slug');
+                if (slug) {
+                    return adsController.getAdBySlug(ctx, slug);
+                }
                 return adsController.listAds(ctx);
             // POST /api/v1/ads
             case "post": 

@@ -6,7 +6,9 @@ import type { CrudService, WithDelete } from "../../types/crud";
 
 // Service interface for managing ads
 export interface AdsService 
-    extends CrudService<Ad, InsertAd, Partial<InsertAd>, AdsQueryParams>, WithDelete {}
+    extends CrudService<Ad, InsertAd, Partial<InsertAd>, AdsQueryParams>, WithDelete {
+    getBySlug(slug: string): Promise<Result<Ad>>;
+}
 
 // Factory function to create an AdsService instance
 export function createAdsService(repository: AdsRepository): AdsService {
@@ -40,6 +42,11 @@ export function createAdsService(repository: AdsRepository): AdsService {
         // Delete an ad by its ID
         async delete(id: string) {
             return repository.delete(id);
+        },
+
+        // Get ad by slug
+        async getBySlug(slug: string) {
+            return repository.findBySlug(slug);
         }
     };
 }

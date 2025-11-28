@@ -108,6 +108,23 @@ export function createAdsController(service: AdsService) {
                 });
             },
 
+            // GET /api/v1/ads?slug=...
+            async getAdBySlug(context: RequestInfo, slug: string) {
+                const serviceResults = await service.getBySlug(slug);
+
+                if(!serviceResults.success) {
+                    return new Response(JSON.stringify(serviceResults),{
+                        status: serviceResults.error.code || 500,
+                        headers: { "Content-Type": "application/json" },
+                    });
+                }
+
+                return new Response(JSON.stringify(serviceResults), {
+                    status: 200, 
+                    headers: { "Content-Type": "application/json" },
+                });
+            },
+
         };
     }
 

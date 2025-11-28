@@ -8,11 +8,13 @@ export type AdsQueryParams = {
     userId?: number | string;
     limit?: number | string;
     offset?: number | string;
+    slug?: string;
 };
 
 export interface AdsRepository
   extends CrudRepository<Ad, InsertAd, Partial<InsertAd>, AdsQueryParams> {
-  delete(id: string): Promise<Result<{ deleted: boolean }>>; 
+  delete(id: string): Promise<Result<{ deleted: boolean }>>;
+  findBySlug(slug: string): Promise<Result<Ad>>;
 }
 
 // Factory function to create an AdsRepository instance
@@ -79,11 +81,7 @@ export function createAdsRepository(): AdsRepository {
             try {
                 const [row] = await db
                 .insert(ads)
-                .values({
-                    title: data.title,
-                    description: data.description,
-                    userId: data.userId,
-                })
+                .values(data)
                 .returning();
                 
                 return { success: true, data: row };
@@ -135,6 +133,26 @@ export function createAdsRepository(): AdsRepository {
                 return { success: true, data: { deleted: true } };
             } catch (error) {
                 return { success: false, error: { code: 500, message: (error as Error)?.message ?? "Failed to delete ad from database" }};
+            }
+        },
+
+        // Find a single ad by its slug
+        async findBySlug(slug: string) {
+            try {
+                const [ad] = await db.select().from(ads).where(eq(ads.slug, slug)).limit(1);
+
+                if (!ad) {
+                    return { success: false, error: { code: 404, message: "Ad not found" } };
+                }
+                return { success: true, data: ad };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: {
+                        code: 500,
+                        message: (error as Error)?.message ?? "Failed to fetch ad from database",
+                    },
+                };
             }
         }
     };
