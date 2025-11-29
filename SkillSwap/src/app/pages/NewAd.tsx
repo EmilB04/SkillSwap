@@ -7,6 +7,33 @@ import { colors } from "../theme";
 import { useState } from "react";
 
 export default function NewAd({ ctx }: RequestInfo) {
+    // Check if user is loged in
+    if (!ctx.user?.id) {
+        return (
+            <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
+                <Header ctx={ctx} />
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="text-center">
+                        <h1 className="text-3xl font-bold mb-4" style={{ color: colors.primary.main }}>
+                            Please Log In
+                        </h1>
+                        <p className="text-lg text-gray-600 mb-8">
+                            You need to be logged in to create an ad
+                        </p>
+                        <button
+                            onClick={() => window.location.href = '/login'}
+                            className="px-6 py-3 rounded-lg text-white font-medium"
+                            style={{ backgroundColor: colors.primary.main }}
+                        >
+                            Go to Login
+                        </button>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
+    
     const [tradeType, setTradeType] = useState<"swap" | "cash" | null>("swap");
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -21,10 +48,44 @@ export default function NewAd({ ctx }: RequestInfo) {
         price: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Handle form submission
-        console.log("Form submitted:", { ...formData, tradeType, images: selectedImages });
+        
+        const slug = formData.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+        const payment = tradeType === "cash" ? `$${formData.price}/hour` : "Skill swap";
+        
+        // Create the ad data
+        const adData = {
+            slug: slug,
+            title: formData.title,
+            description: formData.description,
+            userId: ctx.user!.id,
+            category: formData.category,
+            payment: payment,
+            imageUrl: imagePreviews[0] || "/src/app/assets/default-image.png",
+            location: formData.location,
+            date: new Date().toISOString(),
+        };
+        
+        try {
+            const response = await fetch('/api/v1/ads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(adData),
+            });
+            
+            const result = await response.json() as { success: boolean; error?: { message: string } };
+            
+            if (result.success) {
+                alert('Ad created successfully! 🎉');
+                window.location.href = `/ads/${adData.slug}`;
+            } else {
+                alert('Failed to create ad: ' + (result.error?.message));
+            }
+        } catch (error) {
+            console.error('Error creating ad:', error);
+            alert('Failed to create ad. Please try again.');
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -45,13 +45,14 @@ const requireAuth = ({ ctx }: { ctx: AppContext }) => {
 
 export default defineApp([
   setCommonHeaders(),
-  async ({ ctx, request, headers }) => {
+  async ({ ctx, request }) => {
     setupSessionStore(env);
 
     try {
       ctx.session = await sessions.load(request);
     } catch (error) {
       if (error instanceof ErrorResponse && error.code === 401) {
+        const headers = new Headers();
         await sessions.remove(request, headers);
         headers.set("Location", "/login");
 
@@ -71,6 +72,7 @@ export default defineApp([
       
       // If user not found in DB but session exists, clear session
       if (!ctx.user) {
+        const headers = new Headers();
         await sessions.remove(request, headers);
         ctx.user = null; // Ensure user is null if not found
       }
@@ -104,8 +106,8 @@ export default defineApp([
     // Explore route
     route("/explore", Explore),
 
-    // New Ad route
-    route("/new-add", [requireAuth, NewAd]),
+    // New Ad route - handles auth check inside component
+    route("/new-add", NewAd),
 
     // Job detail route
     route("/job/:slug", Job),
