@@ -1,6 +1,7 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 import { users, profileDetails, ads } from './schema';
+import { createPasswordHash } from "@/app/lib/auth/password";
 
 export default defineScript(async ({ env }) => {
   
@@ -11,10 +12,12 @@ export default defineScript(async ({ env }) => {
   await db.delete(profileDetails);
   await db.delete(users);
 
-  // Insert a user
+  // Insert a user (include passwordHash to satisfy NOT NULL constraint)
+  const passwordHash = await createPasswordHash("Test123!A");
+
   const [testUser] = await db
     .insert(users)
-    .values({ name: "Test User", email: "test@example.com" })
+    .values({ name: "Test User", email: "test@example.com", passwordHash })
     .returning();
 
   // creating a profile

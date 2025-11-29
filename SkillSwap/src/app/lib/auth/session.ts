@@ -1,6 +1,6 @@
-import { db, usersRelations } from "@/db";
-import { sessions, users } from "@/db";
-import type { SafeUser, Session } from "@/db/";
+import { db } from "@/db/";
+import { sessions, users } from "@/db/schema";
+import type { SafeUser, Session } from "@/db/schema";
 import { eq, and, gt, lt } from "drizzle-orm";
 import { createId } from "../utils/id";
 import type { Result } from "@/types/results";

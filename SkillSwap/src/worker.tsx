@@ -15,7 +15,7 @@ import Contact from "./app/pages/Contact";
 import Job from "./app/pages/Job";
 import NewAd from "@/app/pages/NewAd";
 
-import type { Session, SafeUser } from "@/db";
+import type { Session, SafeUser } from "@/db/schema";
 import { authenticationMiddleware } from "@/app/middleware/authentication";
 import { requireAuth } from "@/app/middleware/authorization";
 import { clearSessionCookie } from "@/app/lib/auth/session";

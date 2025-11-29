@@ -1,6 +1,6 @@
 import type { Result } from "../../types/results";
 import { authRepository, type AuthRepository } from "./auth.repository";
-import type { Session, SafeUser, User } from "@/db";
+import type { Session, SafeUser, User } from "@/db/schema";
 import { createPasswordHash, checkPassword,validatePasswordStrength, } from "@/app/lib/auth/password";
 import { createSession, deleteSession, } from "@/app/lib/auth/session";
 import { LoginDTOSchema, RegisterDTOSchema, type LoginDTO, type RegisterDTO, } from "@/db/schema/auth/dtos";
