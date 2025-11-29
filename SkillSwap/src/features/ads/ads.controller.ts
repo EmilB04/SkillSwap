@@ -3,8 +3,6 @@ import { adsService, type AdsService } from "./ads.service";
 
 export function createAdsController(service: AdsService) {
     return {
-        // GET /api/v1/ads
-        // GET /api/v1/ads?userId=...
         async listAds(context: RequestInfo) {
             try {
                 const searchParams = new URL(context.request.url).searchParams; 
@@ -43,7 +41,6 @@ export function createAdsController(service: AdsService) {
                 }
             }, 
 
-            // GET /api/v1/ads/:id
             async getAd(context: RequestInfo) {
                 const { id } = context.params; 
                 const serviceResults = await service.getById(id);
@@ -61,23 +58,43 @@ export function createAdsController(service: AdsService) {
                 });
             },
 
-            // POST /api/v1/ads
             async createAd(context: RequestInfo) {
             
             const data = (await context.request.json().catch(() => ({}))) as {
+                slug?: string;
                 title?: string;
                 description?: string;
                 userId?: number;
+                category?: string;
+                payment?: string;
+                imageUrl?: string;
+                location?: string;
+                date?: string;
             };
 
             const anyCtx = context as any;
             const userId = Number(anyCtx?.session?.user?.id ?? data.userId ?? 0);
 
-            const serviceResults = await service.create({
-                title: data.title ?? "",
-                description: data.description ?? "",
+            const adPayload: any = {
+                slug: data.slug || `ad-${Date.now()}`,
+                title: data.title || "Untitled",
+                description: data.description || "",
                 userId,
-            } as any);
+                category: data.category || "Other",
+                payment: data.payment || "Negotiable",
+            };
+
+            if (data.imageUrl) {
+                adPayload.imageUrl = data.imageUrl;
+            }
+            if (data.location) {
+                adPayload.location = data.location;
+            }
+            if (data.date) {
+                adPayload.date = new Date(data.date);
+            }
+
+            const serviceResults = await service.create(adPayload);
 
             return new Response(JSON.stringify(serviceResults), {
                 status: serviceResults.success ? 201 : (serviceResults.error.code || 500),
@@ -85,7 +102,6 @@ export function createAdsController(service: AdsService) {
             });
             },
 
-            // PATCH /api/v1/ads/:id
             async updateAd(context: RequestInfo) {
                 const { id } = context.params;
                 const data = await context.request.json().catch(() => ({}));
@@ -97,7 +113,6 @@ export function createAdsController(service: AdsService) {
                 });
             },
 
-            // DELETE /api/v1/ads/:id
             async deleteAd(context: RequestInfo) {
                 const { id } = context.params;
                 const result = await service.delete(id);
@@ -108,7 +123,6 @@ export function createAdsController(service: AdsService) {
                 });
             },
 
-            // GET /api/v1/ads?slug=...
             async getAdBySlug(context: RequestInfo, slug: string) {
                 const serviceResults = await service.getBySlug(slug);
 

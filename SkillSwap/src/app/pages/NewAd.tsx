@@ -62,7 +62,8 @@ export default function NewAd({ ctx }: RequestInfo) {
             userId: ctx.user!.id,
             category: formData.category,
             payment: payment,
-            imageUrl: imagePreviews[0] || "/src/app/assets/default-image.png",
+            // TODO: Upload images to storage service and use URL instead of base64
+            imageUrl: "/src/app/assets/default-image.png",
             location: formData.location,
             date: new Date().toISOString(),
         };
@@ -77,14 +78,12 @@ export default function NewAd({ ctx }: RequestInfo) {
             const result = await response.json() as { success: boolean; error?: { message: string } };
             
             if (result.success) {
-                alert('Ad created successfully! 🎉');
-                window.location.href = `/ads/${adData.slug}`;
+                window.location.href = `/job/${adData.slug}`;
             } else {
-                alert('Failed to create ad: ' + (result.error?.message));
+                console.error('Failed to create ad:', result.error?.message);
             }
         } catch (error) {
             console.error('Error creating ad:', error);
-            alert('Failed to create ad. Please try again.');
         }
     };
 
@@ -99,7 +98,7 @@ export default function NewAd({ ctx }: RequestInfo) {
         const files = e.target.files;
         if (!files) return;
 
-        const newFiles = Array.from(files).slice(0, 5 - selectedImages.length); // Max 5 images
+        const newFiles = Array.from(files).slice(0, 5 - selectedImages.length);
         const newPreviews: string[] = [];
 
         newFiles.forEach(file => {
