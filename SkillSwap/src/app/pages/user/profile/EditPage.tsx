@@ -4,14 +4,24 @@ import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState, useRef } from "react";
 import { colors } from "@/app/theme";
-import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "./profileData";
+import { skillsToString, parseSkills } from "./profileData";
 import { ImageSourcePopup } from "@/app/components/ImageSourcePopup";
 import { AvatarCreator } from "@/app/components/AvatarCreator";
 
 export default function EditPage({ ctx }: RequestInfo) {
-    // In production, fetch user profile from backend based on ctx.user.id
-    // For now, using mock data
-    const initialProfile = mockUserProfile;
+    // Check if user is logged in
+    if (!ctx.user) {
+        return (
+            <ProfileLayout ctx={ctx}>
+                <div className="max-w-5xl mx-auto p-6 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Please log in to edit your profile</h1>
+                    <a href="/login" className="text-blue-600 hover:underline">Go to login</a>
+                </div>
+            </ProfileLayout>
+        );
+    }
+
+    const initialProfile = ctx.user;
 
     // Initialize form data with user profile
     const [formData, setFormData] = useState({
@@ -106,35 +116,36 @@ export default function EditPage({ ctx }: RequestInfo) {
                 .map(s => s.trim())
                 .filter(Boolean);
 
-            // Prepare update data
-            const updateData: UserProfileUpdate = {
-                id: formData.id,
-                name: formData.name,
-                email: formData.email,
+            // Prepare update data for API
+            const updateData = {
                 displayName: formData.displayName || null,
                 phoneNumber: formData.phoneNumber || null,
                 bio: formData.bio || null,
                 location: formData.location || null,
                 website: formData.website || null,
-                profileImage: profileImage,
-                skillsOffered,
-                skillsLearning,
+                profileImageUrl: profileImage || null,
+                skillsOffered: skillsOffered.join(','),
+                skillsLearning: skillsLearning.join(','),
             };
 
-            // TODO: Call backend API to update profile
-            // This should make a fetch request to an API endpoint in the worker
-            // Example:
-            // const response = await fetch('/api/profile', {
-            //     method: 'PATCH',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(updateData),
-            // });
-            // if (!response.ok) throw new Error('Failed to update profile');
+            // Call backend API to update profile
+            const response = await fetch(`/api/v1/profile/${formData.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateData),
+            });
             
-            // Temporary: Just show success message without actually saving
-            console.log("Profile update data:", updateData);
-            setSuccessMessage("Profile updated successfully! (Note: Backend save not yet implemented)");
-            setTimeout(() => setSuccessMessage(""), 3000);
+            const result = await response.json() as { success: boolean; error?: { message: string } };
+            
+            if (result.success) {
+                setSuccessMessage("Profile updated successfully!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                    window.location.reload(); // Reload to get updated data
+                }, 1500);
+            } else {
+                throw new Error(result.error?.message || 'Failed to update profile');
+            }
         } catch (error) {
             console.error("Error updating profile:", error);
             setErrorMessage("Failed to update profile. Please try again.");

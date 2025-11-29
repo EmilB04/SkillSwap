@@ -8,7 +8,7 @@ export default function TestUserToggle() {
 
     useEffect(() => {
         const cookies = document.cookie;
-        setIsTestUser(cookies.includes('testUser=1'));
+        setIsTestUser(cookies.includes('testUser=2'));
     }, []);
 
     const toggleTestUser = () => {
@@ -18,8 +18,8 @@ export default function TestUserToggle() {
             setIsTestUser(false);
             window.location.reload();
         } else {
-            // Load test user
-            document.cookie = 'testUser=1; path=/; max-age=86400'; // 24 hours
+            // Load test user (userId=2 from seed data)
+            document.cookie = 'testUser=2; path=/; max-age=86400'; // 24 hours
             setIsTestUser(true);
             window.location.reload();
         }

@@ -409,7 +409,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 style={{ borderColor: colors.neutral.gray[300] }}
                                 onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
                                 onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
-                                placeholder="Example: Oslo, Norway or Remote"
+                                placeholder="BRA Veien 8, 1783 Halden"
                                 required
                             />
                         </div>

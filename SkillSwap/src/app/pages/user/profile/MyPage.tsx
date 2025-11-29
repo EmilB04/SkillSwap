@@ -3,12 +3,22 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { colors } from "../../../theme";
-import { UserProfile, mockUserProfile, formatDate } from "./profileData";
+import { formatDate } from "./profileData";
 
 export function MyPage({ ctx }: RequestInfo) {
-    // In production, userProfile should be fetched from backend based on ctx.user.id
-    // For now, using mock data
-    const userData = mockUserProfile;
+    // Check if user is logged in
+    if (!ctx.user) {
+        return (
+            <ProfileLayout ctx={ctx}>
+                <div className="max-w-5xl mx-auto p-6 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Please log in to view your profile</h1>
+                    <a href="/login" className="text-blue-600 hover:underline">Go to login</a>
+                </div>
+            </ProfileLayout>
+        );
+    }
+    
+    const userData = ctx.user;
 
     const stats = {
         skillsOffered: userData.skillsOffered.length,

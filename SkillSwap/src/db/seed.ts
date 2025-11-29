@@ -17,12 +17,17 @@ export default defineScript(async ({ env }) => {
     .values({ name: "Test User", email: "test@example.com" })
     .returning();
 
-  // creating a profile
+  // creating a profile with all fields
   await db.insert(profileDetails).values({
      userId: testUser.id,
      displayName: "Test User",
-     profileImageUrl: "https://example.com/",
-     bio: "Hei! Jeg er kul.",
+     profileImageUrl: "https://example.com/profile.jpg",
+     bio: "Hei! Jeg er en test bruker som liker å lære nye ting og dele mine ferdigheter.",
+     phoneNumber: "+47 123 45 678",
+     location: "Oslo, Norway",
+     website: "https://example.com",
+     skillsOffered: "Web Development,React,TypeScript,Node.js",
+     skillsLearning: "Norwegian,Piano,Photography",
   });
 
   // creating ads with full data
