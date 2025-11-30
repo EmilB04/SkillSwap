@@ -1,5 +1,40 @@
 # Standard RedwoodSDK Starter
 
+## Getting Started Locally
+
+1. Clone the repository:
+
+   ```sh
+   git clone <url>
+   cd SkillSwap
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   pnpm install
+   ```
+
+3. Run migrations (local DB):
+
+   ```sh
+   pnpm migrate:dev
+   ```
+
+4. Seed the database (demo user + test data):
+
+   ```sh
+   pnpm seed
+   ```
+
+5. Start the development server:
+
+   ```sh
+   pnpm dev
+   ```
+
+6. Open in your browser: [http://localhost:5173/](http://localhost:5173/)
+
 This "standard starter" is the recommended implementation for RedwoodSDK. You get a Typescript project with:
 
 - Vite
