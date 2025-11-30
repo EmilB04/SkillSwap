@@ -7,9 +7,15 @@ import { createId } from "../../app/lib/utils/id";
 
 export const ads = sqliteTable("ads", {
   id: text("id").primaryKey().$defaultFn(() => createId()),
+  slug: text("slug").notNull().unique(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  category: text("category").notNull(),
+  payment: text("payment").notNull(),
+  imageUrl: text("image_url"),
+  location: text("location"),
+  date: integer("date", { mode: "timestamp" }).notNull(),
     ...timestamps,
 });
 
