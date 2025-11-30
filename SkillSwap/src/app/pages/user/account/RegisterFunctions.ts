@@ -2,6 +2,7 @@
  * Register page utility functions
  */
 
+import { a } from "vitest/dist/chunks/suite.d.FvehnV49.js";
 import { validateEmail } from "./LoginFunctions";
 
 export interface RegisterCredentials {
@@ -46,7 +47,7 @@ export const validateRegisterForm = (
         return "Password is required";
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
         return "Password must be at least 6 characters";
     }
 
@@ -68,32 +69,33 @@ export const performRegister = async (
     credentials: RegisterCredentials
 ): Promise<RegisterResponse> => {
     try {
-        // TODO: Implement standard registration API call
+        const { firstName, lastName, email, password } = credentials;
+
         const response = await fetch("/api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                firstName: credentials.firstName.trim(),
-                lastName: credentials.lastName.trim(),
-                email: credentials.email.trim(),
-                password: credentials.password,
+                name: `${firstName.trim()} ${lastName.trim()}`,
+                email: email.trim(),
+                password,
             }),
         });
 
-        if (!response.ok) {
-            const error = await response.json();
+        const data: any = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.success) {
             return {
                 success: false,
-                message: (error as any).message || "Registration failed",
+                message: data?.error?.message || data?.message || "Registration failed",
             };
         }
 
         return {
             success: true,
             message: "Registration successful! You can now log in.",
-            redirectUrl: "/login",
+            redirectUrl: "/",
         };
     } catch (error) {
         console.error("Registration error:", error);

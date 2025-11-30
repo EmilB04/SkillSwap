@@ -9,6 +9,13 @@ export const profileDetails = sqliteTable("profile_details", {
     displayName: text("display_name").notNull(),
     profileImageUrl: text("profile_image_url").notNull(), 
     bio: text("bio").notNull().default("There is no bio for this user yet."),
+    phoneNumber: text("phone_number"),
+    location: text("location"),
+    website: text("website"),
+    skillsOffered: text("skills_offered"),
+    skillsLearning: text("skills_learning"),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+    updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$onUpdateFn(() => new Date()),
 });
 
 export type ProfileDetail = typeof profileDetails.$inferSelect;
