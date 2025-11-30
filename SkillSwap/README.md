@@ -1,107 +1,126 @@
-# Standard RedwoodSDK Starter
+# SkillSwap 💡
 
-## Getting Started Locally
+A modern skill-sharing platform built with React, TypeScript, and Cloudflare Workers, designed to connect people who want to learn, teach, and grow.
 
-1. Clone the repository:
+## 💻 About the Project
 
-   ```sh
-   git clone <url>
-   cd SkillSwap
-   ```
+**SkillSwap** is a web application that transforms skill sharing into a seamless, community-driven experience. Users can post ads to offer their skills, find others willing to teach, and arrange either a trade (swap) or a paid service. It’s a marketplace for knowledge, collaboration, and personal growth.
 
-2. Install dependencies:
+## 👥 Contributors
 
-   ```sh
-   pnpm install
-   ```
+- **Emil Berglund -  [EmilB04](https://github.com/EmilB04)** - Fullstack Developer & Project Owner
+  - Full system architecture and project lead
+  - Frontend setup with React, Vite, and TypeScript
+  - UI/UX design and implementation with Tailwind CSS
+  - Page structure, global layout, and navigation
+  - Feature implementation (Profile, Explore, Ad Creation)
+- **Andreas B.O. Skaarberg - [Andolaus](https://github.com/Andolaus)** - Fullstack Developer
+  - Backend architecture on Cloudflare Workers
+  - Authentication system and session management
+  - Database schema and integration with Drizzle ORM
+  - API development for all core services (users, ads, reviews)
+- **Ida K. Tollaksen - [idatol](https://github.com/idatol)** - Frontend Developer
+  - UI/UX design and implementation
+  - Job/Ad detail pages and dynamic filtering
+  - Interactive map integration for ad locations
+  - Responsive design for the Explore and Job pages
+- **Sebastian W. Thomsen - [Thomsen97](https://github.com/Thomsen97)** - Fullstack Developer
+  - User messaging and notifications system
+  - UI components for real-time interactions
+  - Test suite setup with Vitest and React Testing Library
 
-3. Run migrations (local DB):
+### ✨ Key Features
 
-   ```sh
-   pnpm migrate:dev
-   ```
+- **Skill Listings**: Post, browse, and discover a wide variety of skill offers.
+- **Advanced Search & Filtering**: Filter ads by category, payment type (swap/cash), and more.
+- **User Profiles**: Create a personal profile to showcase your skills and transaction history.
+- **Secure Authentication**: Passwordless login using modern WebAuthn standards.
+- **Responsive UI**: A beautiful and functional interface that works on any device.
+- **Serverless Backend**: High performance and scalability powered by Cloudflare's edge network.
+- **Direct Messaging**: Connect securely with other users to coordinate details *(coming soon)*.
+- **Review System**: Build trust within the community through a transparent rating system.
 
-4. Seed the database (demo user + test data):
+### 🛠️ Tech Stack
 
-   ```sh
-   pnpm seed
-   ```
+- **Framework**: React 19 (with Server Components) & `rwsdk`
+- **Language**: TypeScript
+- **Backend**: Cloudflare Workers
+- **Database**: Cloudflare D1 with Drizzle ORM
+- **Styling**: Tailwind CSS
+- **Bundler**: Vite
+- **Testing**: Vitest & React Testing Library
+- **Deployment**: Cloudflare Wrangler
 
-5. Start the development server:
+### 🌐 Supported Platforms
 
-   ```sh
-   pnpm dev
-   ```
+- Modern Web Browsers (Chrome, Firefox, Safari, Edge)
 
-6. Open in your browser: [http://localhost:5173/](http://localhost:5173/)
+## 🚀 Getting Started
 
-This "standard starter" is the recommended implementation for RedwoodSDK. You get a Typescript project with:
+### Prerequisites
 
-- Vite
-- database (Prisma via D1)
-- Session Management (via DurableObjects)
-- Passkey authentication (Webauthn)
-- Storage (via R2)
+- Node.js (v18 or later)
+- pnpm
+- Git
 
-Point your browser to the URL displayed in the terminal (e.g. `http://localhost:5173/`). You should see a "Hello World" message in your browser.
+### Installation
 
-## How to run the application
+1.  **Clone the repository**
 
-  1. Install dependencies:
+    ```bash
+    git clone https://github.com/EmilB04/SkillSwap.git
+    cd SkillSwap
+    ```
 
-  ```sh
-  pnpm i
-  ```
+2.  **Install dependencies**
 
-  2. Seed the database:
+    ```bash
+    pnpm install
+    ```
 
-  ```sh
-  pnpm seed
-  ```
+3.  **Run database migrations**
 
-  3. Run database migrations:
+    ```bash
+    pnpm run migrate:dev
+    ```
 
-  ```sh
-  pnpm migrate:dev
-  ```
+4.  **Seed the database (optional)**
 
-  4. Start the development server:
+    ```bash
+    pnpm run seed
+    ```
 
-  ```sh
-  pnpm dev
-  ```
+5.  **Start the development server**
 
-### Wrangler Setup
+    ```bash
+    pnpm run dev
+    ```
 
-Within your project's `wrangler.jsonc`:
+    The application will now be running at `http://localhost:5173`.
 
-- Replace the `__change_me__` placeholders with a name for your application
+## 🏫 Academic Context
 
-- Create a new D1 database:
+This project is developed as part of the **Webapplikasjoner** (Web Applications) course, demonstrating:
 
-```shell
-npx wrangler d1 create my-project-db
-```
+- Modern fullstack development practices
+- Serverless architecture on the edge
+- Type-safe database management with an ORM
+- Secure, passwordless authentication patterns
+- Responsive and accessible UI/UX design
 
-Copy the database ID provided and paste it into your project's `wrangler.jsonc` file:
+## 📄 License
 
-```jsonc
-{
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "my-project-db",
-      "database_id": "your-database-id",
-    },
-  ],
-}
-```
+This project is developed for educational purposes and is licensed under the MIT License.
 
-### Authentication Setup
+---
 
-For authentication setup and configuration, including optional bot protection, see the [Authentication Documentation](https://docs.rwsdk.com/core/authentication).
+*Built with ❤️ for the Webapplikasjoner course - Connecting skills and empowering communities.* 🌍✨
 
-## Further Reading
+<!--
+This README was generated with help from Gemini 2.5 Pro with the following prompt:
 
-- [RedwoodSDK Documentation](https://docs.rwsdk.com/)
-- [Cloudflare Workers Secrets](https://developers.cloudflare.com/workers/runtime-apis/secrets/)
+Update #file:README.md with relevant info about the project along side the contributors
+
+Attachments: Git-commit history
+Context: The previous Github README file + The whole project structure and codebase
+-->
