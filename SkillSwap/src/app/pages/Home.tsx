@@ -8,7 +8,6 @@ import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
 import { Hero } from "../components/home/Hero";
 import ScrollToTop from "../components/ScrollToTop";
-import TestUserToggle from "../components/TestUserToggle";
 import { useState, useEffect } from "react";
 import { Job } from "../../types/job";
 
@@ -140,7 +139,6 @@ export function Home({ ctx }: RequestInfo) {
         )}
       </div>
       <ScrollToTop />
-      <TestUserToggle />
     </PageLayout>
   );
 }
