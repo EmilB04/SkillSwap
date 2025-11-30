@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Apply Roboto font globally */
-body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+body,
+html {
+    font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
 }
