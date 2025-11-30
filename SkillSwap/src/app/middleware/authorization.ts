@@ -7,7 +7,7 @@ export function requireAuth() {
     return ({ ctx }: { ctx: AppContext; }): Response | void => {
         if (!ctx.user) {
             return new Response(null, 
-                { status: 302, headers: {Location: "auth/login"},
+                { status: 302, headers: {Location: "/login"},
             });
         }
 
@@ -27,7 +27,7 @@ export function requireRole(role: UserRole) {
     return ({ ctx }: { ctx: AppContext; }): Response | void => {
         if (!ctx.user) {
             return new Response(null, {
-                    status: 302, headers: {Location: "auth/login"},
+                    status: 302, headers: {Location: "/login"},
         }); 
         }
         if (!hasRole(ctx.user, role)) {

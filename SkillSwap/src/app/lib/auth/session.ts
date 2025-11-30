@@ -157,7 +157,7 @@ export function setSessionCookie(sessionId: string): string {
     const options = getSessionCookieOptions();
 
     const baseCookie = [
-        `${SESSION_COOKIE_NAME}'=${encodeURIComponent(sessionId)}`,
+        `${SESSION_COOKIE_NAME}=${encodeURIComponent(sessionId)}`,
         `Max-Age=${options.maxAge}`,
         `Path=${options.path}`,
         `SameSite=${options.sameSite}`,
