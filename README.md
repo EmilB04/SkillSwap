@@ -1,226 +1,126 @@
-# SkillSwap
+# SkillSwap 💡
 
-> A modern skill-sharing platform built with React, TypeScript, and Cloudflare Workers
+A modern skill-sharing platform built with React, TypeScript, and Cloudflare Workers, designed to connect people who want to learn, teach, and grow.
 
-SkillSwap is a web application that connects people who want to learn new skills with those who can teach them. Users can browse available skill-exchange opportunities, create their own listings, and connect with others in the community.
+## 💻 About the Project
 
-## 🚀 Features
+**SkillSwap** is a web application that transforms skill sharing into a seamless, community-driven experience. Users can post ads to offer their skills, find others willing to teach, and arrange either a trade (swap) or a paid service. It’s a marketplace for knowledge, collaboration, and personal growth.
 
-- **Browse Skills**: Explore a wide variety of skill-exchange opportunities
-- **User Profiles**: Create and manage your personal profile with your skills and interests
-- **Smart Search**: Filter jobs by category, date range, and payment type
-- **Secure Authentication**: User registration and login with session management
-- **Responsive Design**: Beautiful UI that works seamlessly on desktop and mobile
-- **Real-time Notifications**: Stay updated with messages and activity (coming soon)
-- **Direct Messaging**: Connect with other users (coming soon)
+## 👥 Contributors
 
-## 🛠️ Tech Stack
+- **Emil Berglund -  [EmilB04](https://github.com/EmilB04)** - Fullstack Developer & Project Owner
+  - Full system architecture and project lead
+  - Frontend setup with React, Vite, and TypeScript
+  - UI/UX design and implementation with Tailwind CSS
+  - Page structure, global layout, and navigation
+  - Feature implementation (Profile, Explore, Ad Creation)
+- **Andreas B.O. Skaarberg - [Andolaus](https://github.com/Andolaus)** - Fullstack Developer
+  - Backend architecture on Cloudflare Workers
+  - Authentication system and session management
+  - Database schema and integration with Drizzle ORM
+  - API development for all core services (users, ads, reviews)
+- **Ida K. Tollaksen - [idatol](https://github.com/idatol)** - Frontend Developer
+  - UI/UX design and implementation
+  - Job/Ad detail pages and dynamic filtering
+  - Interactive map integration for ad locations
+  - Responsive design for the Explore and Job pages
+- **Sebastian W. Thomsen - [Thomsen97](https://github.com/Thomsen97)** - Fullstack Developer
+  - User messaging and notifications system
+  - UI components for real-time interactions
+  - Test suite setup with Vitest and React Testing Library
 
-### Frontend
-- **React 19.2.0** - Modern React with Server Components
-- **TypeScript** - Type-safe development
-- **Tailwind CSS 4.1.13** - Utility-first CSS framework
-- **Vite 6.3.6** - Fast build tool and dev server
+### ✨ Key Features
 
-### Backend
-- **Cloudflare Workers** - Edge computing platform
-- **rwsdk 0.3.12** - Server-side rendering framework
-- **Wrangler 4.20.5** - Cloudflare Workers CLI
+- **Skill Listings**: Post, browse, and discover a wide variety of skill offers.
+- **Advanced Search & Filtering**: Filter ads by category, payment type (swap/cash), and more.
+- **User Profiles**: Create a personal profile to showcase your skills and transaction history.
+- **Secure Authentication**: Passwordless login using modern WebAuthn standards.
+- **Responsive UI**: A beautiful and functional interface that works on any device.
+- **Serverless Backend**: High performance and scalability powered by Cloudflare's edge network.
+- **Direct Messaging**: Connect securely with other users to coordinate details *(coming soon)*.
+- **Review System**: Build trust within the community through a transparent rating system.
 
-### Database
-- **Cloudflare D1** - SQLite-based serverless database
-- **Drizzle ORM 0.44.5** - Type-safe database toolkit
-- **drizzle-kit 0.31.5** - Schema migrations and management
+### 🛠️ Tech Stack
 
-## 📋 Prerequisites
+- **Framework**: React 19 (with Server Components) & `rwsdk`
+- **Language**: TypeScript
+- **Backend**: Cloudflare Workers
+- **Database**: Cloudflare D1 with Drizzle ORM
+- **Styling**: Tailwind CSS
+- **Bundler**: Vite
+- **Testing**: Vitest & React Testing Library
+- **Deployment**: Cloudflare Wrangler
 
-- Node.js 18+
-- pnpm 8+ (install with `npm install -g pnpm` or `corepack enable`)
-- Cloudflare account (for deployment)
-- Git
+### 🌐 Supported Platforms
+
+- Modern Web Browsers (Chrome, Firefox, Safari, Edge)
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+### Prerequisites
 
-```bash
-git clone https://github.com/EmilB04/SkillSwap.git
-cd SkillSwap/SkillSwap
-```
+- Node.js (v18 or later)
+- pnpm
+- Git
 
-### 2. Install dependencies
+### Installation
 
-```bash
-pnpm install
-```
+1.  **Clone the repository**
 
-### 3. Configure database
+    ```bash
+    git clone https://github.com/EmilB04/SkillSwap.git
+    cd SkillSwap
+    ```
 
-Update `wrangler.jsonc` with your D1 database ID:
+2.  **Install dependencies**
 
-```jsonc
-{
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "skillswap-db",
-      "database_id": "your-database-id-here",
-      "migrations_dir": "drizzle"
-    }
-  ]
-}
-```
+    ```bash
+    pnpm install
+    ```
 
-### 4. Run migrations
+3.  **Run database migrations**
 
-```bash
-# Local development database
-pnpm run migrate:dev
+    ```bash
+    pnpm run migrate:dev
+    ```
 
-# Production database
-pnpm run migrate:prd
-```
+4.  **Seed the database (optional)**
 
-### 5. Seed the database (optional)
+    ```bash
+    pnpm run seed
+    ```
 
-```bash
-pnpm run seed
-```
+5.  **Start the development server**
 
-### 6. Start development server
+    ```bash
+    pnpm run dev
+    ```
 
-```bash
-pnpm run dev
-```
+    The application will now be running at `http://localhost:5173`.
 
-The application will be available at `http://localhost:5173`
+## 🏫 Academic Context
 
-## 📁 Project Structure
+This project is developed as part of the **Webapplikasjoner** (Web Applications) course, demonstrating:
 
-```
-SkillSwap/
-├── src/
-│   ├── app/
-│   │   ├── components/      # Reusable UI components
-│   │   │   ├── Header.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── JobCard.tsx
-│   │   │   ├── SearchBar.tsx
-│   │   │   └── profile/     # Profile-related components
-│   │   ├── pages/          # Page components
-│   │   │   ├── Home.tsx
-│   │   │   ├── Explore.tsx
-│   │   │   ├── Contact.tsx
-│   │   │   └── user/       # User pages (profile, auth)
-│   │   ├── assets/         # Images and icons
-│   │   ├── styles.css      # Global styles
-│   │   └── Document.tsx    # HTML document wrapper
-│   ├── db/
-│   │   ├── schema/         # Database schema definitions
-│   │   ├── index.ts        # Database connection
-│   │   └── seed.ts         # Database seeding
-│   ├── session/            # Session management
-│   ├── types/              # TypeScript type definitions
-│   ├── client.tsx          # Client entry point
-│   └── worker.tsx          # Server entry point (routes)
-├── drizzle/                # Database migrations
-├── public/                 # Static assets
-├── package.json
-├── wrangler.jsonc         # Cloudflare Workers config
-├── vite.config.mts        # Vite configuration
-└── tsconfig.json          # TypeScript configuration
-```
+- Modern fullstack development practices
+- Serverless architecture on the edge
+- Type-safe database management with an ORM
+- Secure, passwordless authentication patterns
+- Responsive and accessible UI/UX design
 
-## 🗄️ Database Schema
+## 📄 License
 
-The application uses the following main tables:
-
-- **users** - User accounts and profiles
-- **ads** - Skill-exchange listings
-- **sessions** - User authentication sessions
-- **direct_messages** - User messaging
-- **notifications** - User notifications
-- **reviews** - User reviews and ratings
-- **profile_details** - Extended user profile information
-
-## 🔧 Available Scripts
-
-```bash
-pnpm run dev          # Start development server
-pnpm run build        # Build for production
-pnpm run preview      # Preview production build
-pnpm run release      # Clean, build, and deploy to Cloudflare
-pnpm run migrate:dev  # Run migrations on local DB
-pnpm run migrate:prd  # Run migrations on production DB
-pnpm run migrate:new  # Generate new migration
-pnpm run seed         # Seed database with sample data
-pnpm run types        # Run TypeScript type checking
-pnpm run clean        # Clear build cache
-```
-
-## 🚀 Deployment
-
-### Deploy to Cloudflare Workers
-
-1. Make sure you're logged in to Cloudflare:
-```bash
-npx wrangler login
-```
-
-2. Create your D1 database:
-```bash
-npx wrangler d1 create skillswap-db
-```
-
-3. Update `wrangler.jsonc` with your database ID
-
-4. Run migrations on production:
-```bash
-pnpm run migrate:prd
-```
-
-5. Deploy:
-```bash
-pnpm run release
-```
-
-## 🎨 Key Features Implementation
-
-### Authentication
-- Server-side session management
-- Secure password hashing (coming soon)
-- Protected routes
-
-### Profile System
-- Collapsible sidebar navigation
-- Persistent UI state with localStorage
-- Active tab highlighting
-- Settings, messages, and notifications pages
-
-### Job Listings
-- Category filtering
-- Date range filtering
-- Payment type filtering (cash/swap)
-- Search functionality
-
-## 🤝 Contributing
-
-This is a student project for Webapplikasjoner. Contributions, issues, and feature requests are welcome!
-
-## 📝 License
-
-MIT
-
-## 👥 Authors
-
-- Emil B. - [EmilB04](https://github.com/EmilB04)
-
-## 🙏 Acknowledgments
-
-- Built with [rwsdk](https://github.com/redwoodjs/rwsdk) framework
-- Powered by [Cloudflare Workers](https://workers.cloudflare.com/)
-- UI components styled with [Tailwind CSS](https://tailwindcss.com/)
+This project is developed for educational purposes and is licensed under the MIT License.
 
 ---
 
-**Project Status**: Active Development 🚧
+*Built with ❤️ for the Webapplikasjoner course - Connecting skills and empowering communities.* 🌍✨
+
+<!--
+This README was generated with help from Gemini 2.5 Pro with the following prompt:
+
+Update #file:README.md with relevant info about the project along side the contributors
+
+Attachments: Git-commit history
+Context: The previous Github README file + The whole project structure and codebase
+-->
