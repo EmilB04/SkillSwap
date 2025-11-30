@@ -8,23 +8,33 @@ This "standard starter" is the recommended implementation for RedwoodSDK. You ge
 - Passkey authentication (Webauthn)
 - Storage (via R2)
 
-## Creating your project
-
-```shell
-npx create-rwsdk my-project-name
-cd my-project-name
-pnpm install
-```
-
-## Running the dev server
-
-```shell
-pnpm run dev
-```
-
 Point your browser to the URL displayed in the terminal (e.g. `http://localhost:5173/`). You should see a "Hello World" message in your browser.
 
-## Deploying your app
+## How to run the application
+
+  1. Install dependencies:
+
+  ```sh
+  pnpm i
+  ```
+
+  2. Seed the database:
+
+  ```sh
+  pnpm seed
+  ```
+
+  3. Run database migrations:
+
+  ```sh
+  pnpm migrate:dev
+  ```
+
+  4. Start the development server:
+
+  ```sh
+  pnpm dev
+  ```
 
 ### Wrangler Setup
 
