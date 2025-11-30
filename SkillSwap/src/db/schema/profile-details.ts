@@ -9,7 +9,7 @@ export const profileDetails = sqliteTable("profile_details", {
     displayName: text("display_name").notNull(),
     profileImageUrl: text("profile_image_url").notNull(), 
     bio: text("bio").notNull().default("There is no bio for this user yet."),
-    phonenumber: text("phone_number"),
+    phoneNumber: text("phone_number"),
     location: text("location"),
     website: text("website"),
     skillsOffered: text("skills_offered"),
