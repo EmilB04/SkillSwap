@@ -34,7 +34,7 @@
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm"
   },
-  "packageManager": "pnpm@8.15.0",
+  "packageManager": "pnpm@10.24.0",
   "dependencies": {
     "@prisma/adapter-d1": "~6.8.2",
     "@prisma/client": "~6.8.2",
