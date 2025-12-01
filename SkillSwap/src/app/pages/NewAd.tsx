@@ -7,26 +7,26 @@ import { colors } from "../theme";
 import { useState } from "react";
 
 export default function NewAd({ ctx }: RequestInfo) {
-    // Check if user is loged in
+    // Check if user is logged in
     if (!ctx.user?.id) {
         return (
-            <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
+            <div className="flex flex-col min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
                 <Header ctx={ctx} />
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="text-center">
+                <div className="flex-1 flex items-center justify-center">
+                    <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-8 py-12 text-center">
                         <h1 className="text-3xl font-bold mb-4" style={{ color: colors.primary.main }}>
                             Please Log In
                         </h1>
                         <p className="text-lg text-gray-600 mb-8">
                             You need to be logged in to create an ad
                         </p>
-                        <button
-                            onClick={() => window.location.href = '/login'}
+                        <a
+                            href="/login"
                             className="px-6 py-3 rounded-lg text-white font-medium"
                             style={{ backgroundColor: colors.primary.main }}
                         >
                             Go to Login
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <Footer />

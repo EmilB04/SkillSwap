@@ -15,11 +15,9 @@ export default function Contact({ ctx }: RequestInfo) {
     }, []);
 
     return (
-        <div className="min-h-screen" style={{ 
-            backgroundColor: colors.secondary.pale
-        }}>
+        <div className="flex flex-col min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
             <Header ctx={ctx} />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="flex-1 flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="text-center mb-16">
                     <h1 
                         className={`text-3xl sm:text-4xl font-bold mb-6 transition-all duration-1000 ${
