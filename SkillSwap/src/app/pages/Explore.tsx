@@ -15,7 +15,10 @@ import {
 } from '../components/explore';
 import { RequestInfo } from "rwsdk/worker";
 
-export default function Explore({ ctx }: RequestInfo){
+const Explore = (props: any) => {
+    // You may need to get ctx from props or context if required
+    const ctx = props.ctx;
+
     const [allJobs, setAllJobs] = useState<Job[]>([]);
     const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
@@ -87,6 +90,11 @@ export default function Explore({ ctx }: RequestInfo){
             ...prev,
             [name]: value
         }));
+    };
+
+    // Handle search input change from FilterSection
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
     };
 
     // Apply filters to jobs
@@ -185,6 +193,7 @@ export default function Explore({ ctx }: RequestInfo){
                     searchQuery={searchQuery}
                     onFilterChange={handleFilterChange}
                     onSearch={applyFilters}
+                    onSearchInputChange={handleSearchInputChange}
                 />
 
                 <ResultsSummary 
@@ -206,4 +215,6 @@ export default function Explore({ ctx }: RequestInfo){
             <ScrollToTop />
         </div>
     )
-}
+};
+
+export default Explore;
