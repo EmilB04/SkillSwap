@@ -23,6 +23,11 @@ export function createProfileController(service: ProfileService) {
                 displayName: string;
                 profileImageUrl: string;
                 bio: string;
+                phoneNumber: string;
+                location: string;
+                website: string;
+                skillsOffered: string;
+                skillsLearning: string;
             }>;
 
             const serviceResults = await service.update(Number(userId), body, currentUserId || undefined);

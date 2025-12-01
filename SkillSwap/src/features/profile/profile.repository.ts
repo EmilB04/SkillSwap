@@ -33,17 +33,27 @@ export function createProfileRepository(): ProfileRepository {
                     .where(eq(profileDetails.userId, userId));
 
                 if (existing.length) {
+                    // Update existing profile with updatedAt timestamp
                     const [row] = await db
                         .update(profileDetails)
-                        .set(patch)
+                        .set({
+                            ...patch,
+                            updatedAt: new Date()
+                        })
                         .where(eq(profileDetails.userId, userId))
                         .returning();
                     return { success: true, data: row };
                 } else {
+                    // Create new profile with default values
                     const defaultValues = {
                         displayName: "New User",
                         profileImageUrl: "https://via.placeholder.com/150",
-                        bio: "There is no bio for this user yet."
+                        bio: "There is no bio for this user yet.",
+                        phoneNumber: null,
+                        location: null,
+                        website: null,
+                        skillsOffered: null,
+                        skillsLearning: null,
                     };
 
                     const [row] = await db
