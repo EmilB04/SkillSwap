@@ -144,7 +144,14 @@ export function NotificationsPage({ ctx }: RequestInfo) {
                       {notification.message}
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
-                      {new Date(notification.createdAt).toLocaleString()}
+                      {new Date(notification.createdAt).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                      })}
                     </div>
                   </div>
                 </div>
