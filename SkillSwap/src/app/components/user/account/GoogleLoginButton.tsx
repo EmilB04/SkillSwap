@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from "@/app/theme";
-
 interface GoogleLoginButtonProps {
     onClick: () => void;
     disabled?: boolean;

@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from "@/app/theme";
-
 interface TextInputProps {
     id: string;
     name: string;
@@ -44,13 +42,7 @@ export function TextInput({
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
-                style={{
-                    '--tw-ring-color': `${colors.primary.main}33`,
-                    borderColor: undefined,
-                } as React.CSSProperties & { '--tw-ring-color': string }}
-                onFocus={(e) => e.target.style.borderColor = colors.primary.main}
-                onBlur={(e) => e.target.style.borderColor = ''}
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                 aria-describedby={helpText ? `${id}-help` : undefined}
             />
             {helpText && (

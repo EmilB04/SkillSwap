@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from "@/app/theme";
-
 interface LoginFormHeaderProps {
     title?: string;
     subtitle?: string;

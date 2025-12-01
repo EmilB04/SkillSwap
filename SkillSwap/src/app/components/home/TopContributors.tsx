@@ -1,7 +1,5 @@
 "use client";
 
-import { colors, borderRadius, shadows, transition } from "../../theme";
-
 export interface Contributor {
     id: number;
     name: string;
@@ -41,20 +39,7 @@ export function TopContributors({
                     {contributors.map((contributor, index) => (
                         <div
                             key={contributor.id}
-                            className="bg-white border border-gray-100 p-6 text-center relative overflow-hidden"
-                            style={{
-                                borderRadius: borderRadius.xl,
-                                boxShadow: shadows.soft,
-                                transition: `all ${transition.smooth} ease`,
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
-                                e.currentTarget.style.boxShadow = shadows.lifted;
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                                e.currentTarget.style.boxShadow = shadows.soft;
-                            }}
+                            className="bg-white rounded-xl shadow-soft border border-gray-100 p-6 text-center relative overflow-hidden hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-lifted transition-all duration-[380ms]"
                         >
                             {/* Rank Badge */}
                             {index < 3 && (
@@ -74,17 +59,10 @@ export function TopContributors({
                                     <img
                                         src={contributor.profileImage}
                                         alt={contributor.name}
-                                        className="w-20 h-20 rounded-full object-cover border-4"
-                                        style={{ borderColor: colors.primary.main }}
+                                        className="w-20 h-20 rounded-full object-cover border-4 border-primary"
                                     />
                                 ) : (
-                                    <div
-                                        className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold border-4"
-                                        style={{
-                                            backgroundColor: colors.primary.main,
-                                            borderColor: colors.primary.light,
-                                        }}
-                                    >
+                                    <div className="w-20 h-20 rounded-full bg-primary border-4 border-primary-light flex items-center justify-center text-white text-2xl font-bold">
                                         {contributor.avatar}
                                     </div>
                                 )}
@@ -98,10 +76,10 @@ export function TopContributors({
                             {/* Stats */}
                             <div className="space-y-2 mb-4">
                                 <div className="flex items-center justify-center gap-2 text-sm">
-                                    <svg className="w-4 h-4" style={{ color: colors.primary.main }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span className="font-semibold" style={{ color: colors.primary.main }}>
+                                    <span className="font-semibold text-primary">
                                         {contributor.completedSwaps}
                                     </span>
                                     <span className="text-gray-600">swaps</span>
@@ -120,12 +98,7 @@ export function TopContributors({
                                 {contributor.skills.map((skill, idx) => (
                                     <div
                                         key={idx}
-                                        className="text-xs px-3 py-1 inline-block mx-1"
-                                        style={{
-                                            backgroundColor: `${colors.primary.main}15`,
-                                            color: colors.primary.dark,
-                                            borderRadius: borderRadius.full,
-                                        }}
+                                        className="text-xs px-3 py-1 inline-block mx-1 rounded-full bg-primary/[0.15] text-primary-dark"
                                     >
                                         {skill}
                                     </div>

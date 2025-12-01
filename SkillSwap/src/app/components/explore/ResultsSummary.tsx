@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from '../../theme';
-
 interface ResultsSummaryProps {
     count: number;
     searchQuery: string;
@@ -13,7 +11,7 @@ export default function ResultsSummary({ count, searchQuery }: ResultsSummaryPro
             <p className="text-gray-700 font-medium">
                 {count > 0 ? (
                     <>
-                        Showing <span className="font-bold" style={{ color: colors.primary.main }}>
+                        Showing <span className="font-bold text-primary">
                             {count}
                         </span> {count === 1 ? 'opportunity' : 'opportunities'}
                         {searchQuery && (

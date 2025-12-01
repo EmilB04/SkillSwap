@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { colors } from "../theme";
 
 export default function TestUserToggle() {
     const [isTestUser, setIsTestUser] = useState(false);
@@ -28,18 +27,9 @@ export default function TestUserToggle() {
     return (
         <button
             onClick={toggleTestUser}
-            className="fixed bottom-8 left-8 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-medium transition-all duration-300 hover:shadow-xl cursor-pointer"
-            style={{
-                backgroundColor: isTestUser ? colors.primary.main : "white",
-                color: isTestUser ? "white" : colors.primary.main,
-                border: `2px solid ${colors.primary.main}`,
-            }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-            }}
+            className={`fixed bottom-8 left-8 z-50 px-4 py-2 rounded-lg shadow-lg border-2 border-primary text-sm font-medium hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer ${
+                isTestUser ? "bg-primary text-white" : "bg-white text-primary"
+            }`}
             title={isTestUser ? "Remove test user" : "Load test user"}
         >
             {isTestUser ? (

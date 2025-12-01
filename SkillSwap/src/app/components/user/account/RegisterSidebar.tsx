@@ -1,24 +1,16 @@
 "use client";
 
-import { colors } from "@/app/theme";
-
 export function RegisterSidebar() {
     return (
         <aside className="hidden lg:flex lg:flex-1 lg:items-center self-center lg:justify-center lg:max-w-md">
             <article className="relative w-full">
                 <div 
-                    className="absolute inset-0 blur-3xl" 
-                    style={{
-                        background: `linear-gradient(to right, ${colors.primary.main}33, #10b98133)`
-                    }}
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-[#10b981]/20 blur-3xl" 
                     aria-hidden="true"
                 ></div>
                 <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl lg:rounded-3xl border border-white/20 p-6 lg:p-8">
                     <div className="text-center space-y-4 lg:space-y-6">
-                        <figure 
-                            className="w-20 h-20 lg:w-24 lg:h-24 rounded-full mx-auto flex items-center justify-center"
-                            style={{ backgroundColor: colors.primary.main }}
-                        >
+                        <figure className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-primary mx-auto flex items-center justify-center">
                             <svg
                                 className="w-10 h-10 lg:w-12 lg:h-12 text-white"
                                 fill="none"

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { colors } from "@/app/theme";
 import {
   HAIR_OPTIONS,
   HAIR_COLORS,
@@ -104,7 +103,7 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Hair Color</label>
                     <div className="flex flex-wrap gap-1">
                       {HAIR_COLORS.map((color) => (
-                        <button key={color} type="button" onClick={() => updateConfig("hairColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer ${config.hairColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
+                        <button key={color} type="button" onClick={() => updateConfig("hairColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-transform duration-[280ms] ${config.hairColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
                       ))}
                     </div>
                   </div>
@@ -121,7 +120,7 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Facial Hair Color</label>
                       <div className="flex flex-wrap gap-1">
                         {HAIR_COLORS.map((color) => (
-                          <button key={color} type="button" onClick={() => updateConfig("beardColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer ${config.beardColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
+                          <button key={color} type="button" onClick={() => updateConfig("beardColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-transform duration-[280ms] ${config.beardColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
                         ))}
                       </div>
                     </div>
@@ -131,7 +130,7 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Skin Color</label>
                     <div className="flex flex-wrap gap-1">
                       {SKIN_COLOR.map((color) => (
-                        <button key={color} type="button" onClick={() => updateConfig("skinColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer ${config.skinColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
+                        <button key={color} type="button" onClick={() => updateConfig("skinColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-transform duration-[280ms] ${config.skinColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
                       ))}
                     </div>
                   </div>
@@ -176,7 +175,7 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Clothes Color</label>
                     <div className="flex flex-wrap gap-1">
                       {CLOTHES_COLORS.map((color) => (
-                        <button key={color} type="button" onClick={() => updateConfig("clothesColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer ${config.clothesColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
+                        <button key={color} type="button" onClick={() => updateConfig("clothesColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-transform duration-[280ms] ${config.clothesColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
                       ))}
                     </div>
                   </div>
@@ -193,7 +192,7 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Accessories Color</label>
                       <div className="flex flex-wrap gap-1">
                         {CLOTHES_COLORS.map((color) => (
-                          <button key={color} type="button" onClick={() => updateConfig("accessoriesColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer ${config.accessoriesColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
+                          <button key={color} type="button" onClick={() => updateConfig("accessoriesColor", color)} className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-transform duration-[280ms] ${config.accessoriesColor === color ? "border-gray-900 scale-110" : "border-gray-300"}`} style={{ backgroundColor: `#${color}` }} />
                         ))}
                       </div>
                     </div>
@@ -204,10 +203,10 @@ export function AvatarCreator({ onSave, onCancel }: AvatarCreatorProps) {
           </main>
 
           <footer className="px-6 py-3 border-t border-gray-200 flex justify-end gap-3 flex-shrink-0 bg-white">
-            <button type="button" onClick={onCancel} className="px-4 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium cursor-pointer">
+            <button type="button" onClick={onCancel} className="px-4 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium cursor-pointer transition-colors duration-[280ms]">
               Cancel
             </button>
-            <button type="submit" form="avatar-form" className="px-4 py-2 text-sm text-white rounded-lg font-medium cursor-pointer" style={{ backgroundColor: colors.primary.main }}>
+            <button type="submit" form="avatar-form" className="px-4 py-2 text-sm text-white bg-primary hover:bg-primary-hover rounded-lg font-medium cursor-pointer transition-colors duration-[280ms]">
               Save Avatar
             </button>
           </footer>

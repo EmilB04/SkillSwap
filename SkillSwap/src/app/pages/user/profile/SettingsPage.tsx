@@ -3,7 +3,6 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
-import { colors } from "../../../theme";
 
 export default function SettingsPage({ ctx }: RequestInfo) {
     // Notification settings
@@ -99,7 +98,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                     {/* Notification Settings */}
                     <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" aria-labelledby="notifications-heading">
                         <h2 id="notifications-heading" className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <svg className="w-6 h-6" style={{ color: colors.primary.main }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                             Notifications
@@ -123,8 +122,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                             type="checkbox"
                                             checked={emailNotifications[key]}
                                             onChange={() => handleEmailNotificationChange(key)}
-                                            className="mt-1 w-4 h-4 rounded border-gray-300 focus:ring-2 focus:ring-offset-2"
-                                            style={{ accentColor: colors.primary.main }}
+                                            className="mt-1 w-4 h-4 rounded border-gray-300 accent-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary/20"
                                             aria-describedby={`${key}-desc`}
                                         />
                                         <div className="flex-1">
@@ -152,9 +150,8 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                             type="checkbox"
                                             checked={pushNotifications[key]}
                                             onChange={() => handlePushNotificationChange(key)}
-                                            className="mt-1 w-4 h-4 rounded border-gray-300 focus:ring-2 focus:ring-offset-2"
-                                            style={{ accentColor: colors.primary.main }}
-                                            aria-describedby={`push-${key}-desc`}
+                                            className="mt-1 w-4 h-4 rounded border-gray-300 accent-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary/20"
+                                            aria-describedby={`${key}-desc`}
                                         />
                                         <div className="flex-1">
                                             <span className="text-sm font-medium text-gray-900">{label}</span>
@@ -169,7 +166,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                     {/* Privacy Settings */}
                     <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" aria-labelledby="privacy-heading">
                         <h2 id="privacy-heading" className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <svg className="w-6 h-6" style={{ color: colors.primary.main }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                             Privacy & Security
@@ -187,20 +184,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                     id="profile-visibility"
                                     value={privacySettings.profileVisibility}
                                     onChange={(e) => handlePrivacyChange("profileVisibility", e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer"
-                                    style={{
-                                        '--tw-ring-color': `${colors.primary.main}33`,
-                                    } as React.CSSProperties & { '--tw-ring-color': string }}
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = colors.primary.main;
-                                        e.target.style.outline = `2px solid ${colors.primary.main}`;
-                                        e.target.style.outlineOffset = '2px';
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = '';
-                                        e.target.style.outline = '';
-                                        e.target.style.outlineOffset = '';
-                                    }}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer focus:border-primary focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2"
                                     aria-describedby="visibility-help"
                                 >
                                     <option value="public">Public - Anyone can view your profile</option>
@@ -223,8 +207,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                             type="checkbox"
                                             checked={privacySettings[key]}
                                             onChange={() => handlePrivacyChange(key, !privacySettings[key])}
-                                            className="mt-1 w-4 h-4 rounded border-gray-300 focus:ring-2 focus:ring-offset-2"
-                                            style={{ accentColor: colors.primary.main }}
+                                            className="mt-1 w-4 h-4 rounded border-gray-300 accent-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary/20"
                                             aria-describedby={`privacy-${key}-desc`}
                                         />
                                         <div className="flex-1">
@@ -242,8 +225,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                         type="checkbox"
                                         checked={privacySettings.allowMessages}
                                         onChange={() => handlePrivacyChange("allowMessages", !privacySettings.allowMessages)}
-                                        className="mt-1 w-4 h-4 rounded border-gray-300 focus:ring-2 focus:ring-offset-2"
-                                        style={{ accentColor: colors.primary.main }}
+                                        className="mt-1 w-4 h-4 rounded border-gray-300 accent-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary/20"
                                         aria-describedby="allow-messages-desc"
                                     />
                                     <div className="flex-1">
@@ -258,7 +240,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                     {/* System Settings */}
                     <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" aria-labelledby="system-heading">
                         <h2 id="system-heading" className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <svg className="w-6 h-6" style={{ color: colors.primary.main }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
@@ -275,20 +257,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                     id="language"
                                     value={systemSettings.language}
                                     onChange={(e) => handleSystemChange("language", e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer"
-                                    style={{
-                                        '--tw-ring-color': `${colors.primary.main}33`,
-                                    } as React.CSSProperties & { '--tw-ring-color': string }}
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = colors.primary.main;
-                                        e.target.style.outline = `2px solid ${colors.primary.main}`;
-                                        e.target.style.outlineOffset = '2px';
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = '';
-                                        e.target.style.outline = '';
-                                        e.target.style.outlineOffset = '';
-                                    }}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer focus:border-primary focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2"
                                     aria-describedby="language-help"
                                 >
                                     <option value="no">Norsk (Norwegian)</option>
@@ -308,20 +277,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                     id="timezone"
                                     value={systemSettings.timezone}
                                     onChange={(e) => handleSystemChange("timezone", e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer"
-                                    style={{
-                                        '--tw-ring-color': `${colors.primary.main}33`,
-                                    } as React.CSSProperties & { '--tw-ring-color': string }}
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = colors.primary.main;
-                                        e.target.style.outline = `2px solid ${colors.primary.main}`;
-                                        e.target.style.outlineOffset = '2px';
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = '';
-                                        e.target.style.outline = '';
-                                        e.target.style.outlineOffset = '';
-                                    }}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer focus:border-primary focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2"
                                     aria-describedby="timezone-help"
                                 >
                                     <option value="Europe/Oslo">Europe/Oslo (GMT+1)</option>
@@ -343,20 +299,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                     id="theme"
                                     value={systemSettings.theme}
                                     onChange={(e) => handleSystemChange("theme", e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer"
-                                    style={{
-                                        '--tw-ring-color': `${colors.primary.main}33`,
-                                    } as React.CSSProperties & { '--tw-ring-color': string }}
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = colors.primary.main;
-                                        e.target.style.outline = `2px solid ${colors.primary.main}`;
-                                        e.target.style.outlineOffset = '2px';
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = '';
-                                        e.target.style.outline = '';
-                                        e.target.style.outlineOffset = '';
-                                    }}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg transition-all cursor-pointer focus:border-primary focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2"
                                     aria-describedby="theme-help"
                                 >
                                     <option value="light">Light</option>
@@ -371,7 +314,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                     {/* Account Management */}
                     <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" aria-labelledby="account-heading">
                         <h2 id="account-heading" className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                            <svg className="w-6 h-6" style={{ color: colors.primary.main }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                             Account Management
@@ -383,19 +326,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                 <p className="text-xs text-gray-600 mb-3">Keep your account secure by regularly updating your password</p>
                                 <button
                                     type="button"
-                                    className="px-4 py-2 text-sm font-medium rounded-lg border-2 transition-colors cursor-pointer"
-                                    style={{
-                                        borderColor: colors.primary.main,
-                                        color: colors.primary.main,
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = colors.primary.main;
-                                        e.currentTarget.style.color = 'white';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = 'transparent';
-                                        e.currentTarget.style.color = colors.primary.main;
-                                    }}
+                                    className="px-4 py-2 text-sm font-medium rounded-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-[280ms] cursor-pointer"
                                     aria-label="Change your password"
                                 >
                                     Change Password
@@ -407,19 +338,7 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                                 <p className="text-xs text-gray-600 mb-3">Download a copy of all your data including profile, messages, and swap history</p>
                                 <button
                                     type="button"
-                                    className="px-4 py-2 text-sm font-medium rounded-lg border-2 transition-colors cursor-pointer"
-                                    style={{
-                                        borderColor: colors.primary.main,
-                                        color: colors.primary.main,
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.backgroundColor = colors.primary.main;
-                                        e.currentTarget.style.color = 'white';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = 'transparent';
-                                        e.currentTarget.style.color = colors.primary.main;
-                                    }}
+                                    className="px-4 py-2 text-sm font-medium rounded-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-[280ms] cursor-pointer"
                                     aria-label="Request a copy of your data"
                                 >
                                     Request Data Export
@@ -443,15 +362,9 @@ export default function SettingsPage({ ctx }: RequestInfo) {
                     {/* Save Button */}
                     <nav className="flex justify-end gap-4 pt-4" aria-label="Settings actions">
                         <button
-                            type="button"
                             onClick={handleSaveSettings}
                             disabled={isSaving}
-                            className="px-8 py-3 text-white rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                            style={{
-                                backgroundColor: colors.primary.main,
-                            }}
-                            onMouseEnter={(e) => !isSaving && (e.currentTarget.style.backgroundColor = colors.primary.hover)}
-                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                            className="px-8 py-3 text-white rounded-lg font-medium transition-colors duration-[280ms] flex items-center gap-2 shadow-sm bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             aria-label={isSaving ? "Saving settings" : "Save all settings"}
                         >
                             {isSaving ? (

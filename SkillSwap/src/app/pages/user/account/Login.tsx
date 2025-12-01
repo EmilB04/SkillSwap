@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition, useMemo } from "react";
-import { colors } from "@/app/theme";
 import { LoginHeader } from "../../../components/user/account/LoginHeader";
 import { LoginFormHeader } from "../../../components/user/account/LoginFormHeader";
 import { EmailInput } from "../../../components/user/account/EmailInput";
@@ -104,10 +103,7 @@ export function Login() {
                 Don't have an account?{" "}
                 <a
                   href="/register"
-                  className="font-medium transition-colors duration-200 underline-offset-2 hover:underline cursor-pointer"
-                  style={{ color: colors.primary.main }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.hover}
-                  onMouseLeave={(e) => e.currentTarget.style.color = colors.primary.main}
+                  className="font-medium text-primary hover:text-primary-hover transition-colors duration-[280ms] underline-offset-2 hover:underline cursor-pointer"
                 >
                   Sign up
                 </a>
