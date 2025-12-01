@@ -58,10 +58,10 @@ export function Hero({
         e.preventDefault();
         if (searchQuery.trim()) {
             if (onSearch) {
-                onSearch(searchQuery);
+                onSearch(searchQuery.trim());
             } else {
-                // Default behavior: navigate to explore page with search query
-                window.location.href = `/explore?search=${encodeURIComponent(searchQuery)}`;
+                const query = encodeURIComponent(searchQuery.trim());
+                window.location.href = `/explore?q=${query}`;
             }
         }
     };
@@ -129,7 +129,8 @@ export function Hero({
                                                 if (onSearch) {
                                                     onSearch(term);
                                                 } else {
-                                                    window.location.href = `/explore?search=${encodeURIComponent(term)}`;
+                                                    const query = encodeURIComponent(term);
+                                                    window.location.href = `/explore?q=${query}`;
                                                 }
                                             }}
                                             className="text-sm py-1.5 px-3.5 rounded-full border border-gray-300 text-gray-600 bg-white hover:border-primary-light hover:text-primary hover:bg-primary/10 transition-all duration-[140ms] cursor-pointer"

@@ -14,7 +14,7 @@ export default function Header({ ctx }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <header className="bg-white/95 backdrop-blur-md shadow-sm top-0 z-50 border-b border-gray-100">
       <div className="flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 py-3 max-w-7xl mx-auto">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 sm:gap-3 z-20 flex-shrink-0 group">
@@ -50,7 +50,6 @@ export default function Header({ ctx }: HeaderProps) {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span className="hidden lg:inline text-sm font-medium">Search</span>
           </button>
           <a
             href="/explore"

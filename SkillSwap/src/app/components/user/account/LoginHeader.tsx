@@ -14,7 +14,7 @@ export function LoginHeader() {
                         />
                         <div className="absolute inset-0 rounded-full bg-primary blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                     </div>
-                    <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-br from-primary to-secondary-emerald bg-clip-text text-transparent transition-all duration-300">
+                    <h1 className="text-xl sm:text-2xl font-bold text-primary transition-all duration-300">
                         SkillSwap
                     </h1>
                 </a>
