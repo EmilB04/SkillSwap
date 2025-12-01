@@ -1,5 +1,5 @@
 import { db } from "../../db";
-import { profileDetails, type ProfileDetail, type InsertProfileDetail } from "@/db/schema";
+import { profileDetails, users, type ProfileDetail, type InsertProfileDetail } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Result } from "../../types/results";
 import { CrudRepository } from "@/types/crud";
@@ -15,10 +15,31 @@ export function createProfileRepository(): ProfileRepository {
         // Find profile details by user ID
         async findByUserId(userId) {
             try {
-                const rows = await db.select().from(profileDetails).where(eq(profileDetails.userId, userId)).limit(1);
+                const rows = await db
+                    .select({
+                        profile: profileDetails,
+                        user: {
+                            id: users.id,
+                            name: users.name,
+                            email: users.email,
+                            role: users.role,
+                        }
+                    })
+                    .from(profileDetails)
+                    .leftJoin(users, eq(profileDetails.userId, users.id))
+                    .where(eq(profileDetails.userId, userId))
+                    .limit(1);
+                
                 const row = rows[0];
                 if (!row) return { success: false, error: { code: 404, message: "Profile details not found" } };
-                return { success: true, data: row };
+                
+                // Merge profile and user data
+                const profileWithUser = {
+                    ...row.profile,
+                    user: row.user
+                };
+                
+                return { success: true, data: profileWithUser as any };
             } catch (error) {
                 return { success: false, error: { code: 500, message: (error as Error)?.message ?? "Failed to fetch profile details from database" } };
             }

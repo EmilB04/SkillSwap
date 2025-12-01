@@ -132,41 +132,96 @@ export default defineScript(async ({ env }) => {
     },
   ]);
 
-  // Create additional users to leave reviews for demo user
-  const [reviewer1] = await db
+  // Create additional users for job publishers and reviewers
+  const [user2] = await db
     .insert(users)
     .values({
-      name: "Erik Hansen",
-      email: "erik.hansen@example.com",
+      name: "Kari Hansen",
+      email: "kari.hansen@example.com",
       role: "user",
       passwordHash,
       isActive: true,
     })
     .returning();
 
-  const [reviewer2] = await db
+  const [user3] = await db
     .insert(users)
     .values({
-      name: "Maria Olsen",
-      email: "maria.olsen@example.com",
+      name: "Per Olsen",
+      email: "per.olsen@example.com",
       role: "user",
       passwordHash,
       isActive: true,
     })
     .returning();
 
-  const [reviewer3] = await db
+  const [user4] = await db
     .insert(users)
     .values({
-      name: "Lars Petersen",
-      email: "lars.petersen@example.com",
+      name: "Lisa Berg",
+      email: "lisa.berg@example.com",
       role: "user",
       passwordHash,
       isActive: true,
     })
     .returning();
 
-  const [reviewer4] = await db
+  const [user5] = await db
+    .insert(users)
+    .values({
+      name: "Tom Jensen",
+      email: "tom.jensen@example.com",
+      role: "user",
+      passwordHash,
+      isActive: true,
+    })
+    .returning();
+
+  const [user6] = await db
+    .insert(users)
+    .values({
+      name: "Anna Larsen",
+      email: "anna.larsen@example.com",
+      role: "user",
+      passwordHash,
+      isActive: true,
+    })
+    .returning();
+
+  const [user7] = await db
+    .insert(users)
+    .values({
+      name: "Ole Nilsen",
+      email: "ole.nilsen@example.com",
+      role: "user",
+      passwordHash,
+      isActive: true,
+    })
+    .returning();
+
+  const [user8] = await db
+    .insert(users)
+    .values({
+      name: "Ingrid Johansen",
+      email: "ingrid.johansen@example.com",
+      role: "user",
+      passwordHash,
+      isActive: true,
+    })
+    .returning();
+
+  const [user9] = await db
+    .insert(users)
+    .values({
+      name: "Erik Kristiansen",
+      email: "erik.kristiansen@example.com",
+      role: "user",
+      passwordHash,
+      isActive: true,
+    })
+    .returning();
+
+  const [user10] = await db
     .insert(users)
     .values({
       name: "Sofie Andersen",
@@ -177,105 +232,179 @@ export default defineScript(async ({ env }) => {
     })
     .returning();
 
-  const [reviewer5] = await db
-    .insert(users)
-    .values({
-      name: "Thomas Berg",
-      email: "thomas.berg@example.com",
-      role: "user",
-      passwordHash,
-      isActive: true,
-    })
-    .returning();
+  // Add profile details for all users
+  await db.insert(profileDetails).values([
+    {
+      userId: user2.id,
+      displayName: "@karihansen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=kari.hansen@example.com`,
+      bio: "Garden enthusiast and nature lover. Happy to help with landscaping and outdoor projects!",
+      location: "Bergen, Norway",
+      skillsOffered: "Gardening,Landscaping,Plant Care,Outdoor Design",
+      skillsLearning: "Photography,Cooking",
+    },
+    {
+      userId: user3.id,
+      displayName: "@perolsen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=per.olsen@example.com`,
+      bio: "Multilingual translator and language teacher. Fluent in 5 languages and always learning more!",
+      location: "Oslo, Norway",
+      skillsOffered: "Translation,Language Teaching,Spanish,French,German",
+      skillsLearning: "Web Design,Graphic Design",
+    },
+    {
+      userId: user4.id,
+      displayName: "@lisaberg",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=lisa.berg@example.com`,
+      bio: "Math teacher and cooking enthusiast. Love helping students and sharing recipes!",
+      location: "Trondheim, Norway",
+      skillsOffered: "Math Tutoring,Italian Cooking,Baking",
+      skillsLearning: "Piano,Guitar",
+    },
+    {
+      userId: user5.id,
+      displayName: "@tomjensen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=tom.jensen@example.com`,
+      bio: "Professional graphic designer with 10+ years experience. Specializing in branding and UI/UX.",
+      location: "Stavanger, Norway",
+      skillsOffered: "Graphic Design,Branding,UI/UX Design,Adobe Suite",
+      skillsLearning: "3D Modeling,Animation",
+    },
+    {
+      userId: user6.id,
+      displayName: "@annalarsen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=anna.larsen@example.com`,
+      bio: "Language enthusiast and cultural explorer. Native Spanish speaker offering conversation practice.",
+      location: "Kristiansand, Norway",
+      skillsOffered: "Spanish Language,Conversation Practice,Cultural Exchange",
+      skillsLearning: "Norwegian,Photography",
+    },
+    {
+      userId: user7.id,
+      displayName: "@olenilsen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=ole.nilsen@example.com`,
+      bio: "Mobile app developer and tech innovator. Building the future one app at a time!",
+      location: "Tromsø, Norway",
+      skillsOffered: "Mobile Development,iOS,Android,React Native,Flutter",
+      skillsLearning: "Machine Learning,AI",
+    },
+    {
+      userId: user8.id,
+      displayName: "@ingridjohansen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=ingrid.johansen@example.com`,
+      bio: "Piano teacher with 15 years of experience. Passionate about music education!",
+      location: "Drammen, Norway",
+      skillsOffered: "Piano Lessons,Music Theory,Classical Music",
+      skillsLearning: "Digital Marketing,Web Development",
+    },
+    {
+      userId: user9.id,
+      displayName: "@erikkristiansen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=erik.kristiansen@example.com`,
+      bio: "Professional baker and pastry chef. Love teaching traditional Norwegian baking!",
+      location: "Fredrikstad, Norway",
+      skillsOffered: "Baking,Pastry,Norwegian Cuisine,Cooking Classes",
+      skillsLearning: "Food Photography,Business Management",
+    },
+    {
+      userId: user10.id,
+      displayName: "@sofieandersen",
+      profileImageUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=sofie.andersen@example.com`,
+      bio: "UI/UX designer focused on mobile applications. Creating beautiful, user-friendly experiences!",
+      location: "Ålesund, Norway",
+      skillsOffered: "UI/UX Design,Mobile Design,Figma,Adobe XD,User Research",
+      skillsLearning: "Front-end Development,Animation",
+    },
+  ]);
 
   // Add reviews for demo user (total: 15 reviews, average ~4.8 rating)
   await db.insert(reviews).values([
     {
-      reviewerId: reviewer1.id,
+      reviewerId: user2.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Excellent web development teacher! Very patient and explains concepts clearly. Learned so much in just a few sessions.",
     },
     {
-      reviewerId: reviewer2.id,
+      reviewerId: user3.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Amazing UI/UX design consultation. Really helped me improve my app's interface. Highly recommended!",
     },
     {
-      reviewerId: reviewer3.id,
+      reviewerId: user4.id,
       receiverId: loginUser.id,
       rating: 4,
       reviewText: "Great tech support! Fixed my computer issues quickly and explained everything well.",
     },
     {
-      reviewerId: reviewer4.id,
+      reviewerId: user5.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Best React tutor I've worked with. Very knowledgeable and makes learning fun!",
     },
     {
-      reviewerId: reviewer5.id,
+      reviewerId: user6.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Professional and reliable. The lawn looks perfect after his work!",
     },
     {
-      reviewerId: reviewer1.id,
+      reviewerId: user2.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Translated my documents perfectly. Very accurate and delivered on time.",
     },
     {
-      reviewerId: reviewer2.id,
+      reviewerId: user3.id,
       receiverId: loginUser.id,
       rating: 4,
       reviewText: "Good TypeScript lessons. Would have liked more advanced topics but overall very helpful.",
     },
     {
-      reviewerId: reviewer3.id,
+      reviewerId: user4.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Fantastic design work! Really understands modern UI principles.",
     },
     {
-      reviewerId: reviewer4.id,
+      reviewerId: user5.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Very helpful with my Node.js project. Solved issues I was stuck on for weeks!",
     },
     {
-      reviewerId: reviewer5.id,
+      reviewerId: user6.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Great experience learning React from someone who really knows their stuff.",
     },
     {
-      reviewerId: reviewer1.id,
+      reviewerId: user2.id,
       receiverId: loginUser.id,
       rating: 4,
       reviewText: "Good tech support service. Quick response and fixed my issue.",
     },
     {
-      reviewerId: reviewer2.id,
+      reviewerId: user3.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Excellent garden maintenance. Very thorough and professional!",
     },
     {
-      reviewerId: reviewer3.id,
+      reviewerId: user4.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Amazing PostgreSQL tutoring session. Cleared up so many concepts for me.",
     },
     {
-      reviewerId: reviewer4.id,
+      reviewerId: user5.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Very patient and knowledgeable. Helped me build my first REST API!",
     },
     {
-      reviewerId: reviewer5.id,
+      reviewerId: user6.id,
       receiverId: loginUser.id,
       rating: 5,
       reviewText: "Great UI/UX insights. My app looks so much better now!",
