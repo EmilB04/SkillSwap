@@ -2,12 +2,104 @@
 
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
-import { mockUserProfile, formatDate } from "./profileData";
+import { UserProfile, mockUserProfile, formatDate } from "./profileData";
+import { useState, useEffect } from "react";
+import { ReviewsSection } from "@/app/components/profile/ReviewsSection";
 
 export function MyPage({ ctx }: RequestInfo) {
-    // In production, userProfile should be fetched from backend based on ctx.user.id
-    // For now, using mock data
-    const userData = mockUserProfile;
+    const [userData, setUserData] = useState<UserProfile>(mockUserProfile);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [reviews, setReviews] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (!ctx?.user?.id) {
+                setError("User not authenticated");
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/v1/profile/${ctx.user.id}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch profile: ${response.statusText}`);
+                }
+                
+                const result = await response.json() as { success: boolean; data?: any; error?: any };
+                
+                // Fetch reviews to calculate stats
+                const reviewsResponse = await fetch(`/api/v1/reviews?receiverId=${ctx.user.id}`);
+                let stats = {
+                    completedSwaps: 24, // Hardcoded for demo
+                    hoursExchanged: 156, // Hardcoded for demo
+                    rating: 0,
+                    reviews: 0,
+                };
+                
+                if (reviewsResponse.ok) {
+                    const reviewsResult = await reviewsResponse.json() as { success: boolean; data?: any[] };
+                    if (reviewsResult.success && reviewsResult.data) {
+                        const reviewsList = reviewsResult.data;
+                        setReviews(reviewsList);
+                        stats.reviews = reviewsList.length;
+                        if (reviewsList.length > 0) {
+                            const totalRating = reviewsList.reduce((sum: number, review: any) => sum + review.rating, 0);
+                            stats.rating = Math.round((totalRating / reviewsList.length) * 10) / 10;
+                        }
+                    }
+                }
+                
+                if (result.success && result.data) {
+                    const profileData = result.data;
+                    // Map DB data to UserProfile format
+                    setUserData({
+                        id: ctx.user.id,
+                        name: ctx.user.name,
+                        email: ctx.user.email,
+                        role: ctx.user.role,
+                        displayName: profileData.displayName,
+                        phoneNumber: profileData.phoneNumber,
+                        bio: profileData.bio,
+                        location: profileData.location,
+                        website: profileData.website,
+                        profileImage: profileData.profileImageUrl,
+                        skillsOffered: profileData.skillsOffered ? profileData.skillsOffered.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+                        skillsLearning: profileData.skillsLearning ? profileData.skillsLearning.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+                        stats,
+                        createdAt: profileData.createdAt?.toString(),
+                        updatedAt: profileData.updatedAt?.toString(),
+                    });
+                } else {
+                    // Profile doesn't exist yet, use default data
+                    setUserData({
+                        ...mockUserProfile,
+                        id: ctx.user.id,
+                        name: ctx.user.name,
+                        email: ctx.user.email,
+                        role: ctx.user.role,
+                    });
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+                setError(err instanceof Error ? err.message : "Failed to load profile");
+                // Fall back to user data from context
+                if (ctx?.user) {
+                    setUserData({
+                        ...mockUserProfile,
+                        id: ctx.user.id,
+                        name: ctx.user.name,
+                        email: ctx.user.email,
+                        role: ctx.user.role,
+                    });
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, [ctx?.user?.id]);
 
     const stats = {
         skillsOffered: userData.skillsOffered.length,
@@ -20,6 +112,34 @@ export function MyPage({ ctx }: RequestInfo) {
 
     // Format join date for display
     const formattedJoinDate = formatDate(userData.createdAt);
+
+    if (isLoading) {
+        return (
+            <ProfileLayout ctx={ctx}>
+                <main className="max-w-5xl mx-auto p-6">
+                    <div className="flex items-center justify-center min-h-[400px]">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p className="text-gray-600">Loading profile...</p>
+                        </div>
+                    </div>
+                </main>
+            </ProfileLayout>
+        );
+    }
+
+    if (error) {
+        return (
+            <ProfileLayout ctx={ctx}>
+                <main className="max-w-5xl mx-auto p-6">
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
+                        <p className="font-medium">Error loading profile</p>
+                        <p className="text-sm">{error}</p>
+                    </div>
+                </main>
+            </ProfileLayout>
+        );
+    }
 
     return (
         <ProfileLayout ctx={ctx}>
@@ -194,6 +314,9 @@ export function MyPage({ ctx }: RequestInfo) {
                         </button>
                     </section>
                 </div>
+
+                {/* Reviews Section */}
+                <ReviewsSection reviews={reviews} maxDisplay={5} />
 
                 {/* Contact Information */}
                 <section className="bg-white rounded-lg shadow-md p-6" aria-labelledby="contact-heading">

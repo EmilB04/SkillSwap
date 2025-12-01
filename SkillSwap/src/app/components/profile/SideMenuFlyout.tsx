@@ -76,6 +76,16 @@ export default function SideMenuFlyout() {
             ),
             label: "Help",
             href: "/contact"
+        },
+        {
+            icon: (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            ),
+            label: "Log Out",
+            href: "/logout",
+            isLogout: true
         }
     ];
 
@@ -112,19 +122,22 @@ export default function SideMenuFlyout() {
                 <ul className="py-4">
                     {menuItems.map((item, index) => {
                         const isActive = currentPath === item.href;
+                        const isLogout = 'isLogout' in item && item.isLogout;
                         return (
                             <li key={index}>
                                 <a
                                     href={item.href}
                                     className={`
                                         flex items-center px-6 py-3 transition-colors
-                                        ${isActive 
-                                            ? 'bg-gray-100 text-gray-900' 
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                        ${isLogout
+                                            ? 'text-red-600 hover:bg-red-50'
+                                            : isActive 
+                                                ? 'bg-gray-100 text-gray-900' 
+                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                         }
                                     `}
                                 >
-                                    <span className="flex-shrink-0 text-gray-500">
+                                    <span className={`flex-shrink-0 ${isLogout ? 'text-red-600' : 'text-gray-500'}`}>
                                         {item.icon}
                                     </span>
                                     <span

@@ -2,33 +2,66 @@
 
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
-import { useState, useRef } from "react";
-import { UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "./profileData";
+import { useState, useRef, useEffect } from "react";
+import { UserProfile, UserProfileUpdate, mockUserProfile, skillsToString, parseSkills } from "./profileData";
 import { ImageSourcePopup } from "@/app/components/ImageSourcePopup";
 import { AvatarCreator } from "@/app/components/AvatarCreator";
 
 export default function EditPage({ ctx }: RequestInfo) {
-    // In production, fetch user profile from backend based on ctx.user.id
-    // For now, using mock data
-    const initialProfile = mockUserProfile;
-
-    // Initialize form data with user profile
+    const [isLoadingProfile, setIsLoadingProfile] = useState(true);
     const [formData, setFormData] = useState({
-        id: initialProfile.id,
-        name: initialProfile.name,
-        email: initialProfile.email,
-        displayName: initialProfile.displayName || "",
-        phoneNumber: initialProfile.phoneNumber || "",
-        bio: initialProfile.bio || "",
-        location: initialProfile.location || "",
-        website: initialProfile.website || "",
-        skillsOffered: skillsToString(initialProfile.skillsOffered),
-        skillsLearning: skillsToString(initialProfile.skillsLearning),
+        id: ctx?.user?.id || 0,
+        name: ctx?.user?.name || "",
+        email: ctx?.user?.email || "",
+        displayName: "",
+        phoneNumber: "",
+        bio: "",
+        location: "",
+        website: "",
+        skillsOffered: "",
+        skillsLearning: "",
     });
 
-    const [profileImage, setProfileImage] = useState<string | null>(
-        initialProfile.profileImage
-    );
+    const [profileImage, setProfileImage] = useState<string | null>(null);
+
+    // Fetch profile data on mount
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (!ctx?.user?.id) {
+                setIsLoadingProfile(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/v1/profile/${ctx.user.id}`);
+                if (response.ok) {
+                    const result = await response.json() as { success: boolean; data?: any };
+                    if (result.success && result.data) {
+                        const profileData = result.data;
+                        setFormData({
+                            id: ctx.user.id,
+                            name: ctx.user.name,
+                            email: ctx.user.email,
+                            displayName: profileData.displayName || "",
+                            phoneNumber: profileData.phoneNumber || "",
+                            bio: profileData.bio || "",
+                            location: profileData.location || "",
+                            website: profileData.website || "",
+                            skillsOffered: profileData.skillsOffered || "",
+                            skillsLearning: profileData.skillsLearning || "",
+                        });
+                        setProfileImage(profileData.profileImageUrl);
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+            } finally {
+                setIsLoadingProfile(false);
+            }
+        };
+
+        fetchProfile();
+    }, [ctx?.user?.id]);
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -94,46 +127,41 @@ export default function EditPage({ ctx }: RequestInfo) {
         setErrorMessage("");
 
         try {
-            // Parse skills and interests from comma-separated strings
-            const skillsOffered = formData.skillsOffered
-                .split(',')
-                .map(s => s.trim())
-                .filter(Boolean);
-            
-            const skillsLearning = formData.skillsLearning
-                .split(',')
-                .map(s => s.trim())
-                .filter(Boolean);
+            if (!ctx?.user?.id) {
+                throw new Error("User not authenticated");
+            }
 
-            // Prepare update data
-            const updateData: UserProfileUpdate = {
-                id: formData.id,
-                name: formData.name,
-                email: formData.email,
+            // Prepare update data for API
+            const updateData = {
                 displayName: formData.displayName || null,
                 phoneNumber: formData.phoneNumber || null,
                 bio: formData.bio || null,
                 location: formData.location || null,
                 website: formData.website || null,
-                profileImage: profileImage,
-                skillsOffered,
-                skillsLearning,
+                profileImageUrl: profileImage || null,
+                skillsOffered: formData.skillsOffered || null,
+                skillsLearning: formData.skillsLearning || null,
             };
 
-            // TODO: Call backend API to update profile
-            // This should make a fetch request to an API endpoint in the worker
-            // Example:
-            // const response = await fetch('/api/profile', {
-            //     method: 'PATCH',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(updateData),
-            // });
-            // if (!response.ok) throw new Error('Failed to update profile');
+            // Call backend API to update profile
+            const response = await fetch(`/api/v1/profile/${ctx.user.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateData),
+            });
+
+            const result = await response.json() as { success: boolean; data?: any; error?: { message?: string } };
             
-            // Temporary: Just show success message without actually saving
-            console.log("Profile update data:", updateData);
-            setSuccessMessage("Profile updated successfully! (Note: Backend save not yet implemented)");
-            setTimeout(() => setSuccessMessage(""), 3000);
+            if (!response.ok || !result.success) {
+                throw new Error(result.error?.message || 'Failed to update profile');
+            }
+            
+            setSuccessMessage("Profile updated successfully!");
+            setTimeout(() => {
+                setSuccessMessage("");
+                // Redirect to profile page after successful update
+                window.location.href = "/profile";
+            }, 2000);
         } catch (error) {
             console.error("Error updating profile:", error);
             setErrorMessage("Failed to update profile. Please try again.");
@@ -141,6 +169,21 @@ export default function EditPage({ ctx }: RequestInfo) {
             setIsSaving(false);
         }
     };
+
+    if (isLoadingProfile) {
+        return (
+            <ProfileLayout ctx={ctx}>
+                <main className="max-w-4xl mx-auto p-6">
+                    <div className="flex items-center justify-center min-h-[400px]">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p className="text-gray-600">Loading profile...</p>
+                        </div>
+                    </div>
+                </main>
+            </ProfileLayout>
+        );
+    }
 
     return (
         <ProfileLayout ctx={ctx}>

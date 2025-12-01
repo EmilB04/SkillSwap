@@ -35,7 +35,7 @@ export function FeaturedOpportunities({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {jobs.map(job => (
+          {jobs.slice(0, 6).map(job => (
             <JobCard
               key={job.id}
               job={job}

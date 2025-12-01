@@ -7,42 +7,77 @@ import Footer from '../components/Footer';
 import JobCard from "../components/JobCard";
 import { useState, useEffect } from "react";
 
-// Mock users data - in the future this will come from the database
+// Mock users data - matches seeded database users
 const mockUsers = [
     {
         id: 1,
-        name: "Ola Nordmann",
-        displayName: "@olanordmann",
-        profileImage: null,
-        avatar: "ON",
+        name: "Demo User",
+        displayName: "@demouser",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo@example.com",
+        avatar: "DU",
     },
     {
         id: 2,
         name: "Kari Hansen",
         displayName: "@karihansen",
-        profileImage: null,
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=kari.hansen@example.com",
         avatar: "KH",
     },
     {
         id: 3,
         name: "Per Olsen",
         displayName: "@perolsen",
-        profileImage: null,
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=per.olsen@example.com",
         avatar: "PO",
     },
     {
         id: 4,
         name: "Lisa Berg",
         displayName: "@lisaberg",
-        profileImage: null,
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=lisa.berg@example.com",
         avatar: "LB",
     },
     {
         id: 5,
         name: "Tom Jensen",
         displayName: "@tomjensen",
-        profileImage: null,
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=tom.jensen@example.com",
         avatar: "TJ",
+    },
+    {
+        id: 6,
+        name: "Anna Larsen",
+        displayName: "@annalarsen",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=anna.larsen@example.com",
+        avatar: "AL",
+    },
+    {
+        id: 7,
+        name: "Ole Nilsen",
+        displayName: "@olenilsen",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=ole.nilsen@example.com",
+        avatar: "ON",
+    },
+    {
+        id: 8,
+        name: "Ingrid Johansen",
+        displayName: "@ingridjohansen",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=ingrid.johansen@example.com",
+        avatar: "IJ",
+    },
+    {
+        id: 9,
+        name: "Erik Kristiansen",
+        displayName: "@erikkristiansen",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=erik.kristiansen@example.com",
+        avatar: "EK",
+    },
+    {
+        id: 10,
+        name: "Sofie Andersen",
+        displayName: "@sofieandersen",
+        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=sofie.andersen@example.com",
+        avatar: "SA",
     },
 ];
 
@@ -258,12 +293,8 @@ export default function Job({ params }: { params: { slug: string } }) {
                                     
                                     {/* View Profile Button */}
                                     <a
-                                        href={"#"}
-                                        className="px-4 py-2 rounded-lg border-2 font-medium hover:bg-gray-100 transition-colors"
-                                        style={{ 
-                                            borderColor: colors.primary.main,
-                                            color: colors.primary.main 
-                                        }}
+                                        href={`/profile/view/${publisher.id}`}
+                                        className="px-4 py-2 rounded-lg border-2 border-primary text-primary font-medium hover:bg-gray-100 transition-colors duration-[280ms]"
                                     >
                                         View Profile
                                     </a>

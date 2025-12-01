@@ -11,6 +11,7 @@ import { MessagesPage } from "./app/pages/user/profile/MessagesPage";
 import { NotificationsPage } from "./app/pages/user/profile/NotificationsPage";
 import SettingsPage from "./app/pages/user/profile/SettingsPage";
 import EditPage from "./app/pages/user/profile/EditPage";
+import { ViewProfilePage } from "./app/pages/user/profile/ViewProfilePage";
 import Contact from "./app/pages/Contact";
 import Job from "./app/pages/Job";
 import NewAd from "@/app/pages/NewAd";
@@ -81,6 +82,9 @@ export default defineApp([
     route("/profile/messages", [requireAuth(), MessagesPage]),
     route("/profile/notifications", [requireAuth(), NotificationsPage]),
     route("/profile/settings", [requireAuth(), SettingsPage]),
+    
+    // Public profile view
+    route("/profile/view/:userId", ViewProfilePage),
 
     // Protected route example
     route("/protected", [requireAuth(), Home]),
