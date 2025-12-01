@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from '../../../theme';
-
 export function LoginHeader() {
     return (
         <header className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
@@ -14,20 +12,9 @@ export function LoginHeader() {
                             alt="Logo"
                             className="h-10 sm:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
                         />
-                        <div
-                            className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                            style={{ backgroundColor: colors.primary.main }}
-                        />
+                        <div className="absolute inset-0 rounded-full bg-primary blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                     </div>
-                    <h1
-                        className="text-xl sm:text-2xl font-bold transition-all duration-300"
-                        style={{
-                            background: `linear-gradient(135deg, ${colors.primary.main}, ${colors.secondary.emerald})`,
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                        }}
-                    >
+                    <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-br from-primary to-secondary-emerald bg-clip-text text-transparent transition-all duration-300">
                         SkillSwap
                     </h1>
                 </a>

@@ -2,7 +2,6 @@
 
 import { RequestInfo } from "rwsdk/worker";
 import { PageLayout } from "./PageLayout";
-import { colors } from "../theme";
 import { TopContributors, type Contributor } from "../components/home/TopContributors";
 import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
@@ -66,7 +65,7 @@ const topContributors: Contributor[] = [
 export function Home({ ctx }: RequestInfo) {
   return (
     <PageLayout ctx={ctx}>
-      <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
+      <div className="min-h-screen bg-gradient-to-b from-secondary-cream to-secondary-pale">
         {/* Hero Section */}
         <Hero isLoggedIn={!!ctx.user} />
 
@@ -81,7 +80,7 @@ export function Home({ ctx }: RequestInfo) {
 
         {/* CTA Section (Call to Action) */}
         {!ctx.user && (
-          <section className="py-16" style={{ backgroundColor: colors.primary.main }}>
+          <section className="py-16 bg-gradient-to-br from-primary to-primary-dark">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
                 Ready to Start Learning?
@@ -91,8 +90,7 @@ export function Home({ ctx }: RequestInfo) {
               </p>
               <a
                 href="/register"
-                className="inline-block px-8 py-3 bg-white rounded-lg font-medium text-base transition-all duration-200 cursor-pointer"
-                style={{ color: colors.primary.main }}
+                className="inline-block py-3.5 px-8 bg-white text-primary rounded-md hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] font-bold text-[1.063rem] cursor-pointer transition-all duration-[280ms]"
               >
                 Create Your Free Account
               </a>

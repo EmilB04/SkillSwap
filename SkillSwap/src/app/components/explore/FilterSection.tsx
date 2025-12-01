@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from '../../theme';
-
 interface FilterSectionProps {
     filters: {
         category: string;
@@ -17,7 +15,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
     return (
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 sm:p-8 mb-12">
             <div className="flex items-center gap-2 mb-6">
-                <svg className="w-6 h-6" fill="none" stroke={colors.primary.main} viewBox="0 0 24 24">
+                <svg className="w-6 h-6 stroke-primary" fill="none" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
                 <h2 className="text-xl font-bold text-gray-900">Filter & Find</h2>
@@ -30,12 +28,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                     <select 
                         id="sortBy" 
                         name="sortBy" 
-                        className="p-3 border-2 rounded-lg text-base transition-all duration-200 focus:outline-none cursor-pointer"
-                        style={{ 
-                            borderColor: colors.neutral.gray[300],
-                        }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                        onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                        className="p-3 border-2 border-gray-300 rounded-lg text-base focus:border-primary transition-all duration-200 focus:outline-none cursor-pointer"
                         value={searchQuery}
                         onChange={onFilterChange}
                     >
@@ -53,12 +46,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                     <select 
                         id="category" 
                         name="category" 
-                        className="p-3 border-2 rounded-lg text-base transition-all duration-200 focus:outline-none cursor-pointer"
-                        style={{ 
-                            borderColor: colors.neutral.gray[300],
-                        }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                        onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                        className="p-3 border-2 border-gray-300 rounded-lg text-base focus:border-primary transition-all duration-200 focus:outline-none cursor-pointer"
                         value={filters.category}
                         onChange={onFilterChange}
                     >
@@ -78,12 +66,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                     <select 
                         id="dateRange" 
                         name="dateRange" 
-                        className="p-3 border-2 rounded-lg text-base transition-all duration-200 focus:outline-none cursor-pointer"
-                        style={{ 
-                            borderColor: colors.neutral.gray[300],
-                        }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                        onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                        className="p-3 border-2 border-gray-300 rounded-lg text-base focus:border-primary transition-all duration-200 focus:outline-none cursor-pointer"
                         value={filters.dateRange}
                         onChange={onFilterChange}
                     >
@@ -108,8 +91,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                                 value=""
                                 checked={filters.payment === ''}
                                 onChange={onFilterChange}
-                                className="w-5 h-5 cursor-pointer" 
-                                style={{ accentColor: colors.primary.main }}
+                                className="w-5 h-5 accent-primary cursor-pointer" 
                             />
                             <label htmlFor="all-payment" className="text-base cursor-pointer">All</label>
                         </div>
@@ -121,8 +103,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                                 value="cash"
                                 checked={filters.payment === 'cash'}
                                 onChange={onFilterChange}
-                                className="w-5 h-5 cursor-pointer" 
-                                style={{ accentColor: colors.primary.main }}
+                                className="w-5 h-5 accent-primary cursor-pointer" 
                             />
                             <label htmlFor="cash" className="text-base cursor-pointer">Cash</label>
                         </div>
@@ -134,8 +115,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                                 value="swap"
                                 checked={filters.payment === 'swap'}
                                 onChange={onFilterChange}
-                                className="w-5 h-5 cursor-pointer" 
-                                style={{ accentColor: colors.primary.main }}
+                                className="w-5 h-5 accent-primary cursor-pointer" 
                             />
                             <label htmlFor="swap" className="text-base cursor-pointer">Swap</label>
                         </div>
@@ -146,10 +126,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                 <div className="flex flex-col justify-end">
                     <button 
                         type="submit" 
-                        className="w-full px-6 py-3 rounded-lg text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
-                        style={{ backgroundColor: colors.primary.main }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                        className="w-full px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
                         onClick={(e) => {
                             e.preventDefault();
                             onSearch();

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import type { UserProfile } from "../../pages/user/profile/profileData";
+import type { SafeUser } from "@/db/schema";
 
 interface ProfileMenuFlyoutProps {
-    user?: UserProfile | null;
+    user?: SafeUser | null;
 }
 
 export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
@@ -48,7 +48,7 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
                         aria-haspopup="true"
                     >
                         <img src="./src/app/assets/icons/boy-icon.png" alt="Profile" className="h-6 w-6" />
-                        <span className="hidden xl:inline text-sm font-medium" style={{ color: '#4b5563' }}>My Profile</span>
+                        <span className="hidden xl:inline text-sm font-medium text-gray-600">My Profile</span>
                     </button>
 
                     {/* Dropdown Menu */}
@@ -126,11 +126,8 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
             ) : (
                 <a
                     href="/login"
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white"
-                    style={{ backgroundColor: '#438C86' }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-white bg-primary hover:bg-primary-hover"
                     aria-label="Sign in to your account"
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3a7771'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#438C86'}
                 >
                     <span className="hidden lg:inline">Sign In</span>
                     <span className="lg:hidden">Sign In</span>

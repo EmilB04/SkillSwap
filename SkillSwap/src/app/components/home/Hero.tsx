@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { colors } from "../../theme";
 
 export interface Stat {
     value: string;
@@ -83,14 +82,14 @@ export function Hero({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
                 <div className="text-center">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                        <span style={{ color: colors.primary.main }}>
+                        <span className="text-primary">
                             {title.line1}
                         </span>
                         <br />
                         <span className="text-gray-900">{title.line2}</span>
                     </h1>
 
-                    <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+                    <p className="text-lg text-gray-600 leading-relaxed mb-8 max-w-3xl mx-auto">
                         {subtitle}
                     </p>
 
@@ -104,19 +103,11 @@ export function Hero({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder={searchPlaceholder}
-                                        className="w-full px-6 py-4 pr-32 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
-                                        style={{
-                                            fontSize: '16px',
-                                        }}
-                                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                        onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
+                                        className="w-full text-base text-gray-900 p-4 pr-32 border-2 border-gray-300 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/20 focus:outline-none transition-all duration-[280ms]"
                                     />
                                     <button
                                         type="submit"
-                                        className="absolute right-2 px-6 py-2.5 rounded-lg text-white font-medium transition-all duration-200 hover:shadow-md cursor-pointer"
-                                        style={{ backgroundColor: colors.primary.main }}
-                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                                        className="absolute right-2 py-2.5 px-6 rounded-md bg-primary hover:bg-primary-hover hover:scale-[1.03] text-white font-bold border-0 transition-all duration-[140ms] cursor-pointer"
                                     >
                                         <span className="flex items-center gap-2">
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,18 +132,7 @@ export function Hero({
                                                     window.location.href = `/explore?search=${encodeURIComponent(term)}`;
                                                 }
                                             }}
-                                            className="text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 transition-colors duration-200 cursor-pointer"
-                                            style={{
-                                                borderColor: '#d1d5db',
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.borderColor = colors.primary.main;
-                                                e.currentTarget.style.color = colors.primary.main;
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.borderColor = '#d1d5db';
-                                                e.currentTarget.style.color = '#4b5563';
-                                            }}
+                                            className="text-sm py-1.5 px-3.5 rounded-full border border-gray-300 text-gray-600 bg-white hover:border-primary-light hover:text-primary hover:bg-primary/10 transition-all duration-[140ms] cursor-pointer"
                                         >
                                             {term}
                                         </button>
@@ -167,21 +147,11 @@ export function Hero({
                             <a
                                 key={index}
                                 href={button.href}
-                                className={`w-full sm:w-auto px-8 py-3 rounded-lg font-medium text-base transition-all duration-200 cursor-pointer ${button.variant === "primary"
-                                        ? "text-white"
-                                        : "bg-white text-gray-700 border border-gray-300"
-                                    }`}
-                                style={button.variant === "primary" ? { backgroundColor: colors.primary.main } : {}}
-                                onMouseEnter={(e) => {
-                                    if (button.variant === "primary") {
-                                        e.currentTarget.style.backgroundColor = colors.primary.hover;
-                                    }
-                                }}
-                                onMouseLeave={(e) => {
-                                    if (button.variant === "primary") {
-                                        e.currentTarget.style.backgroundColor = colors.primary.main;
-                                    }
-                                }}
+                                className={`w-full sm:w-auto py-3.5 px-8 rounded-md text-base font-bold no-underline transition-all duration-[280ms] cursor-pointer ${
+                                    button.variant === "primary"
+                                        ? "bg-primary text-white border-0 hover:bg-primary-hover hover:-translate-y-1 hover:shadow-medium"
+                                        : "bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary"
+                                }`}
                             >
                                 {button.text}
                             </a>

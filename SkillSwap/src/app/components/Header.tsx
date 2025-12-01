@@ -4,7 +4,6 @@ import { useState } from "react";
 import type { AppContext } from "@/worker";
 import ProfileMenuFlyout from "./profile/HeaderMenuFlyout";
 import SearchBar from "./SearchBar";
-import { colors } from "../theme";
 
 interface HeaderProps {
   ctx?: AppContext;
@@ -25,17 +24,9 @@ export default function Header({ ctx }: HeaderProps) {
               alt="Logo"
               className="h-10 sm:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
-            <div
-              className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-              style={{ backgroundColor: colors.primary.main }}
-            />
+            <div className="absolute inset-0 rounded-full bg-primary blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
           </div>
-          <h1
-            className="text-xl sm:text-2xl font-bold transition-all duration-300"
-            style={{
-              color: colors.primary.main,
-            }}
-          >
+          <h1 className="text-xl sm:text-2xl font-bold text-primary transition-all duration-300">
             SkillSwap
           </h1>
         </a>
@@ -47,12 +38,9 @@ export default function Header({ ctx }: HeaderProps) {
           {/* Desktop Search Icon */}
           <button
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer"
-            style={{ backgroundColor: colors.primary.main, color: 'white' }}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-white hover:bg-primary-hover transition-all duration-200 cursor-pointer"
             aria-label="Toggle search"
             aria-expanded={isSearchOpen}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
           >
             <svg
               className="w-5 h-5 transition-colors"
@@ -66,16 +54,7 @@ export default function Header({ ctx }: HeaderProps) {
           </button>
           <a
             href="/explore"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200"
-            style={{ color: colors.neutral.gray[700] }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = colors.neutral.gray[50];
-              e.currentTarget.style.color = colors.primary.main;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = colors.neutral.gray[700];
-            }}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -84,16 +63,7 @@ export default function Header({ ctx }: HeaderProps) {
           </a>
           <a
             href="/new-add"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200"
-            style={{ color: colors.neutral.gray[700] }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = colors.neutral.gray[50];
-              e.currentTarget.style.color = colors.primary.main;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = colors.neutral.gray[700];
-            }}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -103,17 +73,8 @@ export default function Header({ ctx }: HeaderProps) {
 
           <a
             href="/profile/notifications"
-            className="relative flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200"
-            style={{ color: colors.neutral.gray[700] }}
+            className="relative flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-200"
             aria-label="Notifications"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = colors.neutral.gray[50];
-              e.currentTarget.style.color = colors.primary.main;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = colors.neutral.gray[700];
-            }}
           >
             <svg
               className="w-5 h-5 transition-colors"
@@ -124,10 +85,7 @@ export default function Header({ ctx }: HeaderProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             {/* Notification badge */}
-            <span
-              className="absolute top-1 right-1 w-2 h-2 rounded-full"
-              style={{ backgroundColor: colors.secondary.sky }}
-            />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-secondary-mint rounded-full" />
             <span className="hidden xl:inline text-sm font-medium">Notifications</span>
           </a>
 
@@ -140,12 +98,9 @@ export default function Header({ ctx }: HeaderProps) {
           {/* Mobile Search Icon */}
           <button
             onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="p-2 rounded-lg transition-all duration-200 cursor-pointer"
-            style={{ backgroundColor: colors.primary.main }}
+            className="p-2 rounded-lg bg-primary hover:bg-primary-hover transition-all duration-200 cursor-pointer"
             aria-label="Toggle search"
             aria-expanded={isSearchOpen}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
           >
             <svg className="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -161,19 +116,16 @@ export default function Header({ ctx }: HeaderProps) {
           >
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-2 bg-primary" : "bg-gray-700"
                   }`}
-                style={{ backgroundColor: isMobileMenuOpen ? colors.primary.main : colors.neutral.gray[700] }}
               ></span>
               <span
-                className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""
+                className={`block h-0.5 w-full rounded-full bg-gray-700 transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""
                   }`}
-                style={{ backgroundColor: colors.neutral.gray[700] }}
               ></span>
               <span
-                className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-2 bg-primary" : "bg-gray-700"
                   }`}
-                style={{ backgroundColor: isMobileMenuOpen ? colors.primary.main : colors.neutral.gray[700] }}
               ></span>
             </div>
           </button>
@@ -189,8 +141,7 @@ export default function Header({ ctx }: HeaderProps) {
             </div>
             <button
               onClick={() => setIsSearchOpen(false)}
-              className="p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-              style={{ color: colors.neutral.gray[700] }}
+              className="p-2 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
               aria-label="Close search"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -210,13 +161,13 @@ export default function Header({ ctx }: HeaderProps) {
         <div className="flex flex-col h-full">
           {/* Header with close button */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100">
-            <span className="text-lg font-semibold" style={{ color: colors.primary.main }}>Menu</span>
+            <span className="text-lg font-semibold text-primary">Menu</span>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
               aria-label="Close menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke={colors.neutral.gray[700]} viewBox="0 0 24 24">
+              <svg className="w-6 h-6 stroke-gray-700" fill="none" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -228,10 +179,8 @@ export default function Header({ ctx }: HeaderProps) {
               <li>
                 <a
                   href="/explore"
-                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -242,10 +191,8 @@ export default function Header({ ctx }: HeaderProps) {
               <li>
                 <a
                   href="/new-add"
-                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -262,19 +209,14 @@ export default function Header({ ctx }: HeaderProps) {
               <li>
                 <a
                   href="/profile/notifications"
-                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                  className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   <div className="relative mr-3">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    <span
-                      className="absolute -top-1 -right-1 w-2 h-2 rounded-full"
-                      style={{ backgroundColor: colors.secondary.sky }}
-                    />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-secondary-mint rounded-full" />
                   </div>
                   <span className="font-medium">Notifications</span>
                 </a>
@@ -291,10 +233,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li>
                     <a
                       href="/profile"
-                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -305,10 +245,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li>
                     <a
                       href="/profile/settings"
-                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -321,10 +259,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li>
                     <a
                       href="/help"
-                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-all cursor-pointer group"
+                      className="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-primary/10 transition-all cursor-pointer group"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${colors.primary.main}10`}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -339,11 +275,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li>
                     <a
                       href="/logout"
-                      className="flex items-center px-4 py-3 rounded-lg transition-all cursor-pointer group"
-                      style={{ color: colors.semantic.error.text }}
+                      className="flex items-center px-4 py-3 rounded-lg text-error-text hover:bg-error-bg transition-all cursor-pointer group"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.semantic.error.bg}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -357,11 +290,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li>
                     <a
                       href="/login"
-                      className="flex items-center justify-center mx-3 py-3 px-4 rounded-lg text-white font-semibold shadow-md hover:shadow-lg transition-all cursor-pointer"
-                      style={{ backgroundColor: colors.primary.main }}
+                      className="flex items-center justify-center mx-3 py-3 px-4 rounded-lg bg-primary text-white font-semibold shadow-md hover:bg-primary-hover hover:shadow-lg transition-all cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
                     >
                       Sign In
                     </a>
@@ -369,21 +299,8 @@ export default function Header({ ctx }: HeaderProps) {
                   <li className="mt-2">
                     <a
                       href="/register"
-                      className="flex items-center justify-center mx-3 py-4 px-4 rounded-lg font-semibold transition-all cursor-pointer"
-                      style={{
-                        borderWidth: '2px',
-                        borderColor: colors.primary.main,
-                        color: colors.primary.main
-                      }}
+                      className="flex items-center justify-center mx-3 py-4 px-4 rounded-lg border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold transition-all cursor-pointer"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.primary.main;
-                        e.currentTarget.style.color = 'white';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = colors.primary.main;
-                      }}
                     >
                       Sign Up
                     </a>

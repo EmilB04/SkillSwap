@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition, useMemo } from "react";
-import { colors } from "@/app/theme";
 import { LoginHeader } from "../../../components/user/account/LoginHeader";
 import { RegisterFormHeader } from "../../../components/user/account/RegisterFormHeader";
 import { TextInput } from "../../../components/user/account/TextInput";
@@ -136,13 +135,7 @@ export function Register() {
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         placeholder="Confirm your password"
                                         required
-                                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 transition-all duration-200"
-                                        style={{
-                                            '--tw-ring-color': `${colors.primary.main}33`,
-                                            borderColor: undefined,
-                                        } as React.CSSProperties & { '--tw-ring-color': string }}
-                                        onFocus={(e) => e.target.style.borderColor = colors.primary.main}
-                                        onBlur={(e) => e.target.style.borderColor = ''}
+                                        className="w-full px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-200 rounded-lg sm:rounded-xl bg-gray-50/50 focus:bg-white focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-[280ms]"
                                         aria-describedby="confirmPassword-help"
                                     />
                                     <div id="confirmPassword-help" className="sr-only">
@@ -187,10 +180,7 @@ export function Register() {
                                 Already have an account?{" "}
                                 <a
                                     href="/login"
-                                    className="font-medium transition-colors duration-200 underline-offset-2 hover:underline cursor-pointer"
-                                    style={{ color: colors.primary.main }}
-                                    onMouseEnter={(e) => e.currentTarget.style.color = colors.primary.hover}
-                                    onMouseLeave={(e) => e.currentTarget.style.color = colors.primary.main}
+                                    className="font-medium text-primary hover:text-primary-hover transition-colors duration-[280ms] underline-offset-2 hover:underline cursor-pointer"
                                 >
                                     Sign In
                                 </a>

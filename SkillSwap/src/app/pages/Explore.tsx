@@ -5,7 +5,6 @@ import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
 import { useState, useEffect } from 'react';
 import { Job, mockJobs } from '@/types/job';
-import { colors } from '../theme';
 import { 
     ExploreHeader, 
     FilterSection, 
@@ -132,9 +131,7 @@ export default function Explore({ ctx }: RequestInfo){
     };
 
     return(
-        <div className="min-h-screen" style={{ 
-            backgroundColor: colors.secondary.pale
-        }}>
+        <div className="min-h-screen bg-secondary-pale">
             <Header ctx={ctx} />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <ExploreHeader />

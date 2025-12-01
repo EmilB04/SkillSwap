@@ -1,6 +1,5 @@
 "use client";
 
-import { colors } from '../../theme';
 import { useEffect, useState } from 'react';
 
 export default function ExploreHeader() {
@@ -35,39 +34,31 @@ export default function ExploreHeader() {
         >
             {/* Background decorative elements */}
             <div 
-                className="absolute inset-0 -z-10"
+                className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(63,166,159,0.03)_0%,transparent_70%)]"
                 style={{
-                    background: `radial-gradient(circle at 50% 50%, ${colors.primary.main}08 0%, transparent 70%)`,
                     transform: `translateY(${scrollY * 0.3}px)`,
                 }}
             />
             
             {/* Animated circles */}
             <div 
-                className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full blur-3xl -z-10"
+                className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-secondary-accent/20 blur-3xl -z-10"
                 style={{
-                    background: `${colors.secondary.accent}20`,
                     transform: `translate(${scrollY * 0.2}px, ${scrollY * 0.15}px)`,
                 }}
             />
             <div 
-                className="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full blur-3xl -z-10"
+                className="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full bg-primary/[0.15] blur-3xl -z-10"
                 style={{
-                    background: `${colors.primary.main}15`,
                     transform: `translate(-${scrollY * 0.25}px, ${scrollY * 0.1}px)`,
                 }}
             />
 
             {/* Main heading */}
             <h1 
-                className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-6 transition-all duration-1000 ${
+                className={`text-3xl sm:text-4xl md:text-5xl font-bold text-primary tracking-tight leading-tight mb-6 transition-all duration-1000 ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
-                style={{ 
-                    color: colors.primary.main,
-                    letterSpacing: '-0.02em',
-                    lineHeight: '1.2',
-                }}
             >
                 Explore Opportunities
             </h1>
@@ -93,9 +84,8 @@ export default function ExploreHeader() {
                 <div className="flex flex-col items-center gap-2">
                     <span className="text-sm text-gray-500 font-medium">Scroll to explore</span>
                     <svg 
-                        className="w-6 h-6 animate-bounce" 
+                        className="w-6 h-6 animate-bounce stroke-primary" 
                         fill="none" 
-                        stroke={colors.primary.main} 
                         viewBox="0 0 24 24"
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
