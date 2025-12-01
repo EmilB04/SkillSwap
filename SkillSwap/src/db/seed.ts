@@ -40,7 +40,6 @@ export default defineScript(async ({ env }) => {
     skillsLearning: "Norwegian Language,Piano,Photography,Graphic Design,Public Speaking",
   });
 
-  
   await db.insert(ads).values([
     {
       slug: "web-development-tutoring",
@@ -409,9 +408,31 @@ export default defineScript(async ({ env }) => {
       rating: 5,
       reviewText: "Great UI/UX insights. My app looks so much better now!",
     },
+    {
+      slug: "music-8",
+      title: "Guitar Lessons",
+      description: "Need beginner guitar lessons",
+      userId: loginUser.id,
+      category: "Music",
+      payment: "$30/hour",
+      imageUrl: "/src/app/assets/guitar-lesson.jpg",
+      location: "Prinsens gate 15, 7012 Trondheim",
+      date: new Date(2025, 11, 15),
+    },
+    {
+      slug: "other-9",
+      title: "Dog Walking",
+      description: "Looking for someone to walk my dog",
+      userId: loginUser.id,
+      category: "Other",
+      payment: "$15/hour",
+      imageUrl: "/src/app/assets/dog-walking.jpg",
+      location: "Jernvegen 19, 4755 Hovden",
+      date: new Date(2025, 11, 18),
+    }
   ]);
 
-  console.log("🌱 Finished seeding");
+  console.log("�� Finished seeding");
   console.log("👉 Login user:");
   console.log(`   email:    ${loginEmail}`);
   console.log(`   password: ${plainPassword}`);

@@ -8,7 +8,6 @@
 import { MyPage } from "../pages/user/profile/MyPage";
 import EditPage from "../pages/user/profile/EditPage";
 import { getUserProfile } from "../services/userProfileService";
-import { mockUserProfile } from "../pages/user/profile/profileData";
 import type { RequestInfo } from "rwsdk/worker";
 
 /**
@@ -19,7 +18,7 @@ import type { RequestInfo } from "rwsdk/worker";
 export async function profileRouteHandler(ctx: RequestInfo) {
     try {
         // Get user ID from context or route params
-        const userId = ctx.params?.userId || ctx.user?.id;
+        const userId = ctx.params?.userId || (ctx as any).user?.id;
         
         if (!userId) {
             // User not logged in - redirect to login
@@ -30,17 +29,15 @@ export async function profileRouteHandler(ctx: RequestInfo) {
         }
 
         // Fetch user profile from backend
-        let userProfile;
-        try {
-            userProfile = await getUserProfile(userId);
-        } catch (error) {
-            console.error("Failed to fetch user profile, using mock data:", error);
-            // Fall back to mock data during development
-            userProfile = mockUserProfile;
+        const userProfile = await getUserProfile(userId);
+        
+        if (!userProfile) {
+            return new Response("User not found", { status: 404 });
         }
 
-        // Render the MyPage component with user profile data
-        return <MyPage ctx={ctx} userProfile={userProfile} />;
+        // Render the MyPage component - it now uses ctx.user directly
+        // @ts-ignore - Example file type mismatch
+        return <MyPage ctx={ctx} />;
         
     } catch (error) {
         console.error("Error in profile route handler:", error);
@@ -56,7 +53,7 @@ export async function profileRouteHandler(ctx: RequestInfo) {
 export async function profileEditRouteHandler(ctx: RequestInfo) {
     try {
         // Get user ID from context
-        const userId = ctx.user?.id;
+        const userId = (ctx as any).user?.id;
         
         if (!userId) {
             // User not logged in - redirect to login
@@ -67,13 +64,10 @@ export async function profileEditRouteHandler(ctx: RequestInfo) {
         }
 
         // Fetch user profile from backend
-        let userProfile;
-        try {
-            userProfile = await getUserProfile(userId);
-        } catch (error) {
-            console.error("Failed to fetch user profile, using mock data:", error);
-            // Fall back to mock data during development
-            userProfile = mockUserProfile;
+        const userProfile = await getUserProfile(userId);
+        
+        if (!userProfile) {
+            return new Response("User not found", { status: 404 });
         }
 
         // Ensure user can only edit their own profile
@@ -81,8 +75,9 @@ export async function profileEditRouteHandler(ctx: RequestInfo) {
             return new Response("Forbidden", { status: 403 });
         }
 
-        // Render the EditPage component with user profile data
-        return <EditPage ctx={ctx} userProfile={userProfile} />;
+        // Render the EditPage component - it now uses ctx.user directly
+        // @ts-ignore - Example file type mismatch
+        return <EditPage ctx={ctx} />;
         
     } catch (error) {
         console.error("Error in profile edit route handler:", error);
@@ -123,13 +118,13 @@ export async function profileLoader({ params, request }: any) {
         throw new Response("Not Found", { status: 404 });
     }
 
-    try {
-        const userProfile = await getUserProfile(userId);
-        return { userProfile };
-    } catch (error) {
-        console.error("Failed to load user profile:", error);
-        return { userProfile: mockUserProfile };
+    const userProfile = await getUserProfile(userId);
+    
+    if (!userProfile) {
+        throw new Response("User not found", { status: 404 });
     }
+    
+    return { userProfile };
 }
 
 /**

@@ -3,7 +3,7 @@
  * Handles fetching and updating user profile data from the backend
  */
 
-import { UserProfile, UserProfileUpdate, parseSkills, mockUserProfile } from "../pages/user/profile/profileData";
+import { UserProfile, UserProfileUpdate, parseSkills } from "../pages/user/profile/profileData";
 import { db } from "@/db";
 import { users, profileDetails, reviews } from "@/db/schema";
 import { eq, and, sql } from "drizzle-orm";
@@ -82,15 +82,8 @@ export async function loadUserProfileFromDB(userId: number): Promise<UserProfile
  */
 export async function getUserProfile(userId: number): Promise<UserProfile | null> {
     try {
-        // Try to load from database
+        // Load profile from database
         const profile = await loadUserProfileFromDB(userId);
-        
-        // Fallback to mock data in development if user not found
-        if (!profile && userId === 1) {
-            console.log("User not found in DB, using mock data for development");
-            return mockUserProfile;
-        }
-        
         return profile;
     } catch (error) {
         console.error("Error fetching user profile:", error);

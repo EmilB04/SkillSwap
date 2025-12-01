@@ -7,9 +7,8 @@ import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
 import { Hero } from "../components/home/Hero";
 import ScrollToTop from "../components/ScrollToTop";
-
-// TODO: Remove this import when integrating with backend
-import { mockJobs } from "../../types/job";
+import { useState, useEffect } from "react";
+import { Job } from "../../types/job";
 
 // Mock data for top contributors
 // TODO: Replace with real data from backend
@@ -62,6 +61,42 @@ const topContributors: Contributor[] = [
 ];
 
 export function Home({ ctx }: RequestInfo) {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAds() {
+      try {
+        const response = await fetch('/api/v1/ads');
+        const result = await response.json() as { success: boolean; data?: any[] };
+        
+        if (result.success && result.data) {
+          const jobs: Job[] = result.data.map((ad: any) => ({
+            id: ad.id,
+            slug: ad.slug || `${ad.category?.toLowerCase()}-${ad.id}`,
+            title: ad.title,
+            description: ad.description,
+            userId: ad.userId,
+            category: ad.category || 'Other',
+            payment: ad.payment || 'Negotiable',
+            imageUrl: ad.imageUrl || '/src/app/assets/gardening.jpeg',
+            date: ad.date ? new Date(ad.date) : new Date(),
+            location: ad.location || 'Location not specified',
+            createdAt: ad.createdAt ? new Date(ad.createdAt) : undefined,
+            updatedAt: ad.updatedAt ? new Date(ad.updatedAt) : undefined,
+          }));
+          setJobs(jobs);
+        }
+      } catch (error) {
+        console.error('Error fetching ads:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchAds();
+  }, []);
+
   return (
     <PageLayout ctx={ctx}>
       <div className="min-h-screen bg-gradient-to-b from-secondary-cream to-secondary-pale">
@@ -69,7 +104,11 @@ export function Home({ ctx }: RequestInfo) {
         <Hero isLoggedIn={!!ctx.user} />
 
         {/* Featured Opportunities */}
-        <FeaturedOpportunities jobs={mockJobs} />
+        {loading ? (
+          <div className="text-center py-12">Loading opportunities...</div>
+        ) : (
+          <FeaturedOpportunities jobs={jobs} />
+        )}
         
         {/* How It Works */}
         <HowItWorks />

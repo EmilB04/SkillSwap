@@ -20,21 +20,10 @@ interface HeroProps {
     };
     subtitle?: string;
     isLoggedIn?: boolean;
-    showStats?: boolean;
-    stats?: Stat[];
-    showDisclaimer?: boolean;
-    disclaimerText?: string;
-    backgroundColor?: string;
     showSearchBar?: boolean;
     searchPlaceholder?: string;
     onSearch?: (query: string) => void;
 }
-
-const defaultStats: Stat[] = [
-    { value: "500+", label: "Active Users" },
-    { value: "1,200+", label: "Skills Shared" },
-    { value: "350+", label: "Swaps Completed" },
-];
 
 export function Hero({
     title = {
@@ -43,11 +32,6 @@ export function Hero({
     },
     subtitle = "Connect with people who want to learn what you know, and teach what they master. SkillSwap makes peer-to-peer learning simple and rewarding.",
     isLoggedIn = false,
-    showStats = true,
-    stats = defaultStats,
-    showDisclaimer = true,
-    disclaimerText = "Disclaimer: All statistics are for demonstration purposes only and may not reflect real user activity.",
-    backgroundColor = "bg-gradient-to-br from-teal-50 via-white to-emerald-50",
     showSearchBar = true,
     searchPlaceholder = "Search for skills, services, or people...",
     onSearch,
