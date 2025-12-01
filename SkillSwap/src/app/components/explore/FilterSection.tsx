@@ -1,17 +1,22 @@
 "use client";
 
+import React, { useState } from "react";
+
 interface FilterSectionProps {
     filters: {
         category: string;
         dateRange: string;
         payment: string;
+        sortBy?: string;
     };
     searchQuery: string;
     onFilterChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
     onSearch: () => void;
+    onSearchInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FilterSection({ filters, searchQuery, onFilterChange, onSearch }: FilterSectionProps) {
+export default function FilterSection({ filters, searchQuery, onFilterChange, onSearch, onSearchInputChange }: FilterSectionProps) {
+    const [showSearchInput, setShowSearchInput] = useState(false);
     return (
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 sm:p-8 mb-12">
             <div className="flex items-center gap-2 mb-6">
@@ -29,7 +34,7 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                         id="sortBy" 
                         name="sortBy" 
                         className="p-3 border-2 border-gray-300 rounded-lg text-base focus:border-primary transition-all duration-200 focus:outline-none cursor-pointer"
-                        value={searchQuery}
+                        value={filters.sortBy || ''}
                         onChange={onFilterChange}
                     >
                         <option value="">Relevance</option>
@@ -121,15 +126,67 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                         </div>
                     </div>
                 </div>
+            </form>
 
-                {/* Search Button */}
-                <div className="flex flex-col justify-end">
-                    <button 
-                        type="submit" 
+            {/* Search Button & Field below filters */}
+            <div className="mt-6 flex flex-col items-stretch">
+                {showSearchInput ? (
+                    <div className="flex gap-2 items-center">
+                        <input
+                            type="text"
+                            className="flex-1 p-3 border-2 border-gray-300 rounded-lg text-base focus:border-primary focus:outline-none"
+                            placeholder="Type to search..."
+                            value={searchQuery}
+                            onChange={onSearchInputChange}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    onSearch();
+                                }
+                            }}
+                            autoFocus
+                        />
+                        <button
+                            type="button"
+                            className="px-4 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+                            onClick={e => {
+                                e.preventDefault();
+                                onSearch();
+                            }}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                        <button
+                            type="button"
+                            className="ml-2 text-gray-500 hover:text-gray-700 cursor-pointer"
+                            onClick={() => setShowSearchInput(false)}
+                            title="Close search"
+                            aria-label="Close search"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        type="button"
                         className="w-full px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
-                        onClick={(e) => {
+                        onClick={e => {
                             e.preventDefault();
-                            onSearch();
+                            setShowSearchInput(true);
                         }}
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,8 +194,8 @@ export default function FilterSection({ filters, searchQuery, onFilterChange, on
                         </svg>
                         Search
                     </button>
-                </div>
-            </form>
+                )}
+            </div>
         </div>
     );
 }
