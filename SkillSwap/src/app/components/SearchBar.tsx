@@ -3,14 +3,22 @@
 import { useState } from 'react';
 import { colors } from '../theme';
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onSearch?: (query: string) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (searchQuery.trim()) {
-      const query = encodeURIComponent(searchQuery.trim());
-      window.location.href = `/explore?q=${query}`;
+      if (onSearch) {
+        onSearch(searchQuery.trim());
+      } else {
+        const query = encodeURIComponent(searchQuery.trim());
+        window.location.href = `/explore?q=${query}`;
+      }
     }
   }
 
@@ -22,7 +30,7 @@ export default function SearchBar() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for skills, services, or people..."
-                    className="w-full px-6 py-3 pr-24 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
+          className="w-full px-6 py-3 pr-24 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
           style={{
             fontSize: '16px',
           }}

@@ -292,7 +292,13 @@ export default function Header({ ctx }: HeaderProps) {
       >
         <div className="flex items-center gap-2 max-w-7xl mx-auto px-4 py-3">
           <div className="flex-1">
-            <SearchBar />
+            <SearchBar
+              onSearch={(query: string) => {
+                if (query && query.trim()) {
+                  window.location.href = `/explore?q=${encodeURIComponent(query)}`;
+                }
+              }}
+            />
           </div>
           <button
             onClick={() => setIsSearchOpen(false)}

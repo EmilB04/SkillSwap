@@ -45,8 +45,8 @@ export function Hero({
             if (onSearch) {
                 onSearch(searchQuery);
             } else {
-                // Default behavior: navigate to explore page with search query
-                window.location.href = `/explore?search=${encodeURIComponent(searchQuery)}`;
+                // Unified behavior: navigate to explore page with ?q= param
+                window.location.href = `/explore?q=${encodeURIComponent(searchQuery)}`;
             }
         }
     };
@@ -122,7 +122,7 @@ export function Hero({
                                                 if (onSearch) {
                                                     onSearch(term);
                                                 } else {
-                                                    window.location.href = `/explore?search=${encodeURIComponent(term)}`;
+                                                    window.location.href = `/explore?q=${encodeURIComponent(term)}`;
                                                 }
                                             }}
                                             className="text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 transition-colors duration-200 cursor-pointer"
