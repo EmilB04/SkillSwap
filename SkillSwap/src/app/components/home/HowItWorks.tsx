@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { colors } from "../../theme";
+import { colors, borderRadius, shadows, transition } from "../../theme";
 
 export interface Step {
     number: number;
@@ -154,22 +154,26 @@ export function HowItWorks({
                     <div className="flex justify-center gap-4 mb-8">
                         <button
                             onClick={() => setSelectedType("swap")}
-                            className="px-8 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer"
+                            className="px-8 py-3 font-semibold cursor-pointer"
                             style={{
                                 backgroundColor: selectedType === "swap" ? colors.primary.main : "white",
                                 color: selectedType === "swap" ? "white" : colors.neutral.gray[700],
                                 border: `2px solid ${selectedType === "swap" ? colors.primary.main : colors.neutral.gray[300]}`,
+                                borderRadius: borderRadius.lg,
+                                transition: `all ${transition.normal} ease`,
                             }}
                             onMouseEnter={(e) => {
                                 if (selectedType !== "swap") {
                                     e.currentTarget.style.borderColor = colors.primary.main;
                                     e.currentTarget.style.color = colors.primary.main;
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 if (selectedType !== "swap") {
                                     e.currentTarget.style.borderColor = colors.neutral.gray[300];
                                     e.currentTarget.style.color = colors.neutral.gray[700];
+                                    e.currentTarget.style.transform = 'translateY(0)';
                                 }
                             }}
                         >
@@ -177,22 +181,26 @@ export function HowItWorks({
                         </button>
                         <button
                             onClick={() => setSelectedType("cash")}
-                            className="px-8 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer"
+                            className="px-8 py-3 font-semibold cursor-pointer"
                             style={{
                                 backgroundColor: selectedType === "cash" ? colors.primary.main : "white",
                                 color: selectedType === "cash" ? "white" : colors.neutral.gray[700],
                                 border: `2px solid ${selectedType === "cash" ? colors.primary.main : colors.neutral.gray[300]}`,
+                                borderRadius: borderRadius.lg,
+                                transition: `all ${transition.normal} ease`,
                             }}
                             onMouseEnter={(e) => {
                                 if (selectedType !== "cash") {
                                     e.currentTarget.style.borderColor = colors.primary.main;
                                     e.currentTarget.style.color = colors.primary.main;
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 if (selectedType !== "cash") {
                                     e.currentTarget.style.borderColor = colors.neutral.gray[300];
                                     e.currentTarget.style.color = colors.neutral.gray[700];
+                                    e.currentTarget.style.transform = 'translateY(0)';
                                 }
                             }}
                         >
@@ -205,7 +213,20 @@ export function HowItWorks({
                     {displaySteps.map((step) => (
                         <div
                             key={step.number}
-                            className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 text-center hover:shadow-xl transition-shadow duration-200"
+                            className="bg-white/80 backdrop-blur-sm p-8 text-center border border-white/20"
+                            style={{
+                                borderRadius: borderRadius.xl,
+                                boxShadow: shadows.soft,
+                                transition: `all ${transition.smooth} ease`,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-4px)';
+                                e.currentTarget.style.boxShadow = shadows.medium;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = shadows.soft;
+                            }}
                         >
                             <div
                                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"

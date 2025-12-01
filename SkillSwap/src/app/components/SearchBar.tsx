@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { colors } from '../theme';
+import { colors, borderRadius, shadows, transition } from '../theme';
 
 export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,19 +22,37 @@ export default function SearchBar() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for skills, services, or people..."
-                    className="w-full px-6 py-3 pr-24 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
+          className="w-full px-6 py-3 pr-24 border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400"
           style={{
             fontSize: '16px',
+            borderRadius: borderRadius.lg,
+            transition: `all ${transition.normal} ease`,
           }}
-          onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-          onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = colors.primary.main;
+            e.currentTarget.style.boxShadow = shadows.subtle;
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = '#d1d5db';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         />
         <button
           type="submit"
-          className="absolute right-2 px-4 py-2 rounded-lg text-white font-medium transition-all duration-200 hover:shadow-md cursor-pointer"
-          style={{ backgroundColor: colors.primary.main }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+          className="absolute right-2 px-4 py-2 text-white font-medium cursor-pointer"
+          style={{ 
+            backgroundColor: colors.primary.main,
+            borderRadius: borderRadius.md,
+            transition: `all ${transition.quick} ease`,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = colors.primary.hover;
+            e.currentTarget.style.boxShadow = shadows.soft;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = colors.primary.main;
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         >
           <span className="flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

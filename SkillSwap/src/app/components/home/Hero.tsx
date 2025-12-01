@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { colors } from "../../theme";
+import { colors, borderRadius, shadows, transition } from "../../theme";
 
 export interface Stat {
     value: string;
@@ -82,15 +82,24 @@ export function Hero({
         <section className="relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
                 <div className="text-center">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+                    <h1 
+                        className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+                        style={{ fontFamily: 'Space Grotesk' }}
+                    >
                         <span style={{ color: colors.primary.main }}>
                             {title.line1}
                         </span>
                         <br />
-                        <span className="text-gray-900">{title.line2}</span>
+                        <span style={{ color: colors.neutral.gray[900] }}>{title.line2}</span>
                     </h1>
 
-                    <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+                    <p 
+                        className="text-lg mb-8 max-w-3xl mx-auto"
+                        style={{ 
+                            color: colors.neutral.gray[600],
+                            lineHeight: '1.6',
+                        }}
+                    >
                         {subtitle}
                     </p>
 
@@ -104,19 +113,43 @@ export function Hero({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder={searchPlaceholder}
-                                        className="w-full px-6 py-4 pr-32 rounded-lg border border-gray-300 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
+                                        className="w-full focus:outline-none"
                                         style={{
                                             fontSize: '16px',
+                                            padding: '1rem 1.5rem',
+                                            paddingRight: '8rem',
+                                            borderRadius: borderRadius.lg,
+                                            border: `2px solid ${colors.neutral.gray[300]}`,
+                                            color: colors.neutral.gray[900],
+                                            transition: `all ${transition.normal} ease-out`,
                                         }}
-                                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                        onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
+                                        onFocus={(e) => {
+                                            e.currentTarget.style.borderColor = colors.primary.main;
+                                            e.currentTarget.style.boxShadow = `0 0 0 3px ${colors.primary.main}20`;
+                                        }}
+                                        onBlur={(e) => {
+                                            e.currentTarget.style.borderColor = colors.neutral.gray[300];
+                                            e.currentTarget.style.boxShadow = 'none';
+                                        }}
                                     />
                                     <button
                                         type="submit"
-                                        className="absolute right-2 px-6 py-2.5 rounded-lg text-white font-medium transition-all duration-200 hover:shadow-md cursor-pointer"
-                                        style={{ backgroundColor: colors.primary.main }}
-                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                                        className="absolute right-2 text-white font-bold cursor-pointer"
+                                        style={{ 
+                                            padding: '0.625rem 1.5rem',
+                                            borderRadius: borderRadius.md,
+                                            backgroundColor: colors.primary.main,
+                                            border: 'none',
+                                            transition: `all ${transition.quick} ease-out`,
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = colors.primary.hover;
+                                            e.currentTarget.style.transform = 'scale(1.03)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = colors.primary.main;
+                                            e.currentTarget.style.transform = 'scale(1)';
+                                        }}
                                     >
                                         <span className="flex items-center gap-2">
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,17 +174,24 @@ export function Hero({
                                                     window.location.href = `/explore?search=${encodeURIComponent(term)}`;
                                                 }
                                             }}
-                                            className="text-sm px-3 py-1 rounded-full border border-gray-300 text-gray-600 transition-colors duration-200 cursor-pointer"
+                                            className="text-sm cursor-pointer"
                                             style={{
-                                                borderColor: '#d1d5db',
+                                                padding: '0.375rem 0.875rem',
+                                                borderRadius: borderRadius.full,
+                                                border: `1px solid ${colors.neutral.gray[300]}`,
+                                                color: colors.neutral.gray[600],
+                                                backgroundColor: colors.neutral.white,
+                                                transition: `all ${transition.quick} ease-out`,
                                             }}
                                             onMouseEnter={(e) => {
-                                                e.currentTarget.style.borderColor = colors.primary.main;
+                                                e.currentTarget.style.borderColor = colors.primary.light;
                                                 e.currentTarget.style.color = colors.primary.main;
+                                                e.currentTarget.style.backgroundColor = `${colors.primary.main}10`;
                                             }}
                                             onMouseLeave={(e) => {
-                                                e.currentTarget.style.borderColor = '#d1d5db';
-                                                e.currentTarget.style.color = '#4b5563';
+                                                e.currentTarget.style.borderColor = colors.neutral.gray[300];
+                                                e.currentTarget.style.color = colors.neutral.gray[600];
+                                                e.currentTarget.style.backgroundColor = colors.neutral.white;
                                             }}
                                         >
                                             {term}
@@ -167,19 +207,43 @@ export function Hero({
                             <a
                                 key={index}
                                 href={button.href}
-                                className={`w-full sm:w-auto px-8 py-3 rounded-lg font-medium text-base transition-all duration-200 cursor-pointer ${button.variant === "primary"
-                                        ? "text-white"
-                                        : "bg-white text-gray-700 border border-gray-300"
-                                    }`}
-                                style={button.variant === "primary" ? { backgroundColor: colors.primary.main } : {}}
+                                className="w-full sm:w-auto font-bold cursor-pointer"
+                                style={{
+                                    padding: '0.875rem 2rem',
+                                    borderRadius: borderRadius.md,
+                                    fontSize: '1rem',
+                                    textDecoration: 'none',
+                                    transition: `all ${transition.normal} ease-out`,
+                                    ...(button.variant === "primary" ? {
+                                        backgroundColor: colors.primary.main,
+                                        color: colors.neutral.white,
+                                        border: 'none',
+                                    } : {
+                                        backgroundColor: colors.neutral.white,
+                                        color: colors.neutral.gray[700],
+                                        border: `2px solid ${colors.neutral.gray[300]}`,
+                                    })
+                                }}
                                 onMouseEnter={(e) => {
                                     if (button.variant === "primary") {
+                                        // Primary: lift and darken
                                         e.currentTarget.style.backgroundColor = colors.primary.hover;
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                        e.currentTarget.style.boxShadow = shadows.medium;
+                                    } else {
+                                        // Secondary: border highlight (different interaction)
+                                        e.currentTarget.style.borderColor = colors.primary.main;
+                                        e.currentTarget.style.color = colors.primary.main;
                                     }
                                 }}
                                 onMouseLeave={(e) => {
                                     if (button.variant === "primary") {
                                         e.currentTarget.style.backgroundColor = colors.primary.main;
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = 'none';
+                                    } else {
+                                        e.currentTarget.style.borderColor = colors.neutral.gray[300];
+                                        e.currentTarget.style.color = colors.neutral.gray[700];
                                     }
                                 }}
                             >

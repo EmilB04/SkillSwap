@@ -1,6 +1,6 @@
 "use client";
 
-import { colors } from "../../theme";
+import { colors, borderRadius, shadows, transition } from "../../theme";
 
 export interface Contributor {
     id: number;
@@ -41,7 +41,20 @@ export function TopContributors({
                     {contributors.map((contributor, index) => (
                         <div
                             key={contributor.id}
-                            className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 relative overflow-hidden"
+                            className="bg-white border border-gray-100 p-6 text-center relative overflow-hidden"
+                            style={{
+                                borderRadius: borderRadius.xl,
+                                boxShadow: shadows.soft,
+                                transition: `all ${transition.smooth} ease`,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                                e.currentTarget.style.boxShadow = shadows.lifted;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                e.currentTarget.style.boxShadow = shadows.soft;
+                            }}
                         >
                             {/* Rank Badge */}
                             {index < 3 && (
@@ -107,10 +120,11 @@ export function TopContributors({
                                 {contributor.skills.map((skill, idx) => (
                                     <div
                                         key={idx}
-                                        className="text-xs px-3 py-1 rounded-full inline-block mx-1"
+                                        className="text-xs px-3 py-1 inline-block mx-1"
                                         style={{
                                             backgroundColor: `${colors.primary.main}15`,
                                             color: colors.primary.dark,
+                                            borderRadius: borderRadius.full,
                                         }}
                                     >
                                         {skill}

@@ -2,7 +2,7 @@
 
 import { RequestInfo } from "rwsdk/worker";
 import { PageLayout } from "./PageLayout";
-import { colors } from "../theme";
+import { colors, borderRadius, shadows, transition } from "../theme";
 import { TopContributors, type Contributor } from "../components/home/TopContributors";
 import { HowItWorks } from "../components/home/HowItWorks";
 import { FeaturedOpportunities } from "../components/home/FeaturedOpportunities";
@@ -66,7 +66,9 @@ const topContributors: Contributor[] = [
 export function Home({ ctx }: RequestInfo) {
   return (
     <PageLayout ctx={ctx}>
-      <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
+      <div className="min-h-screen" style={{ 
+        background: `linear-gradient(to bottom, ${colors.secondary.cream} 0%, ${colors.secondary.pale} 100%)`,
+      }}>
         {/* Hero Section */}
         <Hero isLoggedIn={!!ctx.user} />
 
@@ -81,18 +83,41 @@ export function Home({ ctx }: RequestInfo) {
 
         {/* CTA Section (Call to Action) */}
         {!ctx.user && (
-          <section className="py-16" style={{ backgroundColor: colors.primary.main }}>
+          <section 
+            className="py-16"
+            style={{ 
+              background: `linear-gradient(135deg, ${colors.primary.main} 0%, ${colors.primary.dark} 100%)`,
+            }}
+          >
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+              <h2 
+                className="text-3xl sm:text-4xl font-bold text-white mb-6"
+                style={{ fontFamily: 'Space Grotesk' }}
+              >
                 Ready to Start Learning?
               </h2>
-              <p className="text-xl text-white/90 mb-8">
+              <p className="text-xl mb-8" style={{ color: 'rgba(255, 255, 255, 0.92)' }}>
                 Join thousands of learners and teachers in our community today.
               </p>
               <a
                 href="/register"
-                className="inline-block px-8 py-3 bg-white rounded-lg font-medium text-base transition-all duration-200 cursor-pointer"
-                style={{ color: colors.primary.main }}
+                className="inline-block font-bold cursor-pointer"
+                style={{ 
+                  padding: '0.875rem 2rem',
+                  backgroundColor: colors.neutral.white,
+                  color: colors.primary.main,
+                  borderRadius: borderRadius.md,
+                  transition: `all ${transition.normal} ease-out`,
+                  fontSize: '1.063rem',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
                 Create Your Free Account
               </a>

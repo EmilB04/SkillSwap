@@ -3,7 +3,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { RequestInfo } from "rwsdk/worker";
-import { colors } from "../theme";
+import { colors, borderRadius, shadows, transition } from "../theme";
 import { useEffect, useState } from "react";
 
 export default function Contact({ ctx }: RequestInfo) {
@@ -41,13 +41,23 @@ export default function Contact({ ctx }: RequestInfo) {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-16">
                     {/* Email Support */}
                     <div 
-                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
+                        className={`bg-white p-8 text-center transition-all border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{ 
                             borderColor: colors.support.email,
+                            borderRadius: borderRadius.lg,
+                            boxShadow: shadows.soft,
                             transitionDelay: '500ms',
                             transitionDuration: '1000ms'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-5px)';
+                            e.currentTarget.style.boxShadow = shadows.lifted;
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = shadows.soft;
                         }}
                     >
                         <div 
@@ -73,13 +83,23 @@ export default function Contact({ ctx }: RequestInfo) {
 
                     {/* Phone Support */}
                     <div 
-                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
+                        className={`bg-white p-8 text-center transition-all border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{ 
                             borderColor: colors.support.phone,
+                            borderRadius: borderRadius.lg,
+                            boxShadow: shadows.soft,
                             transitionDelay: '600ms',
                             transitionDuration: '1000ms'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
+                            e.currentTarget.style.boxShadow = shadows.medium;
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                            e.currentTarget.style.boxShadow = shadows.soft;
                         }}
                     >
                         <div 
@@ -105,13 +125,25 @@ export default function Contact({ ctx }: RequestInfo) {
 
                     {/* Live Chat */}
                     <div 
-                        className={`bg-white rounded-lg shadow p-8 text-center transition-all duration-300 border-t-4 ${
+                        className={`bg-white p-8 text-center transition-all border-t-4 ${
                             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                         }`}
                         style={{
                             borderColor: colors.support.chat,
+                            borderRadius: borderRadius.lg,
+                            boxShadow: shadows.soft,
                             transitionDelay: '700ms',
                             transitionDuration: '1000ms'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-3px)';
+                            e.currentTarget.style.boxShadow = shadows.medium;
+                            e.currentTarget.style.borderTopWidth = '5px';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = shadows.soft;
+                            e.currentTarget.style.borderTopWidth = '4px';
                         }}
                     >
                         <div 
@@ -146,10 +178,22 @@ export default function Contact({ ctx }: RequestInfo) {
                     </p>
                     <a
                         href="/faq"
-                        className="inline-flex items-center px-6 py-3 rounded-lg font-medium text-white transition-all duration-200"
-                        style={{ backgroundColor: colors.primary.main }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                        className="inline-flex items-center px-6 py-3 font-medium text-white"
+                        style={{ 
+                            backgroundColor: colors.primary.main,
+                            borderRadius: borderRadius.lg,
+                            transition: `all ${transition.smooth} ease`,
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = colors.primary.hover;
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = shadows.soft;
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = colors.primary.main;
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'none';
+                        }}
                     >
                         Visit FAQ Page
                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
