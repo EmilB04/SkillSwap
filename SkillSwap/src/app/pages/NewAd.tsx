@@ -3,37 +3,9 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { RequestInfo } from "rwsdk/worker";
-import { colors } from "../theme";
 import { useState } from "react";
 
 export default function NewAd({ ctx }: RequestInfo) {
-    // Check if user is logged in
-    if (!ctx.user?.id) {
-        return (
-            <div className="flex flex-col min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
-                <Header ctx={ctx} />
-                <div className="flex-1 flex items-center justify-center">
-                    <div className="w-full max-w-2xl px-4 sm:px-6 lg:px-8 py-12 text-center">
-                        <h1 className="text-3xl font-bold mb-4" style={{ color: colors.primary.main }}>
-                            Please Log In
-                        </h1>
-                        <p className="text-lg text-gray-600 mb-8">
-                            You need to be logged in to create an ad
-                        </p>
-                        <a
-                            href="/login"
-                            className="px-6 py-3 rounded-lg text-white font-medium"
-                            style={{ backgroundColor: colors.primary.main }}
-                        >
-                            Go to Login
-                        </a>
-                    </div>
-                </div>
-                <Footer />
-            </div>
-        );
-    }
-    
     const [tradeType, setTradeType] = useState<"swap" | "cash" | null>("swap");
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -48,43 +20,10 @@ export default function NewAd({ ctx }: RequestInfo) {
         price: "",
     });
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
-        const slug = formData.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-        const payment = tradeType === "cash" ? `$${formData.price}/hour` : "Skill swap";
-        
-        // Create the ad data
-        const adData = {
-            slug: slug,
-            title: formData.title,
-            description: formData.description,
-            userId: ctx.user!.id,
-            category: formData.category,
-            payment: payment,
-            // TODO: Upload images to storage service and use URL instead of base64
-            imageUrl: "/src/app/assets/default-image.png",
-            location: formData.location,
-            date: new Date().toISOString(),
-        };
-        
-        try {
-            const response = await fetch('/api/v1/ads', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(adData),
-            });
-            
-            const result = await response.json() as { success: boolean; error?: { message: string } };
-            
-            if (result.success) {
-                window.location.href = `/job/${adData.slug}`;
-            } else {
-                console.error('Failed to create ad:', result.error?.message);
-            }
-        } catch (error) {
-            console.error('Error creating ad:', error);
-        }
+        // TODO: Handle form submission
+        console.log("Form submitted:", { ...formData, tradeType, images: selectedImages });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -98,7 +37,7 @@ export default function NewAd({ ctx }: RequestInfo) {
         const files = e.target.files;
         if (!files) return;
 
-        const newFiles = Array.from(files).slice(0, 5 - selectedImages.length);
+        const newFiles = Array.from(files).slice(0, 5 - selectedImages.length); // Max 5 images
         const newPreviews: string[] = [];
 
         newFiles.forEach(file => {
@@ -121,14 +60,11 @@ export default function NewAd({ ctx }: RequestInfo) {
     };
 
     return (
-        <div className="min-h-screen" style={{ backgroundColor: colors.secondary.pale }}>
+        <div className="min-h-screen bg-secondary-pale">
             <Header ctx={ctx} />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="text-center mb-12">
-                    <h1 
-                        className="text-3xl sm:text-4xl font-bold mb-4"
-                        style={{ color: colors.primary.main }}
-                    >
+                    <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
                         Create a Skill Swap
                     </h1>
                     <p className="text-lg text-gray-600">
@@ -147,24 +83,22 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 <button
                                     type="button"
                                     onClick={() => setTradeType("swap")}
-                                    className="flex-1 px-6 py-4 border-2 rounded-lg font-medium transition-all cursor-pointer"
-                                    style={{
-                                        borderColor: tradeType === "swap" ? colors.primary.main : colors.neutral.gray[300],
-                                        backgroundColor: tradeType === "swap" ? colors.secondary.pale : "white",
-                                        color: tradeType === "swap" ? colors.primary.main : colors.neutral.gray[700],
-                                    }}
+                                    className={`flex-1 px-6 py-4 border-2 rounded-lg font-medium transition-all duration-[280ms] cursor-pointer ${
+                                        tradeType === "swap" 
+                                            ? "border-primary bg-secondary-pale text-primary" 
+                                            : "border-gray-300 bg-white text-gray-700"
+                                    }`}
                                 >
                                     Swap
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setTradeType("cash")}
-                                    className="flex-1 px-6 py-4 border-2 rounded-lg font-medium transition-all cursor-pointer"
-                                    style={{
-                                        borderColor: tradeType === "cash" ? colors.primary.main : colors.neutral.gray[300],
-                                        backgroundColor: tradeType === "cash" ? colors.secondary.pale : "white",
-                                        color: tradeType === "cash" ? colors.primary.main : colors.neutral.gray[700],
-                                    }}
+                                    className={`flex-1 px-6 py-4 border-2 rounded-lg font-medium transition-all duration-[280ms] cursor-pointer ${
+                                        tradeType === "cash" 
+                                            ? "border-primary bg-secondary-pale text-primary" 
+                                            : "border-gray-300 bg-white text-gray-700"
+                                    }`}
                                 >
                                     Cash
                                 </button>
@@ -178,8 +112,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                             </label>
                             <div className="space-y-4">
                                 <div 
-                                    className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 transition-colors"
-                                    style={{ borderColor: colors.neutral.gray[300] }}
+                                    className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 transition-colors duration-[280ms]"
                                     onClick={() => document.getElementById('imageUpload')?.click()}
                                 >
                                     <input
@@ -237,10 +170,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 name="title"
                                 value={formData.title}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                style={{ borderColor: colors.neutral.gray[300] }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-text"
                                 placeholder="Example: I want to learn Piano"
                                 required
                             />
@@ -256,10 +186,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 name="category"
                                 value={formData.category}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-pointer"
-                                style={{ borderColor: colors.neutral.gray[300] }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-pointer"
                                 required
                             >
                                 <option value="">Select a category</option>
@@ -286,10 +213,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                     name="skillOffered"
                                     value={formData.skillOffered}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                    style={{ borderColor: colors.neutral.gray[300] }}
-                                    onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                    onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-text"
                                     placeholder="Example: Web Development, Piano, Guitar"
                                     required
                                 />
@@ -308,10 +232,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                     name="skillWanted"
                                     value={formData.skillWanted}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                    style={{ borderColor: colors.neutral.gray[300] }}
-                                    onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                    onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-text"
                                     placeholder="Example: Piano, Guitar, Music Theory"
                                     required
                                 />
@@ -333,10 +254,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                         onChange={handleChange}
                                         min="0"
                                         step="1"
-                                        className="w-full pl-12 pr-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                        style={{ borderColor: colors.neutral.gray[300] }}
-                                        onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                        onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                        className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-text"
                                         placeholder="500"
                                         required
                                     />
@@ -360,10 +278,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 value={formData.description}
                                 onChange={handleChange}
                                 rows={5}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all resize-none cursor-text"
-                                style={{ borderColor: colors.neutral.gray[300] }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] resize-none cursor-text"
                                 placeholder="Describe your offer and what you're looking for in detail..."
                                 required
                             />
@@ -379,10 +294,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 name="duration"
                                 value={formData.duration}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-pointer"
-                                style={{ borderColor: colors.neutral.gray[300] }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-pointer"
                                 required
                             >
                                 <option value="">Select duration</option>
@@ -405,11 +317,8 @@ export default function NewAd({ ctx }: RequestInfo) {
                                 name="location"
                                 value={formData.location}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none transition-all cursor-text"
-                                style={{ borderColor: colors.neutral.gray[300] }}
-                                onFocus={(e) => e.currentTarget.style.borderColor = colors.primary.main}
-                                onBlur={(e) => e.currentTarget.style.borderColor = colors.neutral.gray[300]}
-                                placeholder="BRA Veien 8, 1783 Halden"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-all duration-[280ms] cursor-text"
+                                placeholder="Example: Oslo, Norway or Remote"
                                 required
                             />
                         </div>
@@ -418,10 +327,7 @@ export default function NewAd({ ctx }: RequestInfo) {
                         <div className="pt-4">
                             <button
                                 type="submit"
-                                className="w-full px-6 py-3 rounded-lg text-white font-medium transition-all duration-200 cursor-pointer"
-                                style={{ backgroundColor: colors.primary.main }}
-                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.primary.hover}
-                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
+                                className="w-full px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white font-medium transition-all duration-[280ms] cursor-pointer disabled:opacity-50"
                                 disabled={!tradeType}
                             >
                                 {tradeType === "swap" ? "Create Skill Swap" : tradeType === "cash" ? "Post Ad" : "Select Trade Type"}

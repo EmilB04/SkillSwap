@@ -5,28 +5,29 @@
  */
 
 export const colors = {
-    // Primary Brand Colors
+    // Primary Brand Colors - Teal/mint from logo (softer, more readable)
     primary: {
-        main: '#438C86',      // Teal - Main brand color
-        hover: '#3a7770',     // Darker teal for hover states
-        light: '#5aa49e',     // Lighter teal
-        dark: '#2f6660',      // Darkest teal
-        active: '#2f6660',    // Active state
+        main: '#3FA69F',      // Softer teal - easier on eyes
+        hover: '#368E88',     // Deeper for hover
+        light: '#5FBBB4',     // Lighter mint tint
+        dark: '#2E7A75',      // Deeper for contrast
+        active: '#266965',    // Strong active state
     },
 
-    // Secondary Colors
+    // Secondary Colors - Navy and supporting tones from logo
     secondary: {
-        sky: '#5aa49e',       // Light teal accent (matches primary.light)
-        light: '#7BC4D4',     // Lighter teal
-        pale: '#E8F5F4',      // Pale teal background
-        accent: '#A1D6E2',    // Soft blue accent
+        navy: '#3D5268',      // Deep navy/slate from logo
+        slate: '#556B7C',     // Mid-tone slate
+        mint: '#5FE3D8',      // Bright mint accent
+        pale: '#F0F9F8',      // Very pale teal background
+        cream: '#FAFCFC',     // Near-white with cool hint
     },
 
-    // Support/Contact Colors
+    // Support/Contact Colors - Palette variants
     support: {
-        email: '#816bffff',     // Coral red for email
-        phone: '#4ECDC4',     // Bright teal for phone
-        chat: '#ff6d8dff',      // Bright yellow for chat
+        email: '#4ECDC4',     // Primary teal
+        phone: '#3D5268',     // Navy for trust
+        chat: '#5FE3D8',      // Bright mint for immediacy
     },
 
     // Neutral Colors
@@ -84,47 +85,48 @@ export const opacity = {
 } as const;
 
 /**
- * Spacing scale following Tailwind's convention
+ * Spacing scale - slightly off perfect increments for human feel
  */
 export const spacing = {
-    xs: '0.25rem',    // 4px
-    sm: '0.5rem',     // 8px
-    md: '1rem',       // 16px
-    lg: '1.5rem',     // 24px
-    xl: '2rem',       // 32px
-    '2xl': '3rem',    // 48px
-    '3xl': '4rem',    // 64px
+    xs: '0.3rem',     // ~5px - slightly more than expected
+    sm: '0.625rem',   // 10px - breaks the doubling pattern
+    md: '1.125rem',   // 18px - not quite 16, feels natural
+    lg: '1.75rem',    // 28px - between common values
+    xl: '2.25rem',    // 36px - unique increment
+    '2xl': '3.5rem',  // 56px - purposefully off
+    '3xl': '4.75rem', // 76px - non-standard
 } as const;
 
 /**
- * Border radius values
+ * Border radius values - softer, less mathematical
  */
 export const borderRadius = {
-    sm: '0.375rem',   // 6px
-    md: '0.5rem',     // 8px
-    lg: '0.75rem',    // 12px
-    xl: '1rem',       // 16px
-    '2xl': '1.5rem',  // 24px
+    sm: '0.5rem',     // 8px - softer than typical 6px
+    md: '0.625rem',   // 10px - between common values
+    lg: '0.875rem',   // 14px - unique curve
+    xl: '1.125rem',   // 18px - distinctive
+    '2xl': '1.625rem',// 26px - non-standard but pleasant
     full: '9999px',   // Fully rounded
 } as const;
 
 /**
- * Transition durations
+ * Transition durations - custom timing, not textbook values
  */
 export const transition = {
-    fast: '150ms',
-    normal: '200ms',
-    slow: '300ms',
+    quick: '140ms',   // Slightly slower than typical "fast"
+    normal: '280ms',  // Not the AI-standard 200ms
+    smooth: '380ms',  // Luxurious, not rushed
+    lazy: '520ms',    // Deliberately slow
 } as const;
 
 /**
- * Box shadow presets
+ * Box shadow presets - softer, more natural
  */
 export const shadows = {
-    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+    subtle: '0 2px 8px rgba(0, 0, 0, 0.04)',
+    soft: '0 3px 12px rgba(0, 0, 0, 0.07)',
+    medium: '0 6px 20px rgba(0, 0, 0, 0.09)',
+    lifted: '0 12px 32px rgba(0, 0, 0, 0.12)',
 } as const;
 
 // Export default theme object

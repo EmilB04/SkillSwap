@@ -5,6 +5,7 @@ import { users } from "./users";
 import { notifications } from "./notifications";
 import { ads } from "./ads";
 import { profileDetails } from "./profile-details";
+import { sessions } from "./sessions";
 
 // Relations for users
 
@@ -19,6 +20,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
     writtenReviews: many(reviews, { relationName: "reviewer" }),
     receivedReviews: many(reviews, { relationName: "receiver" }),
     notifications: many(notifications),
+    sessions: many(sessions),
 }));
 
 // Relations for ads
@@ -74,6 +76,15 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
 export const notificationsRelations = relations(notifications, ({ one }) => ({
     user: one(users, {
         fields: [notifications.userId],
+        references: [users.id],
+    }),
+}));
+
+// Relations for sessions
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+    user: one(users, {
+        fields: [sessions.userId],
         references: [users.id],
     }),
 }));

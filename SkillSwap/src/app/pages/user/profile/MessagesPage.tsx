@@ -3,7 +3,6 @@
 import { ProfileLayout } from "./ProfileLayout";
 import { RequestInfo } from "rwsdk/worker";
 import { useState } from "react";
-import { colors } from "@/app/theme";
 
 // Mock data for conversations
 interface Message {
@@ -248,13 +247,7 @@ export function MessagesPage({ ctx }: RequestInfo) {
                 placeholder="Search or start a new chat"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:border-[var(--primary)] transition-all"
-                style={
-                  {
-                    "--tw-ring-color": `${colors.primary.main}33`,
-                    "--primary": colors.primary.main,
-                  } as React.CSSProperties
-                }
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-[280ms]"
               />
             </div>
           </header>
@@ -285,10 +278,7 @@ export function MessagesPage({ ctx }: RequestInfo) {
                         {conversation.name}
                       </h2>
                       {conversation.unread && (
-                        <span
-                          className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: colors.primary.main }}
-                        />
+                        <span className="w-2 h-2 rounded-full bg-primary" />
                       )}
                     </div>
                     <p className="text-sm text-gray-600 truncate mb-1">
@@ -431,14 +421,9 @@ export function MessagesPage({ ctx }: RequestInfo) {
                       <div
                         className={`max-w-md px-4 py-3 rounded-2xl ${
                           message.isSent
-                            ? "text-white rounded-br-none"
+                            ? "bg-primary text-white rounded-br-none"
                             : "bg-white text-gray-900 rounded-bl-none shadow-sm"
                         }`}
-                        style={
-                          message.isSent
-                            ? { backgroundColor: colors.primary.main }
-                            : {}
-                        }
                       >
                         <p className="text-sm leading-relaxed break-words">
                           {message.text}
@@ -470,13 +455,7 @@ export function MessagesPage({ ctx }: RequestInfo) {
                       onChange={(e) => setMessageInput(e.target.value)}
                       placeholder="Type your message here..."
                       rows={1}
-                      className="w-full h-full px-4 py-3 pr-24 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:border-[var(--primary)] transition-all"
-                      style={
-                        {
-                          "--tw-ring-color": `${colors.primary.main}33`,
-                          "--primary": colors.primary.main,
-                        } as React.CSSProperties
-                      }
+                      className="w-full h-full px-4 py-3 pr-24 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-[280ms]"
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
@@ -528,13 +507,7 @@ export function MessagesPage({ ctx }: RequestInfo) {
                   <button
                     type="submit"
                     disabled={!messageInput.trim()}
-                    className="px-4 py-3 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center hover:bg-[var(--primary-hover)] cursor-pointer"
-                    style={
-                      {
-                        backgroundColor: colors.primary.main,
-                        "--primary-hover": colors.primary.hover,
-                      } as React.CSSProperties
-                    }
+                    className="px-4 py-3 rounded-lg bg-primary hover:bg-primary-hover text-white transition-colors duration-[280ms] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center cursor-pointer"
                   >
                     {/* SVG generert med Claude */}
                     <svg

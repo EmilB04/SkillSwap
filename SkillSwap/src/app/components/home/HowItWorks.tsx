@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { colors } from "../../theme";
 
 export interface Step {
     number: number;
@@ -154,47 +153,21 @@ export function HowItWorks({
                     <div className="flex justify-center gap-4 mb-8">
                         <button
                             onClick={() => setSelectedType("swap")}
-                            className="px-8 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer"
-                            style={{
-                                backgroundColor: selectedType === "swap" ? colors.primary.main : "white",
-                                color: selectedType === "swap" ? "white" : colors.neutral.gray[700],
-                                border: `2px solid ${selectedType === "swap" ? colors.primary.main : colors.neutral.gray[300]}`,
-                            }}
-                            onMouseEnter={(e) => {
-                                if (selectedType !== "swap") {
-                                    e.currentTarget.style.borderColor = colors.primary.main;
-                                    e.currentTarget.style.color = colors.primary.main;
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (selectedType !== "swap") {
-                                    e.currentTarget.style.borderColor = colors.neutral.gray[300];
-                                    e.currentTarget.style.color = colors.neutral.gray[700];
-                                }
-                            }}
+                            className={`px-8 py-3 rounded-lg border-2 font-semibold cursor-pointer transition-all duration-[280ms] ${
+                                selectedType === "swap"
+                                    ? "bg-primary text-white border-primary"
+                                    : "bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5"
+                            }`}
                         >
                             Skill Swap
                         </button>
                         <button
                             onClick={() => setSelectedType("cash")}
-                            className="px-8 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer"
-                            style={{
-                                backgroundColor: selectedType === "cash" ? colors.primary.main : "white",
-                                color: selectedType === "cash" ? "white" : colors.neutral.gray[700],
-                                border: `2px solid ${selectedType === "cash" ? colors.primary.main : colors.neutral.gray[300]}`,
-                            }}
-                            onMouseEnter={(e) => {
-                                if (selectedType !== "cash") {
-                                    e.currentTarget.style.borderColor = colors.primary.main;
-                                    e.currentTarget.style.color = colors.primary.main;
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (selectedType !== "cash") {
-                                    e.currentTarget.style.borderColor = colors.neutral.gray[300];
-                                    e.currentTarget.style.color = colors.neutral.gray[700];
-                                }
-                            }}
+                            className={`px-8 py-3 rounded-lg border-2 font-semibold cursor-pointer transition-all duration-[280ms] ${
+                                selectedType === "cash"
+                                    ? "bg-primary text-white border-primary"
+                                    : "bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary hover:-translate-y-0.5"
+                            }`}
                         >
                             Cash Payment
                         </button>
@@ -205,13 +178,10 @@ export function HowItWorks({
                     {displaySteps.map((step) => (
                         <div
                             key={step.number}
-                            className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-white/20 text-center hover:shadow-xl transition-shadow duration-200"
+                            className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-soft border border-white/20 text-center hover:-translate-y-1 hover:shadow-medium transition-all duration-[380ms]"
                         >
-                            <div
-                                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-                                style={{ backgroundColor: `${colors.primary.main}15` }}
-                            >
-                                <div style={{ color: colors.primary.main }}>
+                            <div className="w-16 h-16 rounded-full bg-primary/[0.15] flex items-center justify-center mx-auto mb-6">
+                                <div className="text-primary">
                                     {step.icon}
                                 </div>
                             </div>
@@ -231,7 +201,7 @@ export function HowItWorks({
                         <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
                             {stats.map((stat, index) => (
                                 <div key={index} className="text-center">
-                                    <div className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: colors.primary.main }}>
+                                    <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">
                                         {stat.value}
                                     </div>
                                     <div className="text-sm text-gray-600">{stat.label}</div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { colors } from "../../theme";
 import JobCard from "../JobCard";
 import type { Job } from "../../../types/job";
 
@@ -52,19 +51,7 @@ export function FeaturedOpportunities({
           <div className="text-center">
             <a
               href={viewAllHref}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors duration-200 cursor-pointer"
-              style={{
-                color: colors.primary.main,
-                borderColor: colors.primary.main
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = colors.primary.main;
-                e.currentTarget.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = colors.primary.main;
-              }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white hover:-translate-y-1 font-medium cursor-pointer transition-all duration-[380ms]"
             >
               {viewAllText}
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

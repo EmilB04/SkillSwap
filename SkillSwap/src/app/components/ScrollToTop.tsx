@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { colors } from "../theme";
 
 export default function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
@@ -32,18 +31,7 @@ export default function ScrollToTop() {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer"
-                    style={{
-                        backgroundColor: colors.primary.main,
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.primary.hover;
-                        e.currentTarget.style.transform = "scale(1.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.primary.main;
-                        e.currentTarget.style.transform = "scale(1)";
-                    }}
+                    className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-primary hover:bg-primary-hover hover:scale-110 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                     aria-label="Scroll to top"
                 >
                     <svg 

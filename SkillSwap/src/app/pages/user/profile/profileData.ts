@@ -80,3 +80,30 @@ export const formatDate = (isoDate: string | undefined): string => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
     return date.toLocaleDateString('no-NO', options);
 };
+
+/**
+ * Mock user profile for development and testing
+ * TODO: Replace with actual backend data fetching based on ctx.user.id
+ */
+export const mockUserProfile: UserProfile = {
+    id: 1,
+    name: "Ola Nordmann",
+    email: "ola.nordmann@eksempel.no",
+    role: "user",
+    displayName: "@olanordmann",
+    phoneNumber: "+47 123 45 678",
+    bio: "Brennende interessert i webutvikling og design. Alltid ivrig etter å lære nye ferdigheter og dele kunnskap med samfunnet.",
+    location: "Oslo, Norge",
+    website: "https://example.com",
+    profileImage: null,
+    skillsOffered: ["React", "TypeScript", "UI/UX Design", "Node.js", "Tailwind CSS"],
+    skillsLearning: ["Python", "Maskinlæring", "GraphQL", "Docker"],
+    stats: {
+        completedSwaps: 24,
+        hoursExchanged: 156,
+        rating: 4.8,
+        reviews: 18,
+    },
+    createdAt: "2025-01-15T00:00:00.000Z",
+    updatedAt: "2025-06-10T00:00:00.000Z",
+};

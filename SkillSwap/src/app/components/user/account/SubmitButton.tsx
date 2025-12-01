@@ -1,7 +1,5 @@
 "use client";
 
-import { colors } from "@/app/theme";
-
 interface SubmitButtonProps {
     onClick?: () => void;
     disabled?: boolean;
@@ -21,15 +19,9 @@ export function SubmitButton({
             <button
                 type="submit"
                 disabled={disabled}
-                className={`w-full text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg ${
-                    disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-90'
+                className={`w-full bg-primary hover:bg-primary-hover text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg ${
+                    disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                 }`}
-                style={{
-                    backgroundColor: colors.primary.main,
-                    '--tw-ring-color': `${colors.primary.main}80`,
-                } as React.CSSProperties & { '--tw-ring-color': string }}
-                onMouseEnter={(e) => !disabled && (e.currentTarget.style.backgroundColor = colors.primary.hover)}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.primary.main}
                 aria-label="Sign in with email and password"
                 aria-describedby="login-help"
             >
