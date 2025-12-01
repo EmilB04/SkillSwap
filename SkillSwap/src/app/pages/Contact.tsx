@@ -14,21 +14,19 @@ export default function Contact({ ctx }: RequestInfo) {
     }, []);
 
     return (
-        <div className="min-h-screen bg-secondary-pale">
+        <div className="min-h-screen bg-secondary-pale flex flex-col">
             <Header ctx={ctx} />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col justify-center">
                 <div className="text-center mb-16">
-                    <h1 
-                        className={`text-3xl sm:text-4xl font-bold text-primary mb-6 transition-all duration-1000 ${
-                            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        }`}
+                    <h1
+                        className={`text-3xl sm:text-4xl font-bold text-primary mb-6 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            }`}
                     >
                         Get in Touch
                     </h1>
-                    <p 
-                        className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-300 ${
-                            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        }`}
+                    <p
+                        className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            }`}
                     >
                         Have questions about SkillSwap? We're here to help! Choose your preferred way to reach us.
                     </p>
@@ -36,10 +34,9 @@ export default function Contact({ ctx }: RequestInfo) {
 
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-16">
                     {/* Email Support */}
-                    <div 
-                        className={`bg-purple-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${
-                            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        }`}
+                    <div
+                        className={`bg-purple-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            }`}
                     >
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-100 mb-6">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -48,8 +45,8 @@ export default function Contact({ ctx }: RequestInfo) {
                         </div>
                         <h3 className="text-xl font-semibold text-purple-900 mb-2">Email Support</h3>
                         <p className="text-gray-600 mb-4">Available 24/7 for your inquiries</p>
-                        <a 
-                            href="mailto:support@skillswap.com" 
+                        <a
+                            href="mailto:support@skillswap.com"
                             className="font-medium text-support-email hover:text-support-email/80 transition-colors duration-200"
                         >
                             support@skillswap.com
@@ -57,10 +54,9 @@ export default function Contact({ ctx }: RequestInfo) {
                     </div>
 
                     {/* Phone Support */}
-                    <div 
-                        className={`bg-orange-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${
-                            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        }`}
+                    <div
+                        className={`bg-orange-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            }`}
                     >
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange-100 mb-6">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -69,8 +65,8 @@ export default function Contact({ ctx }: RequestInfo) {
                         </div>
                         <h3 className="text-xl font-semibold text-orange-900 mb-2">Phone Support</h3>
                         <p className="text-gray-600 mb-4">Mon-Fri, 9:00 AM - 5:00 PM (CET)</p>
-                        <a 
-                            href="tel:+4712345678" 
+                        <a
+                            href="tel:+4712345678"
                             className="font-medium text-support-phone hover:text-support-phone/80 transition-colors duration-200"
                         >
                             +47 123 45 678
@@ -78,10 +74,9 @@ export default function Contact({ ctx }: RequestInfo) {
                     </div>
 
                     {/* Live Chat */}
-                    <div 
-                        className={`bg-emerald-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${
-                            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                        }`}
+                    <div
+                        className={`bg-emerald-50 rounded-lg shadow-soft p-8 text-center hover:-translate-y-1.5 hover:shadow-lifted transition-all duration-[380ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            }`}
                     >
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-6">
                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -96,17 +91,16 @@ export default function Contact({ ctx }: RequestInfo) {
                     </div>
                 </div>
 
-                <div 
-                    className={`text-center pb-10 transition-all duration-1000 delay-800 ${
-                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
+                <div
+                    className={`text-center pb-10 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                        }`}
                 >
                     <h2 className="text-3xl font-semibold text-gray-900 mb-4">Frequently Asked Questions</h2>
                     <p className="text-gray-600 mb-8 text-lg">
                         Can't find what you're looking for? Check our comprehensive FAQ section.
                     </p>
                     <a
-                        href="/faq"
+                        href="#"
                         className="inline-flex items-center px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-soft font-medium text-white transition-all duration-[380ms]"
                     >
                         Visit FAQ Page

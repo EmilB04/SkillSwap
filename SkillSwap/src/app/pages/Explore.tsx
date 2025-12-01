@@ -19,7 +19,8 @@ export default function Explore({ ctx }: RequestInfo){
     const [filters, setFilters] = useState({
         category: 'all',
         dateRange: 'alltime',
-        payment: ''
+        payment: '',
+        sortBy: ''
     });
 
     // State for search query
@@ -45,6 +46,11 @@ export default function Explore({ ctx }: RequestInfo){
             ...prev,
             [name]: value
         }));
+    };
+
+    // Handle search input change from FilterSection
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
     };
 
     // Apply filters to jobs
@@ -119,11 +125,43 @@ export default function Explore({ ctx }: RequestInfo){
                 }
             });
         }
+
+        // Sort results
+        if (filters.sortBy) {
+            switch (filters.sortBy) {
+                case 'new':
+                    result.sort((a, b) => {
+                        const dateA = a.date ? new Date(a.date).getTime() : 0;
+                        const dateB = b.date ? new Date(b.date).getTime() : 0;
+                        return dateB - dateA;
+                    });
+                    break;
+                case 'popular':
+                    // Mock popularity - in real app, would use view count or similar metric
+                    result.sort(() => Math.random() - 0.5);
+                    break;
+                case 'high-paid':
+                    result.sort((a, b) => {
+                        const paymentA = parseFloat(a.payment.replace(/[^0-9.]/g, '')) || 0;
+                        const paymentB = parseFloat(b.payment.replace(/[^0-9.]/g, '')) || 0;
+                        return paymentB - paymentA;
+                    });
+                    break;
+                case 'low-paid':
+                    result.sort((a, b) => {
+                        const paymentA = parseFloat(a.payment.replace(/[^0-9.]/g, '')) || 0;
+                        const paymentB = parseFloat(b.payment.replace(/[^0-9.]/g, '')) || 0;
+                        return paymentA - paymentB;
+                    });
+                    break;
+            }
+        }
+
         setFilteredJobs(result);
     };
 
     const handleClearFilters = () => {
-        setFilters({ category: 'all', dateRange: 'alltime', payment: '' });
+        setFilters({ category: 'all', dateRange: 'alltime', payment: '', sortBy: '' });
         setSearchQuery('');
         if (typeof window !== 'undefined') {
             window.history.replaceState({}, '', window.location.pathname);
@@ -141,6 +179,7 @@ export default function Explore({ ctx }: RequestInfo){
                     searchQuery={searchQuery}
                     onFilterChange={handleFilterChange}
                     onSearch={applyFilters}
+                    onSearchInputChange={handleSearchInputChange}
                 />
 
                 <ResultsSummary 
