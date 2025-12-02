@@ -125,7 +125,8 @@ const Explore = (props: any) => {
                 if (filters.payment === 'cash') {
                     return job.payment.includes('$');
                 } else if (filters.payment === 'swap') {
-                    return job.payment.toLowerCase().includes('swap');
+                    const paymentLower = job.payment.toLowerCase();
+                    return paymentLower.includes('swap') || paymentLower.includes('skill exchange');
                 }
                 return true;
             });
