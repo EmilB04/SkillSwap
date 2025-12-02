@@ -69,7 +69,7 @@ A modern skill-sharing platform built with React, TypeScript, and Cloudflare Wor
 
     ```bash
     git clone https://github.com/EmilB04/SkillSwap.git
-    cd SkillSwap
+    cd SkillSwap && cd SkillSwap
     ```
 
 2.  **Install dependencies**
