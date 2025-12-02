@@ -7,6 +7,7 @@ import { Job } from "@/types/job";
  */
 export const createMockJob = (overrides?: Partial<Job>): Job => ({
   id: 1,
+  slug: "test-category-1",
   title: "Test Job Title",
   description: "Test job description",
   userId: 1,
@@ -14,5 +15,6 @@ export const createMockJob = (overrides?: Partial<Job>): Job => ({
   payment: "$25/hour",
   imageUrl: "/test-image.jpg",
   date: new Date(2025, 9, 22), // October 22, 2025
+  location: "Test Location",
   ...overrides,
 });
