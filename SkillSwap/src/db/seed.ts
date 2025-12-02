@@ -35,7 +35,7 @@ export default defineScript(async ({ env }) => {
     bio: "Passionate about technology and lifelong learning! I love sharing my web development skills and learning new things from others in the community. Always excited to connect with fellow skill-swappers! 🚀",
     phoneNumber: "+47 987 65 432",
     location: "Oslo, Norway",
-    website: "https://demo-portfolio.example.com",
+    website: "https://example.com",
     skillsOffered: "Web Development,React,TypeScript,Node.js,UI/UX Design,PostgreSQL,REST APIs,Git",
     skillsLearning: "Norwegian Language,Piano,Photography,Graphic Design,Public Speaking",
   });
@@ -128,6 +128,28 @@ export default defineScript(async ({ env }) => {
       imageUrl: "/src/app/assets/web-design.jpg",
       location: "Oslo",
       date: new Date(2025, 11, 22),
+    },
+    {
+      slug: "music-8",
+      title: "Guitar Lessons",
+      description: "Need beginner guitar lessons",
+      userId: loginUser.id,
+      category: "Music",
+      payment: "$30/hour",
+      imageUrl: "/src/app/assets/guitar-lesson.jpg",
+      location: "Prinsens gate 15, 7012 Trondheim",
+      date: new Date(2025, 11, 15),
+    },
+    {
+      slug: "other-9",
+      title: "Dog Walking",
+      description: "Looking for someone to walk my dog",
+      userId: loginUser.id,
+      category: "Other",
+      payment: "$15/hour",
+      imageUrl: "/src/app/assets/dog-walking.jpg",
+      location: "Jernvegen 19, 4755 Hovden",
+      date: new Date(2025, 11, 18),
     },
   ]);
 
@@ -408,28 +430,6 @@ export default defineScript(async ({ env }) => {
       rating: 5,
       reviewText: "Great UI/UX insights. My app looks so much better now!",
     },
-    {
-      slug: "music-8",
-      title: "Guitar Lessons",
-      description: "Need beginner guitar lessons",
-      userId: loginUser.id,
-      category: "Music",
-      payment: "$30/hour",
-      imageUrl: "/src/app/assets/guitar-lesson.jpg",
-      location: "Prinsens gate 15, 7012 Trondheim",
-      date: new Date(2025, 11, 15),
-    },
-    {
-      slug: "other-9",
-      title: "Dog Walking",
-      description: "Looking for someone to walk my dog",
-      userId: loginUser.id,
-      category: "Other",
-      payment: "$15/hour",
-      imageUrl: "/src/app/assets/dog-walking.jpg",
-      location: "Jernvegen 19, 4755 Hovden",
-      date: new Date(2025, 11, 18),
-    }
   ]);
 
   console.log("�� Finished seeding");
