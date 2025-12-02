@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from '../components/Footer';
 import JobCard from "../components/JobCard";
 import { useState, useEffect } from "react";
+import { RequestInfo } from "rwsdk/worker";
 
 type Publisher = {
     id: number;
@@ -15,7 +16,7 @@ type Publisher = {
     avatar: string;
 };
 
-export default function Job({ params }: { params: { slug: string } }) {
+export default function Job({ params, ctx }: RequestInfo<{ slug: string }>) {
     const jobSlug = params.slug;
     const [job, setJob] = useState<JobType | null>(null);
     const [publisher, setPublisher] = useState<Publisher | null>(null);
@@ -110,7 +111,7 @@ export default function Job({ params }: { params: { slug: string } }) {
     if (loading) {
         return (
             <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
-                <Header />
+                <Header ctx={ctx} />
                 <main className="flex-grow flex items-center justify-center">
                     <div className="text-center">
                         <p className="text-lg">Loading job details...</p>
@@ -124,7 +125,7 @@ export default function Job({ params }: { params: { slug: string } }) {
     if (!job) {
         return (
             <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
-                <Header />
+                <Header ctx={ctx} />
                 
                 <main className="flex-grow flex items-center justify-center">
                     <div className="text-center">
@@ -147,7 +148,7 @@ export default function Job({ params }: { params: { slug: string } }) {
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-white to-blue-50">
-            <Header />
+            <Header ctx={ctx} />
             
             <main className="flex-grow py-12">
                 <div className="max-w-4xl mx-auto px-4">

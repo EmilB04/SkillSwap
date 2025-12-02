@@ -9,8 +9,23 @@ interface ProfileMenuFlyoutProps {
 
 export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
     const isLoggedIn = !!user;
     const menuRef = useRef<HTMLDivElement>(null);
+
+    // Fetch user profile image
+    useEffect(() => {
+        if (user?.id) {
+            fetch(`/api/v1/profile/${user.id}`)
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success && result.data?.profileImageUrl) {
+                        setProfileImageUrl(result.data.profileImageUrl);
+                    }
+                })
+                .catch(err => console.error('Error fetching profile image:', err));
+        }
+    }, [user?.id]);
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -33,6 +48,17 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
         setShowProfileMenu(!showProfileMenu);
     };
 
+    // Generate initials from user name as fallback
+    const getInitials = () => {
+        if (!user?.name) return "?";
+        return user.name
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    };
+
     return (
         <nav aria-label="User account navigation">
             {isLoggedIn ? (
@@ -47,7 +73,17 @@ export default function ProfileMenuFlyout({ user }: ProfileMenuFlyoutProps) {
                         aria-expanded={showProfileMenu}
                         aria-haspopup="true"
                     >
-                        <img src="./src/app/assets/icons/boy-icon.png" alt="Profile" className="h-6 w-6" />
+                        {profileImageUrl ? (
+                            <img 
+                                src={profileImageUrl} 
+                                alt="Profile" 
+                                className="h-8 w-8 rounded-full object-cover border-2 border-primary"
+                            />
+                        ) : (
+                            <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold">
+                                {getInitials()}
+                            </div>
+                        )}
                         <span className="hidden xl:inline text-sm font-medium text-gray-600">My Profile</span>
                     </button>
 
