@@ -7,83 +7,18 @@ import Footer from '../components/Footer';
 import JobCard from "../components/JobCard";
 import { useState, useEffect } from "react";
 
-// Mock users data - matches seeded database users
-const mockUsers = [
-    {
-        id: 1,
-        name: "Demo User",
-        displayName: "@demouser",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=demo@example.com",
-        avatar: "DU",
-    },
-    {
-        id: 2,
-        name: "Kari Hansen",
-        displayName: "@karihansen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=kari.hansen@example.com",
-        avatar: "KH",
-    },
-    {
-        id: 3,
-        name: "Per Olsen",
-        displayName: "@perolsen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=per.olsen@example.com",
-        avatar: "PO",
-    },
-    {
-        id: 4,
-        name: "Lisa Berg",
-        displayName: "@lisaberg",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=lisa.berg@example.com",
-        avatar: "LB",
-    },
-    {
-        id: 5,
-        name: "Tom Jensen",
-        displayName: "@tomjensen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=tom.jensen@example.com",
-        avatar: "TJ",
-    },
-    {
-        id: 6,
-        name: "Anna Larsen",
-        displayName: "@annalarsen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=anna.larsen@example.com",
-        avatar: "AL",
-    },
-    {
-        id: 7,
-        name: "Ole Nilsen",
-        displayName: "@olenilsen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=ole.nilsen@example.com",
-        avatar: "ON",
-    },
-    {
-        id: 8,
-        name: "Ingrid Johansen",
-        displayName: "@ingridjohansen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=ingrid.johansen@example.com",
-        avatar: "IJ",
-    },
-    {
-        id: 9,
-        name: "Erik Kristiansen",
-        displayName: "@erikkristiansen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=erik.kristiansen@example.com",
-        avatar: "EK",
-    },
-    {
-        id: 10,
-        name: "Sofie Andersen",
-        displayName: "@sofieandersen",
-        profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=sofie.andersen@example.com",
-        avatar: "SA",
-    },
-];
+type Publisher = {
+    id: number;
+    name: string;
+    displayName: string;
+    profileImage: string;
+    avatar: string;
+};
 
 export default function Job({ params }: { params: { slug: string } }) {
     const jobSlug = params.slug;
     const [job, setJob] = useState<JobType | null>(null);
+    const [publisher, setPublisher] = useState<Publisher | null>(null);
     const [relatedJobs, setRelatedJobs] = useState<JobType[]>([]);
     const [loading, setLoading] = useState(true);
     
@@ -111,6 +46,34 @@ export default function Job({ params }: { params: { slug: string } }) {
                         updatedAt: ad.updatedAt ? new Date(ad.updatedAt) : undefined,
                     };
                     setJob(fetchedJob);
+                    
+                    // Fetch user profile who published this job
+                    if (ad.userId) {
+                        try {
+                            const userResponse = await fetch(`/api/v1/profile/${ad.userId}`);
+                            const userResult = await userResponse.json() as { success: boolean; data?: any };
+                            
+                            if (userResult.success && userResult.data) {
+                                const profile = userResult.data;
+                                const userName = profile.user?.name || 'Unknown User';
+                                const initials = userName
+                                    .split(' ')
+                                    .map((n: string) => n[0])
+                                    .join('')
+                                    .toUpperCase() || '?';
+                                
+                                setPublisher({
+                                    id: profile.userId,
+                                    name: userName,
+                                    displayName: profile.displayName || `@user${profile.userId}`,
+                                    profileImage: profile.profileImageUrl || '',
+                                    avatar: initials,
+                                });
+                            }
+                        } catch (err) {
+                            console.error('Error fetching user profile:', err);
+                        }
+                    }
                     
                     // Fetch all ads to get related ones
                     const allAdsResponse = await fetch('/api/v1/ads');
@@ -143,9 +106,6 @@ export default function Job({ params }: { params: { slug: string } }) {
         
         fetchJob();
     }, [jobSlug]);
-    
-    // Find the user who published this job
-    const publisher = job ? mockUsers.find((u) => u.id === job.userId) : null;
 
     if (loading) {
         return (
