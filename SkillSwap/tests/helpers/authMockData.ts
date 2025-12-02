@@ -1,4 +1,4 @@
-import type { User, SafeUser, Session } from "@/db/schema";
+import type { User, SafeUser, Session, ProfileDetail } from "@/db/schema";
 
 // Used Claude to generate mock data for createMockUser, createMockSafeUser and createMockSession for authentication tests
 
@@ -69,3 +69,22 @@ export const invalidCredentials = {
     password: "Test1!",
   },
 };
+
+/**
+ * Creates a mock ProfileDetail object for testing purposes
+ */
+export const createMockProfile = (overrides?: Partial<ProfileDetail>): ProfileDetail => ({
+  id: 1,
+  userId: 1,
+  displayName: "Test User",
+  profileImageUrl: "https://example.com/avatar.jpg",
+  bio: "Test bio",
+  phoneNumber: null,
+  location: "Test Location",
+  website: null,
+  skillsOffered: "JavaScript, TypeScript",
+  skillsLearning: "React, Node.js",
+  createdAt: new Date("2025-01-01"),
+  updatedAt: new Date("2025-01-01"),
+  ...overrides,
+});
